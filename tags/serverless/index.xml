@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Serverless on 窗外蟋蟀博客</title>
+    <link>https://keysaim.github.io/tags/serverless/</link>
+    <description>Recent content in Serverless on 窗外蟋蟀博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 21 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://keysaim.github.io/tags/serverless/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>无服务（Serverless）Openfaas实战</title>
+      <link>https://keysaim.github.io/post/2017-12-21-openfaas-practise/</link>
+      <pubDate>Thu, 21 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://keysaim.github.io/post/2017-12-21-openfaas-practise/</guid>
+      <description>简述 技术的世界真的是一日千里，当有的人还满足与经典的C/S架构时，SOA（面向服务）架构已经遍地都是了；当很多人正打算将系统微服务改造的时候</description>
+    </item>
+    
+  </channel>
+</rss>

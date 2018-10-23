@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on 窗外蟋蟀博客</title>
+    <link>https://keysaim.github.io/tags/blog/</link>
+    <description>Recent content in Blog on 窗外蟋蟀博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 16 Aug 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://keysaim.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>如何给自己的博客网站加入评论系统</title>
+      <link>https://keysaim.github.io/post/blog/2017-08-16-how-to-add-comments/</link>
+      <pubDate>Wed, 16 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://keysaim.github.io/post/blog/2017-08-16-how-to-add-comments/</guid>
+      <description>前言 在这一篇博文中，咱们介绍了如何快速的搭建个人的博客网站，但是这个博客网站是基于Github Pages的纯静态网站，自身是不带任何的可交互</description>
+    </item>
+    
+  </channel>
+</rss>

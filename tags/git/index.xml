@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Git on 窗外蟋蟀博客</title>
+    <link>https://keysaim.github.io/tags/git/</link>
+    <description>Recent content in Git on 窗外蟋蟀博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 04 Sep 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://keysaim.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>如何搭建本地的Git服务器</title>
+      <link>https://keysaim.github.io/post/git/2017-09-04-how-to-setup-git-server/</link>
+      <pubDate>Mon, 04 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://keysaim.github.io/post/git/2017-09-04-how-to-setup-git-server/</guid>
+      <description>概述 本文将介绍如何在本地搭建Git服务器。我们知道Git其实是个分布式的版本管理系统，与中心化的版本管理系统如SVN有根本的不同，每个使用者</description>
+    </item>
+    
+    <item>
+      <title>如何使用特定的SSH Key提交GIT</title>
+      <link>https://keysaim.github.io/post/git/2017-08-15-how-to-git-with-specific-ssh-key/</link>
+      <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://keysaim.github.io/post/git/2017-08-15-how-to-git-with-specific-ssh-key/</guid>
+      <description>问题提出 最近在自己的MAC上面提交Github代码的时候发现居然失败了： $ git push origin master Permission denied (publickey). fatal: Could not read from remote repository. Please make sure you have the correct access rights and the repository exists. 这不是坑爹吗</description>
+    </item>
+    
+  </channel>
+</rss>

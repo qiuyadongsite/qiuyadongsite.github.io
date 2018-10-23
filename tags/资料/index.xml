@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>资料 on 窗外蟋蟀博客</title>
+    <link>https://keysaim.github.io/tags/%E8%B5%84%E6%96%99/</link>
+    <description>Recent content in 资料 on 窗外蟋蟀博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 24 Apr 2018 13:45:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://keysaim.github.io/tags/%E8%B5%84%E6%96%99/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>开源项目整理</title>
+      <link>https://keysaim.github.io/post/note/opensource/</link>
+      <pubDate>Tue, 24 Apr 2018 13:45:05 +0800</pubDate>
+      
+      <guid>https://keysaim.github.io/post/note/opensource/</guid>
+      <description>Micro-service API Gateway Kong, in Lua tyk, in Golang References: * 谈谈微服务中的 API 网关（API Gateway） Memory cache Redis ledisdb tidis, in Golang PAAS Kubernetes pouch, from Alibaba 有待观察的 rainbond, 国人开发 大数据&amp;amp;AI Spark Ray, WIP Monitor ELK</description>
+    </item>
+    
+    <item>
+      <title>区块链资料整理</title>
+      <link>https://keysaim.github.io/post/note/blockchain-marterial/</link>
+      <pubDate>Tue, 24 Apr 2018 12:00:05 +0800</pubDate>
+      
+      <guid>https://keysaim.github.io/post/note/blockchain-marterial/</guid>
+      <description>介绍 公有链 以太坊 私有链 R3 Corda 联盟链 Hyperledger Fabric References: * IBM技术专家：Hyperleger Fabric 架构与部署实例解析 Guide 以太坊官方文档中文版 以太坊白皮书中文版 So</description>
+    </item>
+    
+    <item>
+      <title>SQL Proxy资料整理</title>
+      <link>https://keysaim.github.io/post/note/sql-proxy/</link>
+      <pubDate>Tue, 17 Apr 2018 16:30:00 +0800</pubDate>
+      
+      <guid>https://keysaim.github.io/post/note/sql-proxy/</guid>
+      <description> SQL Proxy  ProxySQL Maxscale  </description>
+    </item>
+    
+    <item>
+      <title>WebRTC资料整理</title>
+      <link>https://keysaim.github.io/post/note/webrtc-marterial/</link>
+      <pubDate>Thu, 12 Apr 2018 20:00:00 +0800</pubDate>
+      
+      <guid>https://keysaim.github.io/post/note/webrtc-marterial/</guid>
+      <description>参考文章 技术简介 Web Real-Time Communication（WebRTC）技术概述 WebRTC 是如何进行通信的，WebRCT 的三种网络结构 互动直播 互动直播的技术细</description>
+    </item>
+    
+  </channel>
+</rss>

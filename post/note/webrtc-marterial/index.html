@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>WebRTC资料整理 - 窗外蟋蟀博客</title>
+  <link rel="alternate" hreflang="en" href="https://keysaim.github.io" />
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+<meta name="author" content="keysaim" />
+  <meta name="description" content="参考文章 技术简介 Web Real-Time Communication（WebRTC）技术概述 WebRTC 是如何进行通信的，WebRCT 的三种网络结构 互动直播 互动直播的技术细" />
+
+  <meta name="keywords" content="Hugo, blog, keysaim, 窗外蟋蟀" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+
+<link rel="canonical" href="https://keysaim.github.io/post/note/webrtc-marterial/" />
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" />
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="WebRTC资料整理" />
+<meta property="og:description" content="参考文章 技术简介 Web Real-Time Communication（WebRTC）技术概述 WebRTC 是如何进行通信的，WebRCT 的三种网络结构 互动直播 互动直播的技术细" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://keysaim.github.io/post/note/webrtc-marterial/" />
+
+
+
+<meta property="article:published_time" content="2018-04-12T20:00:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-04-12T20:00:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="WebRTC资料整理">
+<meta itemprop="description" content="参考文章 技术简介 Web Real-Time Communication（WebRTC）技术概述 WebRTC 是如何进行通信的，WebRCT 的三种网络结构 互动直播 互动直播的技术细">
+
+
+<meta itemprop="datePublished" content="2018-04-12T20:00:00&#43;08:00" />
+<meta itemprop="dateModified" content="2018-04-12T20:00:00&#43;08:00" />
+<meta itemprop="wordCount" content="303">
+
+
+
+<meta itemprop="keywords" content="WebRTC,资料," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="WebRTC资料整理"/>
+<meta name="twitter:description" content="参考文章 技术简介 Web Real-Time Communication（WebRTC）技术概述 WebRTC 是如何进行通信的，WebRCT 的三种网络结构 互动直播 互动直播的技术细"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">keysaim</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">keysaim</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        
+        <a class="menu-item-link" href="/">Home</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/post/">Archives</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/tags/">Tags</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/categories/">Categories</a>
+        
+      </li><li class="menu-item">
+        
+        <a class="menu-item-link" href="/about/">About</a>
+        
+      </li>
+  </ul>
+</nav>
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">WebRTC资料整理</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2018-04-12 </span>
+        
+        <span class="more-meta"> 303 words </span>
+        <span class="more-meta"> 1 min read </span>
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#参考文章">参考文章</a>
+<ul>
+<li><a href="#技术简介">技术简介</a>
+<ul>
+<li><a href="#互动直播">互动直播</a></li>
+</ul></li>
+<li><a href="#流程分析">流程分析</a>
+<ul>
+<li><a href="#信令流程">信令流程</a></li>
+</ul></li>
+<li><a href="#质量控制">质量控制</a></li>
+<li><a href="#上手">上手</a>
+<ul>
+<li><a href="#guide">Guide</a></li>
+</ul></li>
+<li><a href="#开发资讯">开发资讯</a>
+<ul>
+<li><a href="#互动直播整体方案">互动直播整体方案</a></li>
+<li><a href="#webrtc">WebRTC</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#书籍">书籍</a></li>
+<li><a href="#视频">视频</a></li>
+<li><a href="#网站">网站</a></li>
+<li><a href="#社区">社区</a></li>
+<li><a href="#开源项目">开源项目</a>
+<ul>
+<li><a href="#stun-turn">STUN/TURN</a></li>
+<li><a href="#media-server">Media Server</a></li>
+<li><a href="#美颜">美颜</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<h1 id="参考文章">参考文章</h1>
+
+<h2 id="技术简介">技术简介</h2>
+
+<ul>
+<li><a href="http://www.miit.gov.cn/n1146312/n1146909/n1146991/n1648534/c3489337/content.html">Web Real-Time Communication（WebRTC）技术概述</a></li>
+<li><a href="https://blog.wilddog.com/?p=2196">WebRTC 是如何进行通信的，WebRCT 的三种网络结构</a></li>
+</ul>
+
+<h3 id="互动直播">互动直播</h3>
+
+<ul>
+<li><a href="https://www.cnblogs.com/zhangxiaoliu/archive/2017/03/20/6586575.html">互动直播的技术细节和解决方案实践经验谈</a></li>
+</ul>
+
+<h2 id="流程分析">流程分析</h2>
+
+<h3 id="信令流程">信令流程</h3>
+
+<ul>
+<li><p><a href="https://blog.wilddog.com/?p=2206">WebRTC 信令交互流程</a></p>
+
+<div style="align: center">
+    <img src="https://blog.wilddog.com/wp-content/uploads/2017/09/webrtc.png"/>
+</div></li>
+
+<li><p><a href="https://blog.csdn.net/key1213/article/details/52441103">WebRTC + 直播 + 连麦 = AnyRTC</a></p></li>
+</ul>
+
+<h2 id="质量控制">质量控制</h2>
+
+<ul>
+<li><a href="https://www.callstats.io/2015/07/06/basics-webrtc-getstats-api/">Basics of WebRTC getStats() API</a></li>
+</ul>
+
+<h2 id="上手">上手</h2>
+
+<ul>
+<li><a href="https://www.scaledrone.com/blog/posts/webrtc-tutorial-simple-video-chat">WebRTC Tutorial: Simple video chat</a></li>
+<li><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#0">WebRTC codelab</a>, the old version is <a href="https://bitbucket.org/webrtc/codelab">here</a></li>
+<li><a href="https://www.tutorialspoint.com/webrtc/index.htm">WebRTC Tutorial</a></li>
+<li><a href="https://www.html5rocks.com/en/tutorials/webrtc/basics/">Getting started with WebRTC</a></li>
+<li><a href="https://www.html5rocks.com/en/tutorials/getusermedia/intro/">Capturing Audio &amp; Video in HTML5</a></li>
+
+<li><p><a href="https://blog.coding.net/blog/getting-started-with-webrtc">WebRTC 的前世今生</a></p></li>
+
+<li><p><a href="http://io13webrtc.appspot.com/#1">WebRTC ppt</a></p></li>
+</ul>
+
+<h3 id="guide">Guide</h3>
+
+<ul>
+<li><a href="https://www.agora.io/cn/blog/courses-webrtc/">从事WebRTC之前必读的一些教程</a></li>
+</ul>
+
+<h2 id="开发资讯">开发资讯</h2>
+
+<h3 id="互动直播整体方案">互动直播整体方案</h3>
+
+<ul>
+<li><a href="https://netease.im/dev-blog">网易云博客</a></li>
+<li><a href="https://developers.google.com/s/results/?q=webrtc&amp;p=%2Fweb%2F">Google developers updates</a></li>
+</ul>
+
+<h3 id="webrtc">WebRTC</h3>
+
+<ul>
+<li><a href="https://www.agora.io/cn/blog/category/webrtc/">agora.io</a></li>
+</ul>
+
+<h1 id="书籍">书籍</h1>
+
+<ul>
+<li><a href="http://www.webrtcbook.com/">WebRTC APIs and RTCWEB Protocols of the HTML5 Real-Time Web</a></li>
+</ul>
+
+<h1 id="视频">视频</h1>
+
+<ul>
+<li><a href="http://www.youtube.com/watch?v=E8C8ouiXHHk">Google I/O presentation video</a></li>
+<li><a href="https://vimeo.com/47682405">RTCWeb Explained</a></li>
+</ul>
+
+<h1 id="网站">网站</h1>
+
+<ul>
+<li><a href="http://webrtc.org.cn/">webrtc.org.cn</a></li>
+<li><a href="http://io13webrtc.appspot.com/webrtc.org">webrtc.org</a></li>
+</ul>
+
+<h1 id="社区">社区</h1>
+
+<ul>
+<li><a href="https://groups.google.com/forum/?fromgroups#!forum/discuss-webrtc">discuss-webrtc</a></li>
+<li><a href="https://plus.sandbox.google.com/113817074606039822053/posts">+webrtc</a></li>
+<li><a href="https://twitter.com/webrtc">@webrtc</a></li>
+<li><a href="http://www.crbug.com/new">crbug.com/new</a></li>
+<li><a href="http://io13webrtc.appspot.com">io13webrtc.appspot.com</a></li>
+</ul>
+
+<h1 id="开源项目">开源项目</h1>
+
+<h2 id="stun-turn">STUN/TURN</h2>
+
+<ul>
+<li><p><a href="https://github.com/coturn/coturn">coturn</a></p>
+
+<p>This project evolved from rfc5766-turn-server project.</p></li>
+
+<li><p><a href="http://www.creytiv.com/restund.html">restund</a></p></li>
+</ul>
+
+<h2 id="media-server">Media Server</h2>
+
+<ul>
+<li>SFU (Selective Forwarding Unit)</li>
+<li>MCU (Multipoint Control Unit)</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>server</th>
+<th>SFU</th>
+<th>MCU</th>
+<th>recording</th>
+<th>lang</th>
+<th>OSS</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Janus</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>C</td>
+<td><a href="https://github.com/meetecho/janus-gateway">github</a></td>
+</tr>
+
+<tr>
+<td>Jitsi</td>
+<td>Y</td>
+<td>N</td>
+<td>Y</td>
+<td>Java</td>
+<td><a href="https://github.com/jitsi/jitsi-videobridge">github</a></td>
+</tr>
+
+<tr>
+<td>Kurento</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>C++</td>
+<td><a href="https://github.com/Kurento/kurento-media-server">github</a></td>
+</tr>
+
+<tr>
+<td>Licode</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>C++</td>
+<td><a href="https://github.com/lynckia/licode">github</a></td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>非开源的有：
+<a href="http://www.tokbox.com/blog/mantis-next-generation-cloud-technology-for-webrtc/">Mantis</a>, <a href="https://software.intel.com/en-us/webrtc-sdk">Intel Collaboration Suite for WebRTC</a>(Licode based)</p>
+</blockquote>
+
+<p>关于各种Media Server比较的文章：</p>
+
+<ul>
+<li><a href="http://webrtcbydralex.com/index.php/2016/12/13/overview-of-webrtc-media-servers/">Overview of WebRTC Media Servers</a></li>
+</ul>
+
+<h2 id="美颜">美颜</h2>
+
+<ul>
+<li><a href="https://github.com/BradLarson/GPUImage">GPUImage</a></li>
+</ul>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/webrtc/">WebRTC</a>
+          
+          <a href="/tags/%E8%B5%84%E6%96%99/">资料</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/note/sql-proxy/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">SQL Proxy资料整理</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/note/learn-python-books/">
+            <span class="next-text nav-default">Python学习推荐书籍</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+    
+
+  
+
+  
+
+  <div id="comments-gitment"></div>
+  <link rel="stylesheet" href="/lib/gitment/gitment-0.0.3.min.css">
+    <script src="/lib/gitment/gitment-0.0.3.min.js"></script>
+  <script type="text/javascript">
+  const gitment = new Gitment({
+    id: 'webrtc-marterial.md',
+    title: 'WebRTC资料整理',
+    link: decodeURI(location.href),
+    desc: '参考文章 技术简介 Web Real-Time Communication（WebRTC）技术概述 WebRTC 是如何进行通信的，WebRCT 的三种网络结构 互动直播 互动直播的技术细',
+    owner: 'keysaim',
+    repo: 'comments',
+    oauth: {
+      client_id: '8d920ad685683a529e83',
+      client_secret: 'ffabf134048e374883ee67d3786a9a6b7d8d3cdc'
+    }
+  })
+  gitment.render('comments-gitment')
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
+  </article>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:keysaim@gmail.com" rel="me" class="iconfont icon-email" 
+        title="email" target="_blank">
+      </a>
+      <a href="https://github.com/keysaim" rel="me" class="iconfont icon-github" 
+        title="github" target="_blank">
+      </a>
+  <a href="https://keysaim.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" 
+    title="rss" target="_blank">
+  </a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2017 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">窗外蟋蟀(keysaim)</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+</body>
+</html>
