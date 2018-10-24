@@ -5,7 +5,7 @@ simpleIntro: 我是「仇亚东」，一个不甘做菜鸟的菜鸟。
 WebsiteIntro:
     <h2 id="welcome-to-my-website">Welcome to My Website</h2>
     <p>Give Chapter and Verse and Author for Transshipment, copy or other using. Thanks!</p>
-    <p>You can also visit me on <a href="">@CSDN</a> or <a href="">@OSChina</a>.
+    <p>You can also visit me on <a href="https://blog.csdn.net/u010446936/">@CSDN</a> or <a href="http://47.95.209.106/">@个人技术站</a>.
     「<a href="/about/#版权声明"> ©️版权声明</a>」</p>
 
 community:
@@ -17,15 +17,4 @@ community:
     link: https://blog.csdn.net/u010446936/
   - text: 个人技术站
     pic:  "/images/csdn-icon.png"
-    link: http://47.95.209.106/    
-  # - text: SegmentFault
-  #   pic: "/images/segmentfault-icon.png"
-  #   link: http://segmentfault.com/blog/brianway
-
-follow:
-  - text: 微博
-    pic: "/images/sinaweibo-icon.png"
-    link: http://weibo.com/brianway
-  - text: LinkedIn
-    pic: "/images/linkedin-icon.png"
-    link: https://cn.linkedin.com/in/weichuyang
+    link: http://47.95.209.106/
