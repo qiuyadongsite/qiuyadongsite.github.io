@@ -22,7 +22,7 @@ icon: heart
   - 于2016.03加入方正电子至今
 - 爱好
 
-  - 英雄联盟，段位钻石，五个位置都能打
+  - 英雄联盟
   - 偶尔打打羽毛球
 
 ---
@@ -60,29 +60,16 @@ icon: heart
 ## 关于本站  
 
 
-这个博客主要用于记录一个菜鸟的成长之路
+这个博客主要用于记录本人的工作学习中遇到的问题和反思
 
-- 2017 
-   - 公开课学习
-      - [JavaScript: Understanding the Weird Parts](https://www.udemy.com/certificate/UC-CWVEBCC5/) by Udemy
-      - [The Complete jQuery Course: From Beginner To Advanced!](https://www.udemy.com/certificate/UC-SMOVWE0Y/) by Udemy
-   - 找实习&工作：全部拿到 offer(阿里、腾讯、网易、美团)，面经“[如何准备校招技术面试](http://brianway.github.io/2017/09/29/how-to-prepare-a-technical-interview/)”
-   - 菜鸟实习：阿里百技获得了[团队第一](http://7xsna4.com1.z0.glb.clouddn.com/%E9%98%BF%E9%87%8C%E7%99%BE%E6%8A%80%E5%9B%A2%E9%98%9F%E7%AC%AC%E4%B8%80.jpg)、个人第二，并获得 [集团限量版镀金纪念徽章](http://7xsna4.com1.z0.glb.clouddn.com/%E9%98%BF%E9%87%8C%E9%99%90%E9%87%8F%E7%89%88%E9%95%80%E9%87%91%E7%BA%AA%E5%BF%B5%E5%BE%BD%E7%AB%A0.jpg)
-   - [baidu-ife](https://github.com/brianway/baidu-ife)：[百度前端技术学院](http://ife.baidu.com/) 的部分作业
-- 2016
-   - [webporter](https://github.com/brianway/webporter)：个人爬虫项目，曾荣登 Github 单日 trending 总榜第七名和 Java 榜第一名
-   - [Shepher](https://github.com/XiaoMi/shepher)：小米公司开源的 ZooKeeper 网页管理工具，核心开发
-   - [algorithms-learning](https://github.com/brianway/algorithms-learning)：[牛客网算法精品课](https://www.nowcoder.com/courses/1)相关代码 
-   - [算法 Part I](https://www.coursera.org/course/algs4partI)：Coursera 上普林斯顿的算法课程，成绩 98.4%([成绩单](http://7xph6d.com1.z0.glb.clouddn.com/%E9%9A%8F%E7%AC%94_part-I-total.png))
-   - [springmvc-mybatis-learning](https://github.com/brianway/springmvc-mybatis-learning)：SpringMVC+MyBatis 系列学习笔记+源码
-- 2015 及以前
-   - [贪吃蛇小游戏](https://wenku.baidu.com/view/da510316cc7931b765ce152a.html)：大学 C 语言课程设计项目
-   - [云自助超市](http://v.youku.com/v_show/id_XNzcyMjM0Nzky.html)：Third place of Digilent Design Contest 2014 World Final
+- 2018
+   - 总结近三年工作的问题
+
 
 ---
 
 ## Comments
 
-多说评论关闭了，有事可以走打赏留言或者邮件联系我
+多说评论关闭了，有事可以邮件联系我
 
 {% include comments.html %}
