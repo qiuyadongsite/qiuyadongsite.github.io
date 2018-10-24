@@ -12,17 +12,17 @@ icon: heart
 ## 关于我
 
 
-> 将入职 [阿里巴巴 - 菜鸟网络](https://www.cainiao.com/)
+> 就职于 [北大方正电子有限公司](http://www.founder.com.cn/)
 
-爱技术，爱吹逼，爱生活
+爱技术，爱游戏，爱生活
 
 - 经历
-  - 本硕均就读于 [华中科技大学](http://www.hust.edu.cn/) (2011-2015，2015-2018)
-  - 曾在 [阿里巴巴](http://www.alibabagroup.com/cn/global/home) 和 [小米科技](https://www.mi.com/about/) 实习过
+  - 本科就读于 [大同大学](http://www.sxdtdx.edu.cn/) (2009.09-2013.07)
+  - 硕士就读于 [山东师范大学](http://www.sdnu.edu.cn/) (2013.09-2016.07)
+  - 于2016.03加入方正电子至今
 - 爱好
-  - 炉石传说，天梯传说+竞技场12胜，[武汉高校星联赛季军](http://7xsna4.com2.z0.glb.clouddn.com/heartstone-prize.png)
-  - 狼人杀，目前 2.5 阶水平([【狼人杀实力评分标准】](http://weibo.com/ttarticle/p/show?id=2309403968483011469741#_0) by 二龙)
-  - 王者荣耀，段位钻石，五个位置都能打
+
+  - 英雄联盟，段位钻石，五个位置都能打
   - 偶尔打打羽毛球
 
 ---
