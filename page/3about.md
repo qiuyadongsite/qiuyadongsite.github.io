@@ -43,9 +43,7 @@ icon: heart
 
 - 个人帐号
 
-{% for i in site.data.author.follow %}
-  - [{{i.text}}]({{ i.link }})
-{% endfor %}
+  - 邮箱（qiuyadong5241@qq.com）
 
 
 - 技术社区
