@@ -12,24 +12,24 @@ title: Brian's Homepage
 # the subpath of your site, e.g. /blog
 baseurl: "" 
 # the base hostname & protocol for your site
-url: "http://brianway.github.io" 
+url: "http://qiuyadongsite.github.io" 
 
 permalink: /:year/:month/:day/:title/
 
 # other links
-github_username:  brianway
-email: weichuyang@163.com
-weibo_username: brianway
-linkedin_username: weichuyang
+github_username:  qiuyadongsite
+email: qiuyadong5241@qq.com
+weibo_username: qiuyadong
+linkedin_username: qiuyadong
 
-description_footer: 魏楚阳的博客
+description_footer: 仇亚东的博客
 
 # comments
 # two ways to comment, only choose one, and use your own short name
 # 两种评论插件，选一个就好了，使用自己的 short_name
 duoshuo_shortname: brianway
 duoshuo_url: "http://brianway.github.io"
-#disqus_shortname: gaohaoyang
+#disqus_shortname: qiuyadong
 
 # statistic analysis 统计代码
 # 百度统计 id，将统计代码替换为自己的百度统计id，即
