@@ -36,15 +36,6 @@ icon: heart
 >* 微信公众号转载须在文末的「阅读原文」处链接到原文
 
 
-## 赞助
-
-如果您觉得本站的文章对您有帮助，欢迎扫描下方二维码请我喝杯豆浆，谢谢支持！
-
-![支付宝](/assets/images/alipay_small.png)
-![微信](/assets/images/wechatpay_small.png)
-
-
----
 
 ## 联系我
 
