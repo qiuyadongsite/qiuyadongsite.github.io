@@ -45,7 +45,6 @@ icon: heart
 
   - 邮箱（qiuyadong5241@qq.com）
 
-
 - 技术社区
 
 {% for i in site.data.author.community %}
