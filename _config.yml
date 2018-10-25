@@ -10,9 +10,9 @@ title: qiuyadong's Homepage
 # brief-intro: Developer
 
 # the subpath of your site, e.g. /blog
-baseurl: "" 
+baseurl: ""
 # the base hostname & protocol for your site
-url: "http://qiuyadongsite.github.io" 
+url: "http://qiuyadongsite.github.io"
 
 permalink: /:year/:month/:day/:title/
 
@@ -61,5 +61,9 @@ excerpt_separator: "\n\n\n\n"
 gems: [jekyll-paginate]
 paginate: 5
 
-# bundle 
+# bundle
 exclude: ["vendor"]
+
+plugins:
+    - jekyll-paginate
+    - jekyll-sitemap
