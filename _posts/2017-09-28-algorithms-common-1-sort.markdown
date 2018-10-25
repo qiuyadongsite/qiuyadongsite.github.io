@@ -13,16 +13,6 @@ comments: true
 
 本文对和 **排序** 有关的常见算法基础题思路进行分析和总结，并以 Java 为例，适当指出需要注意的编程细节
 
-
-
-
-
-
-
-- 相关题目和代码在 GitHub: [https://github.com/brianway/algorithms-learning](https://github.com/brianway/algorithms-learning)
-- 题目见 `com.brianway.learning.algorithms.lectures.sort`包
-
-
 **记号约定：按升序排，数组 A 大小记为 n**
 
 ## 冒泡排序
