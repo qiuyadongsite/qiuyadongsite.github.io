@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  博客二
-date:   2018-10-25 23:16:07 +08:00
-category: 目录
-tags: 标签二
+title:  技术关注方向
+date:   2018-10-25 21:16:07 +08:00
+category: 心路历程
+tags: 技术 反思
 comments: true
 ---
 
