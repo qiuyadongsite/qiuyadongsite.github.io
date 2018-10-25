@@ -63,7 +63,3 @@ paginate: 5
 
 # bundle
 exclude: ["vendor"]
-
-plugins:
-    - jekyll-paginate
-    - jekyll-sitemap
