@@ -18,4 +18,4 @@ Java源码的学习一直就是普通程序员与好程序员的区别，so，�
 ## 整体架构和环境搭建
 
 >- 整体架构图
->![spring架构图](images/spring-constructor.jpg)
+>![spring架构图](https://github.com/qiuyadongsite/qiuyadongsite.github.io/blob/master/_posts/images/spring-constructor.jpg)
