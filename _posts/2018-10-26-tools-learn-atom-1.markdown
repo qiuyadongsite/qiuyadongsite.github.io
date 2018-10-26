@@ -10,7 +10,7 @@ comments: true
 * content
 {:toc}
 
-> 由于使用Atom发现功能强大。How to mmarkdown就成为重点。
+由于使用Atom发现功能强大。How to mmarkdown就成为重点。
 
 
 > 快捷输入方式 只需要输入如下内容, Atom编辑器会自动提示，回车之后即可进入对应的状态。
