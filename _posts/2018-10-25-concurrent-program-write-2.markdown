@@ -13,6 +13,10 @@ comments: true
 Java代码经过编译后变成Java字节码，字节码被类加载器加载到JVM里，JVM执行字节码，最终转换成汇编指令在CPU上执行，so，Java中所用的并发机制依赖于JVM的实现和CPU指令；
 
 
+
+
+
+
 ## Volatile原理
 
 - Volatile是轻量级的synchronized,它在多处理器开发中保证共享变量的"可见性"。一个线程中这个变量改变，另一个线程中也会看到它的改变。如何使用好，它比synchronized的使用和执行成本更低，它不会引起线程上下文的切换和调度。
