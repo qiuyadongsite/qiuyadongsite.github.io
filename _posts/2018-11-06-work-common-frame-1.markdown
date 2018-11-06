@@ -27,11 +27,11 @@ comments: true
 
 1. spring-beans和spring-core模块是spring框架的核心模块，包含了控制反转和依赖注入。BeanFactory接口是spring框架中的核心接口，它是工厂模式的具体实现，BeanFactory使用控制反转对应用程序的配置和依赖性规范与实际应用程序代码进行了分离。但BeanFactory容器实例化后并不会自动实例化Bean，只有当Bean被使用时，BeanFactory才会对该Bean进行实例化与依赖关系的装配。
 
-spring-bean定义的是规范
+    spring-bean定义的是规范
 
-spring-context 工厂的实现，DI的实现
+    spring-context 工厂的实现，DI的实现
 
-spring-core 最顶层的核心包
+    spring-core 最顶层的核心包
 
 2. spring-context模块架构于孩心模块之上，他扩展/BeanFactory，为它添加了Bean生命周期控制、框架事件体系以及资源加载透明化等功能。此外该模块还提供了许多企业级支持，如邮件访问、远程访问、任务调度等，ApplicationContext是该模块的核心接口，它是BeanFactory的超类，与BeanFactory不同，ApplicationContext容器实例化后会自动对所有的单实例Bean进行实例化与依赖关系的装配，使之处于待用状态。
 
@@ -92,7 +92,8 @@ spring-test模块主要为测试提供支持的，毕竟在不需要发布（程
 ### 7.依赖结构图
 
 ![架构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/common-frame-2.jpg)
-由图可得，IOC的实现包spring-beans和AOP的实现包spring-aop是整个框架的基础，而spring-core则是整个框架的核心，基础功能都在这三个包里。
+
+>* 由图可得，IOC的实现包spring-beans和AOP的实现包spring-aop是整个框架的基础，而spring-core则是整个框架的核心，基础功能都在这三个包里。
 
 在此基础之上，spring-context提供上下文环境，为各个模块提供粘合作用。
 
@@ -100,7 +101,7 @@ spring-test模块主要为测试提供支持的，毕竟在不需要发布（程
 
 spring-struts模块在spring4中被移除
 
-8.spring源码下载
+### 8.spring源码下载
 
 a）https://github.com/spring-projects/spring-framework
 
