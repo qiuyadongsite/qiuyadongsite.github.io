@@ -52,7 +52,7 @@ comments: true
 
     第三， 算法（性能），它的价值体现在提升系统的性能，所有性能的提升，最终都会落到CPU，内存，IO和网络这4大块上。
 
-    ![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-3.jpg)
+![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-3.jpg)
 
 >* 举了一些例子来更深入的理解常见技术背后的架构理念。
 
@@ -64,7 +64,7 @@ comments: true
 
    第四个看一下消息队列，本质上还是做分类，只不过不是两个边际清晰的类，而是把两个边际不清晰的子系统通过队列解构并且异步化。
 
-   ![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-4.jpg)
+![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-4.jpg)
 
 >* 新浪微博整体架构是什么样的
 
@@ -86,7 +86,7 @@ comments: true
 
     到了后台的各种服务其实都是处理的数据。 像平台的业务部门，做的就是 数据存储和读 取，对搜索来说做的是 数据的 检 索，对大数据来说是做的数据的 挖掘。微博其实和淘宝是很类似
 
-    ![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-5.jpg)
+![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-5.jpg)
 
 >* 微博其实和淘宝是很类似的。一般来说，第一代架构，基本上能支撑到用户到 百万 级别，到第二代架构基本能支撑到 千万 级别都没什么问题，当业务规模到 亿级别时，需要第三代的架构。   
 
@@ -98,7 +98,7 @@ comments: true
 
    我们看一下， 接口层有feed、用户关系、通讯接口；服务层，SOA里有基层服务、原子服务和组合服务，在微博我们只有原子服务和组合服务。原子服务不依赖于任何其他服务，组合服务由几个原子服务和自己的业务逻辑构建而成 ，资源层负责海量数据的存储（后面例子会详细讲）。技 术框架解决 独立于 业务 的海量高并发场景下的技术难题，由众多的技术组件共同构建而成 。在接口层，微博使用JERSY框架，帮助你做参数的解析，参数的验证，序列化和反序列化；资源层，主要是缓存、DB相关的各类组件，比如Cache组件和对象库组件。监 控平台和服 务 治理 ， 完成系统服务的像素级监控，对分布式系统做提前诊断、预警以及治理。包含了SLA规则的制定、服务监控、服务调用链监控、流量监控、错误异常监控、线上灰度发布上线系统、线上扩容缩容调度系统等。
 
-       ![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-6.jpg)
+![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-6.jpg)
 
        面我们讲一下常见的设计原则。
 
@@ -126,7 +126,7 @@ comments: true
 
     接下来我们看一下微博的Feed多级缓存。我们做业务的时候，经常很少做业务分析，技术大会上的分享又都偏向技术架构。其实大家更多的日常工作是需要花费更多时间在业务优化上。这张图是统计微博的信息流前几页的访问比例，像前三页占了97%，在做缓存设计的时候，我们最多只存最近的M条数据。 这里强调的就是做系统设计 要基于用 户 的 场 景 ， 越细致越好 。举了一个例子，大家都会用电商，电商在双十一会做全国范围内的活动，他们做设计的时候也会考虑场景的，一个就是购物车，我曾经跟相关开发讨论过，购物车是在双十一之前用户的访问量非常大，就是不停地往里加商品。在真正到双十一那天他不会往购物车加东西了，但是他会频繁的浏览购物车。针对这个场景，活动之前重点设计优化购物车的写场景， 活动开始后优化购物车的读场景。
 
-       ![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-9.jpg)
+![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-9.jpg)
 
     你看到的微博是由哪些部分聚合而成的呢？最右边的是Feed，就是微博所有关注的人，他们的微博所组成的。微博我们会按照时间顺序把所有关注人的顺序做一个排序。随着业务的发展，除了跟时间序相关的微博还有非时间序的微博，就是会有广告的要求，增加一些广告，还有粉丝头条，就是拿钱买的，热门微博，都会插在其中。分发控制，就是说和一些推荐相关的，我推荐一些相关的好友的微博，我推荐一些你可能没有读过的微博，我推荐一些其他类型的微博。 当然对非时序的微博和分发控制微博，实际会起多个并行的程序来读取，最后同步做统一的聚合。这里稍微分享一下， 从SNS社交领域来看，国内现在做的比较好的三个信息流：
 
@@ -138,31 +138,31 @@ comments: true
 
     信息流的聚合，体现在很多很多的产品之中，除了SNS，电商里也有信息流的聚合的影子。比如搜索一个商品后出来的列表页，它的信息流基本由几部分组成：第一，打广告的；第二个，做一些推荐，热门的商品，其次，才是关键字相关的搜索结果。 信息流 开始的时候 很 简单 ， 但是到后期会 发现 ， 你的 这 个流 如何做控制分发 ， 非常复杂， 微博在最近一两年一直在做 这样 的工作。
 
-       ![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-10.jpg)
+![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-10.jpg)
 
     刚才我们是从业务上分析，那么技术上怎么解决高并发，高性能的问题？微博访问量很大的时候，底层存储是用MySQL数据库，当然也会有其他的。对于查询请求量大的时候，大家知道一定有缓存，可以复用可重用的计算结果。可以看到，发一条微博，我有很多粉丝，他们都会来看我发的内容，所以 微博是最适合使用 缓 存 的系统，微博的读写比例基本在几十比一。微博使用了 双 层缓 存，上面是L1，每个L1上都是一组（包含4-6台机器），左边的框相当于一个机房，右边又是一个机房。在这个系统中L1缓存所起的作用是什么？ 首先，L1 缓 存增加整个系 统 的 QPS， 其次 以低成本灵活扩容的方式 增加 系统 的 带宽 。想象一个极端场景，只有一篇博文，但是它的访问量无限增长，其实我们不需要影响L2缓存，因为它的内容存储的量小，但它就是访问量大。这种场景下，你就需要使用L1来扩容提升QPS和带宽瓶颈。另外一个场景，就是L2级缓存发生作用，比如我有一千万个用户，去访问的是一百万个用户的微博 ，这个时候，他不只是说你的吞吐量和访问带宽，就是你要缓存的博文的内容也很多了，这个时候你要考虑缓存的容量， 第二 级缓 存更多的是从容量上来 规划，保证请求以较小的比例 穿透到 后端的 数据 库 中 ，根据你的用户模型你可以估出来，到底有百分之多少的请求不能穿透到DB， 评估这个容量之后，才能更好的评估DB需要多少库，需要承担多大的访问的压力。另外，我们看双机房的话，左边一个，右边一个。 两个机房是互 为 主 备 ， 或者互 为热备 。如果两个用户在不
 
     同地域，他们访问两个不同机房的时候，假设用户从IDC1过来，因为就近原理，他会访问L1，没有的话才会跑到Master，当在IDC1没找到的时候才会跑到IDC2来找。同时有用户从IDC2访问，也会有请求从L1和Master返回或者到IDC1去查找。 IDC1 和 IDC2 ，两个机房都有全量的用户数据，同时在线提供服务，但是缓存查询又遵循最近访问原理。
 
-       ![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-11.jpg)
+![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-11.jpg)
 
     还有哪些多级缓存的例子呢？CDN是典型的多级缓存。CDN在国内各个地区做了很多节点，比如在杭州市部署一个节点时，在机房里肯定不止一台机器，那么对于一个地区来说，只有几台服务器到源站回源，其他节点都到这几台服务器回源即可，这么看CDN至少也有两级。Local Cache+ 分布式 缓 存，这也是常见的一种策略。有一种场景，分布式缓存并不适用， 比如 单 点 资 源 的爆发性峰值流量，这个时候使用Local Cache + 分布式缓存，Local Cache 在 应用 服 务 器 上用很小的 内存资源 挡住少量的 极端峰值流量，长尾的流量仍然访问分布式缓存，这样的Hybrid缓存架构通过复用众多的应用服务器节点，降低了系统的整体成本。
 
     我们来看一下 Feed 的存 储 架构，微博的博文主要存在MySQL中。首先来看内容表，这个比较简单，每条内容一个索引，每天建一张表，其次看索引表，一共建了两级索引。首先想象一下用户场景，大部分用户刷微博的时候，看的是他关注所有人的微博，然后按时间来排序。仔细分析发现在这个场景下， 跟一个用户的自己的相关性很小了。所以在一级索引的时候会先根据关注的用户，取他们的前条微博ID，然后聚合排序。我们在做哈希（分库分表）的时候，同时考虑了按照UID哈希和按照时间维度。很业务和时间相关性很高的，今天的热点新闻，明天就没热度了，数据的冷热非常明显，这种场景就需要按照时间维度做分表，首先冷热数据做了分离（可以对冷热数据采用不同的存储方案来降低成本），其次， 很容止控制我数据库表的爆炸。像微博如果只按照用户维度区分，那么这个用户所有数据都在一张表里，这张表就是无限增长的，时间长了查询会越来越慢。二级索引，是我们里面一个比较特殊的场景，就是我要快速找到这个人所要发布的某一时段的微博时，通过二级索引快速定位。
 
-    ![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-12.jpg)
+![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-12.jpg)
 
     分布式服务追踪系统
 
     分布式追踪服务系统，当系统到千万级以后的时候，越来越庞杂，所解决的问题更偏向稳定性，性能和监控。刚才说用户只要有一个请求过来，你可以依赖你的服务RPC1、RPC2，你会发现RPC2又依赖RPC3、RPC4。分布式服务的时候一个痛点，就是说一个请求从用户过来之后，在后台不同的机器之间不停的调用并返回。
 
-    ![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-13.jpg)
+![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-13.jpg)
 
     当你发现一个问题的时候，这些日志落在不同的机器上，你也不知道问题到底出在哪儿，各个服务之间互相隔离，互相之间没有建立关联。所以导致排查问题基本没有任何手段，就是出了问题没法儿解决。
 
    我们要解决的问题，我们刚才说日志互相隔离，我们就要把它建立联系。建立联系我们就有一个请求ID，然后结合RPC框架， 服务治理功能。假设请求从客户端过来，其中包含一个ID 101，到服务A时仍然带有ID 101，然后调用RPC1的时候也会标识这是101 ，所以需要 一个唯一的 请求 ID 标识 递归迭代的传递到每一个 相关 节点。第二个，你做的时候，你不能说每个地方都加，对业务系统来说需要一个框架来完成这个工作， 这 个框架要 对业务 系 统 是最低侵入原 则 ， 用 JAVA 的 话 就可以用 AOP，要做到零侵入的原则，就是对所有相关的中间件打点，从接口层组件（HTTP Client、HTTP Server）至到服务层组件（RPC Client、RPC Server），还有数据访问中间件的，这样业务系统只需要少量的配置信息就可以实现全链路监控 。为什么要用日志？服务化以后，每个服务可以用不同的开发语言， 考虑多种开发语言的兼容性 ， 内部定 义标 准化的日志 是唯一且有效的办法。
 
-     ![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-14.jpg)
+![演变图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/large-intel-14.jpg)
 
      最后，如何构建基于GPS导航的路况监控？我们刚才讲分布式服务追踪。分布式服务追踪能解决的问题， 如果 单一用 户发现问题 后 ， 可以通 过请 求 ID 快速找到 发 生 问
 
