@@ -38,34 +38,34 @@ comments: true
 >* 针对以上学习方向我们有自己的高清思维方向导图以及阿里架构师讲解的架构视频分享（包括高可用，高并发，spring源码，mybatis源码，JVM，大数据，Netty等多个技术知识的架构视频资料和各种电子书籍阅读）视频资料获取方式转发，转发，关注后私信‘架构’即可获取。
 
 
-##（1）常用源码框架
+## 1.常用源码框架
 
 ![架构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/constror-1.jpg)
 
-##（2）互联网分布式架构
+## 2.互联网分布式架构
 
 ![架构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/constror-2.jpg)
 
-##（3）团队协作开发
+## 3.团队协作开发
 
 ![架构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/constror-3.jpg)
 
-##（4）架构基础
+## 4.架构基础
 
 ![架构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/constror-4.jpg)
 
-##（5）微服务专题
+## 5.微服务专题
 
 ![架构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/constror-5.jpg)
 
-##（6）性能调优专题
+## 6.性能调优专题
 
 ![架构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/constror-6.jpg)
 
-##（7）并发编程
+## 7.并发编程
 
 ![架构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/constror-7.jpg)
 
-##（8）设计模式
+## 8.设计模式
 
 ![架构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/constror-8.jpg)
