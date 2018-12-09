@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  设计模式六大原则
-date:   2018-12-09 14:52:12 +08:00
+date:   2018-12-09 13:52:12 +08:00
 category: 设计模式
 tags: 设计模式
 comments: true
