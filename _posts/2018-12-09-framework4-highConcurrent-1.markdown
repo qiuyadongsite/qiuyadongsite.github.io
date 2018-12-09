@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  RPC简介
-date:   2018-12-09 16:52:12 +08:00
+date:   2018-12-09 17:52:12 +08:00
 category: 高并发分布式
 tags: 高并发分布式
 comments: true
@@ -10,7 +10,7 @@ comments: true
 * content
 {:toc}
 
-对于架构师来说，了解各大互联网的架构演进十分有必要！
+对于RPC是微服务的关键！
 
 
 
