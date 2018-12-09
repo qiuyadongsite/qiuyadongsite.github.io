@@ -1,0 +1,21 @@
+---
+layout: post
+title:  架构师知识体系
+date:   2018-12-09 14:52:12 +08:00
+category: 架构师
+tags: 知识体系
+comments: true
+---
+
+* content
+{:toc}
+
+对于工作三年的程序员来说，技术瓶颈开始凸显，为了不做咸鱼，从网上开始总结发展方向，以及总结学习进度！
+
+
+
+
+
+## 知识结构
+通过大量的资源检索发现，这个结构图还是很全的，为了跟的上每天预习上面的知识点，一点一滴进步！
+![结构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/framework.png)
