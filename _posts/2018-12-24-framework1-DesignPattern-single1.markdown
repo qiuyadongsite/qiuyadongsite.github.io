@@ -60,7 +60,43 @@ public class Lazy {
 }
 
 ```
+补充：双重校验，像这样两次判空的机制叫做双重检测机制。
+涉及到了JVM编译器的指令重排。
+指令重排是什么意思呢？比如java中简单的一句 instance = new Singleton，会被编译器编译成如下JVM指令：
 
+memory =allocate();    //1：分配对象的内存空间
+
+ctorInstance(memory);  //2：初始化对象
+
+instance =memory;     //3：设置instance指向刚分配的内存地址
+
+但是这些指令顺序并非一成不变，有可能会经过JVM和CPU的优化，指令重排成下面的顺序：
+memory =allocate();    //1：分配对象的内存空间
+instance =memory;     //3：设置instance指向刚分配的内存地址
+ctorInstance(memory);  //2：初始化对象
+
+当线程A执行完1,3,时，instance对象还未完成初始化，但已经不再指向null。此时如果线程B抢占到CPU资源，执行  if（instance == null）的结果会是false，从而返回一个没有初始化完成的instance对象。
+经过volatile的修饰，始终保证是下面的顺序：
+memory =allocate();    //1：分配对象的内存空间
+ctorInstance(memory);  //2：初始化对象
+instance =memory;     //3：设置instance指向刚分配的内存地址
+如此在线程B看来，instance对象的引用要么指向null，要么指向一个初始化完毕的Instance，而不会出现某个中间态，保证了安全。
+```
+public class Lazy {
+    private Lazy(){};
+    private static Lazy instance=null;
+    public static  Lazy getInstance(){
+
+            if(instance==null){
+              synchronized(Lazy.class){
+                  if(instance==null){
+                    instance=new Lazy();
+                }
+              }
+
+            return instance;
+    }
+}
 ## 懒汉式升级版
 
 特点：在外部类被调用的时候内部类才会被加载，内部类一定是要在方法调用之前初始化，巧妙地避免了线程安全问题
@@ -92,6 +128,7 @@ public class LazyThree {
         private static final LazyThree LAZY = new LazyThree();
     }
 }
+
 
 ```
 ## 注册式
