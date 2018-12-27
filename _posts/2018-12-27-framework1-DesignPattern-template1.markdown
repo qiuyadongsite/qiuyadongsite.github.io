@@ -206,7 +206,7 @@ public class Member {
     }
 
     public void setAddr(String addr) {
-        this.addr = addr;
+        this.addr = addr; 
     }
 }
 

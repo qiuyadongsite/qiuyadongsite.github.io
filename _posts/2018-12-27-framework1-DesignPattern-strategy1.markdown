@@ -142,7 +142,7 @@ public class Order {
         this.uid = uid;
         this.orderId = orderId;
         this.amount = amount;
-    }
+    } 
 
 
     //这个参数，完全可以用Payment这个接口来代替
