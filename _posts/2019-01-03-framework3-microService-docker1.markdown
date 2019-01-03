@@ -54,9 +54,7 @@ sudo systemctl start docker
 service docker start
 ```
 - 2、主机新建DockerFile
-
 ```
-
 FROM mysql:5.7
 
 #设置免密登录
@@ -72,7 +70,6 @@ CMD ["sh", "/mysql/setup.sh"]
 
 ```
 - 3、 编写容器启动脚本setup.sh：
-
 ```
 #!/bin/bash
 set -e
@@ -104,10 +101,8 @@ echo `service mysql status`
 echo `mysql容器启动完毕,且数据导入成功`
 
 tail -f /dev/null
-
 ```
 - 4、 需要导入数据的mysql脚本命令schema.sql：(注意这里不能用‘’括表名)
-
 ```
 -- 创建数据库
 create database docker_mysql default character set utf8 collate utf8_general_ci;
@@ -145,22 +140,21 @@ grant all on *.* to docker@'%' identified by '123456' with grant option;
 -- 这一条命令一定要有：
 flush privileges;
 ```
-- 5、 创建镜像
+- 6、 创建镜像
 ```
 docker build -t docker-mysql-1 .
 ```
-- 6、启动容器
+- 7、启动容器
 ```
 docker run -d -p 3808:3306 docker-mysql-1
 ```
-- 7、查看日志
+- 8、查看日志
 ```
 docker logs 容器Id
 ```
 ## 验证
 - 1、 进入容器
 ```
-
 docker exec -it 容器ID /bin/bash
 
 ```
