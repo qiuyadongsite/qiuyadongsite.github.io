@@ -158,6 +158,7 @@ docker logs 容器Id
 ```
 ## 验证
 - 1、 进入容器
+
 ```
 docker exec -it 容器ID /bin/bash
 
