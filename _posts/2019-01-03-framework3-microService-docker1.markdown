@@ -71,6 +71,7 @@ CMD ["sh", "/mysql/setup.sh"]
 
 ```
 - 3、 编写容器启动脚本setup.sh：
+
 ```
 #!/bin/bash
 set -e
@@ -104,6 +105,7 @@ echo `mysql容器启动完毕,且数据导入成功`
 tail -f /dev/null
 ```
 - 4、 需要导入数据的mysql脚本命令schema.sql：(注意这里不能用‘’括表名)
+
 ```
 -- 创建数据库
 create database docker_mysql default character set utf8 collate utf8_general_ci;
@@ -131,6 +133,7 @@ VALUES
 
 ```
 - 5、 mysql权限设置命令privileges.sql：
+
 ```
 use mysql;
 select host, user from user;
@@ -160,6 +163,7 @@ docker exec -it 容器ID /bin/bash
 
 ```
 - 2、查看数据库
+
 ```
 使用docker用户登录数据库：mysql -u docker -p
 输入密码123456通过登录验证
