@@ -26,35 +26,37 @@ comments: true
 ## 安装docker
 
 Docker 运行在 CentOS 7 上，要求系统为64位、系统内核版本为 3.10 以上;
-- 1. 安装一些必要的系统工具：
+- 1、安装一些必要的系统工具：
 ```
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 ```
-- 2. 添加软件源信息：
+- 2、 添加软件源信息：
 ```
 sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 ```
-- 3. 更新 yum 缓存：
+- 3、 更新 yum 缓存：
 ```
 sudo yum makecache fast
 ```
-- 4. 安装 Docker-ce：
+- 4、 安装 Docker-ce：
 ```
 sudo yum -y install docker-ce
 ```
-- 5. 启动 Docker 后台服务
+- 5、 启动 Docker 后台服务
 ```
 sudo systemctl start docker
 ```
 
 ## 使用docker创建mysql镜像
 
-- 1. 启动docker服务：    
+- 1、 启动docker服务：    
 ```
 service docker start
 ```
-- 2. 主机新建DockerFile
+- 2、主机新建DockerFile
+
 ```
+
 FROM mysql:5.7
 
 #设置免密登录
@@ -69,7 +71,8 @@ COPY privileges.sql /mysql/privileges.sql
 CMD ["sh", "/mysql/setup.sh"]
 
 ```
-- 3. 编写容器启动脚本setup.sh：
+- 3、 编写容器启动脚本setup.sh：
+
 ```
 #!/bin/bash
 set -e
@@ -103,7 +106,8 @@ echo `mysql容器启动完毕,且数据导入成功`
 tail -f /dev/null
 
 ```
-- 3. 需要导入数据的mysql脚本命令schema.sql：(注意这里不能用‘’括表名)
+- 4、 需要导入数据的mysql脚本命令schema.sql：(注意这里不能用‘’括表名)
+
 ```
 -- 创建数据库
 create database docker_mysql default character set utf8 collate utf8_general_ci;
@@ -130,7 +134,7 @@ VALUES
   (0,1490257904,1490257904,'john.doe@example.com','John','Doe','user');
 
 ```
-- 4. mysql权限设置命令privileges.sql：
+- 5、 mysql权限设置命令privileges.sql：
 ```
 use mysql;
 select host, user from user;
@@ -141,26 +145,26 @@ grant all on *.* to docker@'%' identified by '123456' with grant option;
 -- 这一条命令一定要有：
 flush privileges;
 ```
-- 5. 创建镜像
+- 5、 创建镜像
 ```
 docker build -t docker-mysql-1 .
 ```
-- 6. 启动容器
+- 6、启动容器
 ```
 docker run -d -p 3808:3306 docker-mysql-1
 ```
-- 7. 查看日志
+- 7、查看日志
 ```
 docker logs 容器Id
 ```
 ## 验证
-- 1. 进入容器
+- 1、 进入容器
 ```
 
 docker exec -it 容器ID /bin/bash
 
 ```
-- 2. 查看数据库
+- 2、查看数据库
 ```
 使用docker用户登录数据库：mysql -u docker -p
 输入密码123456通过登录验证
@@ -170,12 +174,12 @@ docker exec -it 容器ID /bin/bash
 ```
 
 ## 补充
-- 1. 查看所有容器: docker ps -a
+- 1、 查看所有容器: docker ps -a
 
-- 2. 删除镜像： docker rmi 镜像Id
+- 2、 删除镜像： docker rmi 镜像Id
 
-- 3. 删除单个容器: docker rm 容器ID
+- 3、 删除单个容器: docker rm 容器ID
 
-- 4. 删除所有容器: docker rm -f $(docker ps -a -q)
+- 4、删除所有容器: docker rm -f $(docker ps -a -q)
 
-- 5. 修改文件名：mv
+- 5、修改文件名：mv
