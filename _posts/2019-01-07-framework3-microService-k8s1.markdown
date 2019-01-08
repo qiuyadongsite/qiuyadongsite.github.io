@@ -51,3 +51,13 @@ yum程序占用解决方案：
 * cp -r k8s_images/. /root/k8s_images 复制目标位置的目录不存在
 
 docker的卸载和指定版本安装
+
+journalctl -xeu kubelet
+用来查看kubelet执行有什么错误。
+
+解决端口占用
+netstat -lnp|grep 8080
+
+kill -9 [PID]
+
+学习网址https://blog.csdn.net/Michael_HM/article/details/79621134
