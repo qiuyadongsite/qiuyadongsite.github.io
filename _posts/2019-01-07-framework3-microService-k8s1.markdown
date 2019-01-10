@@ -25,6 +25,12 @@ comments: true
 
 ## 系统准备
 
+1、直接关闭防火墙
+
+systemctl stop firewalld.service #停止firewall
+
+systemctl disable firewalld.service #禁止firewall开机启动
+
 *Docker 运行在 CentOS 7 上，要求系统为64位、系统内核版本为 3.10 以上;
 *克隆vmware中的centos7:
 ```
