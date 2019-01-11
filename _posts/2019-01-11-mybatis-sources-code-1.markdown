@@ -25,7 +25,7 @@ comments: true
 
  具体使用过程：
 
- ```
+ ```mermaid
 graph LR
 业务分析-->定义表结构-->自动生成工具生成代码
 
