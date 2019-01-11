@@ -20,7 +20,7 @@ comments: true
 ## 使用mybatis
 
 >- 使用过程
-```
+```java
 1.编程式
 2.集成到spring
 
@@ -31,7 +31,7 @@ comments: true
 
 ```
 >- 两种使用方式
-```
+```java
 1.xml
 2.annotation
 兼容并互补
@@ -45,21 +45,22 @@ annotation   /  接口可以看到sql语句，可读性高， /  复杂联合查
 
 ```
 >- 使用properties文件配置参数，批量导入
-```
+```java
 <context:property-placeholder  ignore-unresolvable="true"
 		location="classpath:dbconfig.properties,classpath:web.properties,classpath:shiro.properties" />
 
 ```  
 >- 可配操作
-```
+```java
 1.Environment
 2.Typehandler(java和表字段类型的转换实现)
 
 ```
 >- 使用typehandler
 
-```
-1.基础基础类
+```java
+
+//1.基础基础类
 
 @MappedJdbcTypes(JdbcType.VARCHAR)
 public class TestTypeHandle extends BaseTypeHandler<String> {
