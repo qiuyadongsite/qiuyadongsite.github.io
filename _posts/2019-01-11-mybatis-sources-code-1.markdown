@@ -20,19 +20,14 @@ comments: true
 ## 使用mybatis
 
 >- 使用过程
-```java
-1.编程式
+>1.编程式
 2.集成到spring
-
 具体使用过程：
-
 业务分析——————>定义表结构——————>自动生成工具生成代码
 
-
-```
 >- 两种使用方式
-```java
-1.xml
+
+>1.xml
 2.annotation
 兼容并互补
 ————————————————————————————————————————————————————————————————————————
@@ -43,25 +38,23 @@ annotation   /  接口可以看到sql语句，可读性高， /  复杂联合查
             / 不需要再去找xml,使用方便         /   复杂代码的可读性差
 ————————————————————————————————————————————————————————————————————————
 
-```
+
 >- 使用properties文件配置参数，批量导入
-```java
+```
 <context:property-placeholder  ignore-unresolvable="true"
 		location="classpath:dbconfig.properties,classpath:web.properties,classpath:shiro.properties" />
 
 ```  
 >- 可配操作
-```java
-1.Environment
+
+>1.Environment
 2.Typehandler(java和表字段类型的转换实现)
 
-```
+
 >- 使用typehandler
 
-```java
-
-//1.基础基础类
-
+```
+1.基础基础类
 @MappedJdbcTypes(JdbcType.VARCHAR)
 public class TestTypeHandle extends BaseTypeHandler<String> {
 }
@@ -78,9 +71,9 @@ public class TestTypeHandle extends BaseTypeHandler<String> {
 
 >- 使用Interceptor（理解为拦截器，插件）
 
-下边的插件作用输出sql语句运行的耗时、并输出sql语句
+
 ```
-1.
+1.下边的插件作用输出sql语句运行的耗时、并输出sql语句
 ————————————————————————————————————————————————————————————————————————
 @Intercepts({@Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}),
         @Signature(type = StatementHandler.class, method = "update", args = {Statement.class}),
