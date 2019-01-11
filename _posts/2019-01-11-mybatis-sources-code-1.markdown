@@ -26,7 +26,7 @@ comments: true
 
 具体使用过程：
 
-业务分析---->定义表结构--->自动生成工具生成代码
+业务分析——————>定义表结构——————>自动生成工具生成代码
 
 
 ```
@@ -35,13 +35,13 @@ comments: true
 1.xml
 2.annotation
 兼容并互补
-----------------------------------------------------------
+————————————————————————————————————————————————————————————————————————
 xml          /  接口分离、统一管理。            / 过多xml文件
             /    复杂的语句可以不影响接口可读性  /
-----------------------------------------------------------
+————————————————————————————————————————————————————————————————————————
 annotation   /  接口可以看到sql语句，可读性高， /  复杂联合查询不好维护
             / 不需要再去找xml,使用方便         /   复杂代码的可读性差
-----------------------------------------------------------
+————————————————————————————————————————————————————————————————————————
 
 ```
 >- 使用properties文件配置参数，批量导入
@@ -80,7 +80,7 @@ public class TestTypeHandle extends BaseTypeHandler<String> {
 下边的插件作用输出sql语句运行的耗时、并输出sql语句
 ```
 1.
---------------------------------------------------------------------------------------------------------------------------
+————————————————————————————————————————————————————————————————————————
 @Intercepts({@Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}),
         @Signature(type = StatementHandler.class, method = "update", args = {Statement.class}),
         @Signature(type = StatementHandler.class, method = "batch", args = {Statement.class})})
@@ -222,8 +222,7 @@ public class PerformanceInterceptor implements Interceptor {
         this.writeInLog = writeInLog;
     }
 }
---------------------------------------------------------------------------------------------------------------------------
-
+————————————————————————————————————————————————————————————————————————
 2.在mybatis-config.xml中进行配置
 
 
@@ -247,7 +246,7 @@ public class PerformanceInterceptor implements Interceptor {
 	        <!--SQL是否格式化 默认false-->
 	        <property name="format" value="true" />
 	    </plugin>
-		
+
 </plugins>
 
 
