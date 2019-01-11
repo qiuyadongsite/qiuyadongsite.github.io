@@ -10,48 +10,46 @@ comments: true
 * content
 {:toc}
 
->- MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。(是什么)
->- MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。（优势）
->- MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和 Java 的 POJOs(Plain Ordinary Java Object,普通的 Java对象)映射成数据库中的记录。（怎么做的）
+- MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。(是什么)
+- MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。（优势）
+- MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和 Java 的 POJOs(Plain Ordinary Java Object,普通的 Java对象)映射成数据库中的记录。（怎么做的）
 
 
 
 
 ## 使用mybatis
 
->- 使用过程
->- 1. 编程式
->- 2. 集成到spring
->- 具体使用过程：业务分析/定义表结构/自动生成工具生成代码
+- 使用过程
+- 1. 编程式
+- 2. 集成到spring
+- 具体使用过程：业务分析/定义表结构/自动生成工具生成代码
 
->- 两种使用方式
->-1.xml
->-2.annotation
->-兼容并互补
+- 两种使用方式
+1. xml
+2. annotation兼容并互补
 
->xml          /  接口分离、统一管理。            / 过多xml文件
-            /    复杂的语句可以不影响接口可读性  /
-annotation   /  接口可以看到sql语句，可读性高， /  复杂联合查询不好维护
-            / 不需要再去找xml,使用方便         /   复杂代码的可读性差
-
+- xml          /  接口分离、统一管理。            / 过多xml文件
+-             /    复杂的语句可以不影响接口可读性  /
+- annotation   /  接口可以看到sql语句，可读性高， /  复杂联合查询不好维护
+-            / 不需要再去找xml,使用方便         /   复杂代码的可读性差
 
 
->- 使用properties文件配置参数，批量导入
-```
+
+- 使用properties文件配置参数，批量导入
+```java
 <context:property-placeholder  ignore-unresolvable="true"
 		location="classpath:dbconfig.properties,classpath:web.properties,classpath:shiro.properties" />
-
 ```  
->- 可配操作
-
+- 可配操作
 1. Environment
 2. Typehandler(java和表字段类型的转换实现)
 
 
->- 使用typehandler
+- 使用typehandler
 1. 基础基础类
-```
-//1.基础基础类
+
+```java
+
 @MappedJdbcTypes(JdbcType.VARCHAR)
 public class TestTypeHandle extends BaseTypeHandler<String> {
 }
@@ -66,10 +64,11 @@ public class TestTypeHandle extends BaseTypeHandler<String> {
 
 ```
 
->- 使用Interceptor（理解为拦截器，插件）
+- 使用Interceptor（理解为拦截器，插件）
 
 
-```
+```java
+
 //1.下边的插件作用输出sql语句运行的耗时、并输出sql语句
 
 @Intercepts({@Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}),
@@ -214,9 +213,10 @@ public class PerformanceInterceptor implements Interceptor {
     }
 }
 ```
+
 2. 在mybatis-config.xml中进行配置
 
-```
+```xml
 <!-- 插件配置 -->
 	<plugins>
 		 <!--
