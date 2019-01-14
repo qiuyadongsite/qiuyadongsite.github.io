@@ -67,7 +67,7 @@ comments: true
 
 2. 自增sql，添加后返回id
 
-```XML
+```xml
 <insert id="insertAuthor" useGeneratedKeys="true"
     keyProperty="id">
   insert into Author (username,password,email,bio)
@@ -78,7 +78,7 @@ comments: true
 
 3.动态sql
 
-```XML
+```xml
 
 // if
 <select id="findActiveBlogWithTitleLike"
