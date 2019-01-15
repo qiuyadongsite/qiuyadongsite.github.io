@@ -18,6 +18,7 @@ comments: true
 ## 创建SqlSessionFactory
 
 **测试Demo**
+
 ```java
 public class Demo {
     public static SqlSession getSqlSession() throws FileNotFoundException {
@@ -38,6 +39,7 @@ public class Demo {
 ```
 1. SqlSessionFactoryBuilder
 - 设计借鉴：build建造者模式，方便扩展扩充了inputstream/reader/properties,但都会调用统一的build方法
+
 ```java
 public SqlSessionFactory build(InputStream inputStream, String environment, Properties properties) {
     try {
@@ -107,6 +109,7 @@ public SqlSessionFactory build(InputStream inputStream, String environment, Prop
  ```
 
  3. 对上面的子节点properties/envirements进行分析
+
  ```xml
  <configuration>
 <!-- 方法一： 从外部指定properties配置文件, 除了使用resource属性指定外，还可通过url属性指定url  
@@ -121,6 +124,7 @@ public SqlSessionFactory build(InputStream inputStream, String environment, Prop
   </properties>
  ```
  - 根据以上两个配置这里的源码为：
+
  ```java
  private void propertiesElement(XNode context) throws Exception {
     if (context != null) {
@@ -183,6 +187,7 @@ public SqlSessionFactory build(InputStream inputStream, String environment, Prop
   </environments>
 
 ```
+
 ```java
 private void environmentsElement(XNode context) throws Exception {
     if (context != null) {
@@ -206,6 +211,7 @@ private void environmentsElement(XNode context) throws Exception {
 
 ```
 - 在root.evalNode中解析可以解析$中的值，这里这么去处理
+
 ```java
 public static String parse(String string, Properties variables) {
    VariableTokenHandler handler = new VariableTokenHandler(variables);
@@ -232,6 +238,7 @@ public static String parse(String string, Properties variables) {
 </configuration>
 ```
 源码
+
 ```java
 /**
  * 解析typeAliases节点
@@ -265,6 +272,7 @@ private void typeAliasesElement(XNode parent) {
 
 ```
 其中的TypeAliasRegistry，mybaits中默认的一些别名
+
 ```java
 public TypeAliasRegistry() {
     registerAlias("string", String.class);
@@ -329,6 +337,7 @@ public TypeAliasRegistry() {
 
 ```
 5. TypeHandler解析
+
 ```xml
 <configuration>
     <typeHandlers>
@@ -355,6 +364,7 @@ public TypeAliasRegistry() {
 
 ```
 对应的源码
+
 ```java
 /**
  * 解析typeHandlers节点
@@ -425,6 +435,7 @@ public class ExampleTypeHandler extends BaseTypeHandler<String> {
 
 ```
 配置
+
 ```xml
 <configuration>
   <typeHandlers>

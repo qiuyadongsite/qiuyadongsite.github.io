@@ -22,6 +22,7 @@ comments: true
 ![获取SqlSession的流程图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/getsqlsession.png)
 
 1. 首先，SqlSessionFactoryBuilder去读取mybatis的配置文件，然后build一个DefaultSqlSessionFactory
+
 ```java
 /**
    * 一系列的构造方法最终都会调用本方法（配置文件为Reader时会调用本方法，还有一个InputStream方法与此对应）
@@ -53,6 +54,7 @@ comments: true
   }
 ```
 2. 当我们获取到SqlSessionFactory之后，就可以通过SqlSessionFactory去获取SqlSession对象。
+
 ```java
 /**
    * 通常一系列openSession方法最终都会调用本方法
@@ -82,6 +84,7 @@ comments: true
 
 ```
 3. 得到SqlSession对象了。接下来就是该干嘛干嘛去了（话说还能干嘛，当然是执行sql语句咯）。看了上面，咱们也回想一下之前写的Demo:
+
 ```java
 SqlSessionFactory sessionFactory = null;  
 String resource = "mybatis-conf.xml";  
@@ -107,6 +110,7 @@ SqlSession咱们也拿到了，咱们可以调用SqlSession中一系列的select
 通过MapperProxy动态代理咱们的dao， 也就是说， 当咱们执行自己写的dao里面的方法的时候，其实是对应的mapperProxy在代理。那么，咱们就看看怎么获取MapperProxy对象：
 
 1. 通过SqlSession从Configuration中获取
+
 ```java
 /**
    * 什么都不做，直接去configuration中找， 哥就是这么任性
@@ -118,6 +122,7 @@ SqlSession咱们也拿到了，咱们可以调用SqlSession中一系列的select
 
 ```
 2. SqlSession把包袱甩给了Configuration, 接下来就看看Configuration。源码如下：
+
 ```java
 /**
    * 烫手的山芋，俺不要，你找mapperRegistry去要
@@ -131,6 +136,7 @@ SqlSession咱们也拿到了，咱们可以调用SqlSession中一系列的select
 
 ```
 3. Configuration不要这烫手的山芋，接着甩给了MapperRegistry， 那咱看看MapperRegistry。 源码如下：
+
 
 ```java
 /**
@@ -156,6 +162,7 @@ SqlSession咱们也拿到了，咱们可以调用SqlSession中一系列的select
 
 ```
 4. MapperProxyFactory是个苦B的人，粗活最终交给它去做了。咱们看看源码：
+
 ```java
 /**
    * 别人虐我千百遍，我待别人如初恋
@@ -188,6 +195,7 @@ UserDao userMapper = sqlSession.getMapper(UserDao.class);
 
 1. 拿到了MapperProxy, 每个MapperProxy对应一个dao接口， 那么咱们在使用的时候，MapperProxy是怎么做的呢？ 源码奉上：
 MapperProxy:
+
 ```java
 /**
    * MapperProxy在执行时会触发此方法
@@ -208,6 +216,7 @@ MapperProxy:
 
 ```
 MapperMethod:
+
 
 ```java
 /**
@@ -251,6 +260,7 @@ MapperMethod:
 
 ```
 如果是选择了selectList方法：
+
 ```java
 public <E> List<E> selectList(String statement, Object parameter, RowBounds rowBounds) {
     try {
@@ -285,6 +295,7 @@ public <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBo
 ```
 
 接下来，咱们看看StatementHandler 的一个实现类 PreparedStatementHandler（这也是我们最常用的，封装的是PreparedStatement）, 看看它使怎么去处理的：
+
 ```java
 public <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException {
      //到此，原形毕露， PreparedStatement, 这个大家都已经滚瓜烂熟了吧

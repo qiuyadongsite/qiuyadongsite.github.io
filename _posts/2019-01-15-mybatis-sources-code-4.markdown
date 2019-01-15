@@ -90,6 +90,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 - 实用内容
 
 获取插入后的Id
+
 ```xml
 <!-- 对应userDao中的insertUser方法，  -->
    <insert id="insertUser" parameterType="com.dy.entity.User">
@@ -172,7 +173,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
      resultSetType="FORWARD_ONLY">
 
 ```
+
 resultMap的配置介绍
+
 ```xml
 <!--
         1.type 对应类型，可以是javabean, 也可以是其它
@@ -218,6 +221,7 @@ resultMap的配置介绍
 ```
 ## 配置强大的动态SQL
 1. if(如果if中为空，语句有问题)
+
 ```xml
 <select id="findUserById" resultType="user">
            select * from user where
@@ -229,6 +233,7 @@ resultMap的配置介绍
 
 ```
 2. 解决if中的问题where；
+
 ```xml
 <select id="findUserById" resultType="user">
            select * from user
@@ -242,6 +247,7 @@ resultMap的配置介绍
 
 ```
 3. 2的处理其实就是处理遇到and和or时的实际问题，用trim
+
 ```xml
 <trim prefix="WHERE" prefixOverrides="AND |OR ">
   ...
@@ -249,6 +255,7 @@ resultMap的配置介绍
 
 ```
 4. 遇到update时，if和where时会有问题
+
 ```xml
 //如下
 <update id="updateUser" parameterType="com.dy.entity.User">
@@ -271,6 +278,7 @@ resultMap的配置介绍
 </update>
 ```
 解决方案：
+
 ```xml
 <update id="updateUser" parameterType="com.dy.entity.User">
            update user
@@ -289,6 +297,7 @@ resultMap的配置介绍
 
 ```
 或者
+
 ```xml
 <trim prefix="SET" suffixOverrides=",">
   ...
@@ -296,6 +305,7 @@ resultMap的配置介绍
 
 ```
 5. foreach
+
 ```xml
 <select id="selectPostIn" resultType="domain.blog.Post">
   SELECT *
@@ -309,6 +319,7 @@ resultMap的配置介绍
 
 ```
 6. choose
+
 ```xml
 <select id="findActiveBlogLike"
      resultType="Blog">
