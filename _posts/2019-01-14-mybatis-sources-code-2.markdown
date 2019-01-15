@@ -21,7 +21,7 @@ comments: true
  1. namespace
     关联接口的方法，区别类似package的作用
  2. resultMap/resultType
- | |名字 | 优势 | 不足 |
+  |名字 | 优势 | 不足 |
   |---|---|--- |
   |resultType|多表关联字段是清楚知道的，性能调优直观|创建很多实体类|
   |resultMap|不需要写join语句|N+1问题|
