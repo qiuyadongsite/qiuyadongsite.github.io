@@ -220,7 +220,8 @@ resultMap的配置介绍
     </resultMap>
 ```
 ## 配置强大的动态SQL
-1. if(如果if中为空，语句有问题)
+
+1.if(如果if中为空，语句有问题)
 
 ```xml
 <select id="findUserById" resultType="user">
@@ -232,7 +233,7 @@ resultMap的配置介绍
 </select>
 
 ```
-2. 解决if中的问题where；
+2.解决if中的问题where；
 
 ```xml
 <select id="findUserById" resultType="user">
@@ -246,7 +247,7 @@ resultMap的配置介绍
  </select>
 
 ```
-3. 2的处理其实就是处理遇到and和or时的实际问题，用trim
+3.2的处理其实就是处理遇到and和or时的实际问题，用trim
 
 ```xml
 <trim prefix="WHERE" prefixOverrides="AND |OR ">
@@ -254,7 +255,7 @@ resultMap的配置介绍
 </trim>
 
 ```
-4. 遇到update时，if和where时会有问题
+4.遇到update时，if和where时会有问题
 
 ```xml
 //如下
@@ -304,7 +305,7 @@ resultMap的配置介绍
 </trim>
 
 ```
-5. foreach
+5.foreach
 
 ```xml
 <select id="selectPostIn" resultType="domain.blog.Post">
@@ -318,7 +319,7 @@ resultMap的配置介绍
 </select>
 
 ```
-6. choose
+6.choose
 
 ```xml
 <select id="findActiveBlogLike"
