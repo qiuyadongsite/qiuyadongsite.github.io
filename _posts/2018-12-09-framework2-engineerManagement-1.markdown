@@ -2,7 +2,7 @@
 layout: post
 title:  git
 date:   2018-12-09 15:52:12 +08:00
-category: 工具使用
+category: 工具学习
 tags: git 工具使用
 comments: true
 ---
