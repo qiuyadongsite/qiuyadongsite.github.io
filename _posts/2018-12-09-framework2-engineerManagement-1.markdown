@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  工程管理工具
+title:  git
 date:   2018-12-09 15:52:12 +08:00
-category: git
-tags: git
+category: 工具使用
+tags: git 工具使用
 comments: true
 ---
 
