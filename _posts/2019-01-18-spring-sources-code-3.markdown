@@ -15,6 +15,12 @@ comments: true
 
 
 
+
+
+## 总结一下上一篇的时序图
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/springjiazaibean.png)
+
 ## 基于 XML 的依赖注入
 
 - 依赖注入发生的时间
