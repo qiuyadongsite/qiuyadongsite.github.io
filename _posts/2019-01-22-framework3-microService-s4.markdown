@@ -27,7 +27,7 @@ comments: true
 
 - 避免单点故障
 
-1 负载均衡技术（failover/选址/硬件负载/软件件负载 /去中心化的 软件负载（ gossip(redis￾cluster)））
+1 负载均衡技术（failover/选址/硬件负载/软件件负载 /去中心化的 软件负载（ gossip(redis cluster)））.
 
 2 热备（linux HA）
 
