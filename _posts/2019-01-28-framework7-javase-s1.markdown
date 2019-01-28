@@ -34,3 +34,9 @@ Error 是 Throwable 的子类，代表编译时间和系统错误，用于指示
 RuntimeException在默认情况下会得到自动处理。所以通常用不着捕获RuntimeException，但在自己的封装里，也许仍然要选择抛出一部分RuntimeException。
 
 除了runtimeException以外的异常，都属于checkedException，它们都在java.lang库内部定义。Java编译器要求程序必须捕获或声明抛出这种异常。
+
+## Java 的强引用、弱引用、软引用、虚引用
+
+主要是考察java对象的生命周期和状态 
+
+- 强引用
