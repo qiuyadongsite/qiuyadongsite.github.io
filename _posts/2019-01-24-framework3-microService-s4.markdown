@@ -25,9 +25,16 @@ comments: true
 
 ## HTTP协议
 
-概念：超文本转移协议
+
+
+
+test
+![](http://git.inspur.com/cloud-doc/vpc-doc/blob/master/media/logo.png)
 
 - TCP/IP4层传输
+
+![](https://github.com/qiuyadongsite/qiuyadongsite.github.io/blob/master/slfimg/SBW_createSBW01.png)
+
 
 ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/tcpip4f.png)
 
