@@ -27,7 +27,7 @@ comments: true
 
 - java里的异常包括以下
 
-![](images/exception8.png)
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/exception8.png)
 
 Error 是 Throwable 的子类，代表编译时间和系统错误，用于指示合理的应用程序不应该试图捕获的严重问题。大多数这样的错误都是异常条件。
 
