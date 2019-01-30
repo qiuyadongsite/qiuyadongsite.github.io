@@ -3,7 +3,7 @@ layout: post
 title:  MongoDB简介
 date:   2019-01-30 23:52:12 +08:00
 category: 高并发分布式
-tags: 缓存技术
+tags: MongoDB
 comments: true
 ---
 
