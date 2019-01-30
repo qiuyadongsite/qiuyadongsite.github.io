@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  缓存技术-MongoDB
+title:  MongoDB简介
 date:   2019-01-30 23:52:12 +08:00
 category: 高并发分布式
-tags: 多线程
+tags: 缓存技术
 comments: true
 ---
 
@@ -166,7 +166,7 @@ MongoDB 的集群部署方案中有三类角色：`实际数据存储结点`、`
       //分页
       db.t_member.find({},{_id:0,name:1,age:1}).limit(5).skip(3).sort({age:
 1})
-   
+
    ```
 
    - 删除
