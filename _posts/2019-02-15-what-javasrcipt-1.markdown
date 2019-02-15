@@ -184,7 +184,8 @@ valueOf()：返回对象的字符串、数值或布尔值表示。通常与 toSt
 for-in 语句是一种精准的迭代语句，可以用来枚举对象的属性。以下是 for-in 语句的语法：
 for (var propName in window) {
  document.write(propName);
-} 
+}
+
 
 - 函数
 
