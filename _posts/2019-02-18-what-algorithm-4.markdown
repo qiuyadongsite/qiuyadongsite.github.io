@@ -128,4 +128,49 @@ comments: true
 
 - 实战之Ford-Fulkerson最大流算法
 
+  Ford-Fulkerson方法的基本思想：
+
+  首先需要了解的是Ford-Fulkerson是一种迭代的方法。该方法依赖于三种重要思想：残留网络，增广路径和割。开始时，对所有的u,v属于V，f(u,v)=0(这里f(u,v)代表u到v的边当前流量)，即初始状态时流的值为0。在每次迭代中，可以通过寻找一个“增广路径”来增加流值。增广路径可以看做是从源点s到汇点t之间的一条路径，沿该路径可以压入更多的流，从而增加流的值。反复进行这一过程，直到增广路径都被找出为止。
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/ford1.png)
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/ford2.png)
+
+  残留网络：
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/ford3.png)
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/ford4.png)
+
+增广路经：
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/ford5.png)
+
+流网络的割：
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/ford6.png)
+
+  对网络的任意割，其净流量的都是相等的将s比喻成一个水龙头，u和v流向别处的水流，都是来自s的，其自身不可能创造水流。所以任意割的净流量都是相等的。
+
+  当残留网络Gf中不包含增广路径时，f是G的最大流
+
+  假设Gf中不包含增广路径也即s，t之间没有路径 那么集合S不包含t，（S，T）就符合割的定义； 假设T中有点v，与s有通路，那么与S的定义相矛盾； 那么对于（S，T）这个割，流量已经达到上限，故不能再增加流； 根据任意割的净流量都是相等的，不会存在有割流量比（S，T）大，且未达上限的情况。 故不存在增广路径时，最大流＝最小割。
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/ford7.png)
+
+
 - 实战之A*搜索算法
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/around1.png)
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/around2.png)
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/around3.png)
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/around4.png)
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/around5.png)
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/around6.png)
+
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/around7.png)
