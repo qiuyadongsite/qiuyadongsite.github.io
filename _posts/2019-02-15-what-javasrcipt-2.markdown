@@ -52,6 +52,7 @@ JavaScript一种直译式脚本语言，是一种动态类型、弱类型、基�
   但是当对象作为函数参数传递时，值不会改变。
 
   1) 对象传递指向同一个对象
+
   ```
 function setName(obj) {
  obj.name = "Nicholas";
@@ -83,6 +84,7 @@ alert(person.name); //"Nicholas"
   没有块级作用域
 
   ```
+  
   if (true) {
  var color = "blue";
 }
@@ -165,7 +167,7 @@ alert(getColor()); //"red"
 
 - Object简单使用
 
-```JavaScript
+```
 var person = new Object();
 person.name = "Nicholas";
 person.age = 29;
@@ -183,7 +185,7 @@ alert(person.name); //"Nicholas"
 ```
 - Array 类型
 
-```JavaScript
+```
 var colors = new Array();
 var colors = new Array(20);
 var colors = new Array("red", "blue", "green");
@@ -353,6 +355,7 @@ alert(values); //0,1,5,10,15
   ```
 
   操作方法：
+
   ```
   var colors = ["red", "green", "blue"];
 var colors2 = colors.concat("yellow", ["black", "brown"]);
