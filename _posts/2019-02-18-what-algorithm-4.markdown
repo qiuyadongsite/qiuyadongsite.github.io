@@ -102,11 +102,9 @@ comments: true
 
   (4) 重复步骤(2)和(3)，直到遍历完所有顶点。
 
-![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/dij1.png)
-
 ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/dij2.png)
 
-![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/flash.gif)
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/jtestgif.gif)
 
 
 - 实战之Prim与Kruskal最小生成树算法
@@ -119,14 +117,14 @@ comments: true
 
   基本思想 对于图G而言，V是所有顶点的集合；现在，设置两个新的集合U和T，其中U用于存放G的最小生成树中的顶点，T存放G的最小生成树中的边。 从所有uЄU，vЄ(V-U) (V-U表示出去U的所有顶点)的边中选取权值最小的边(u, v)，将顶点v加入集合U中，将边(u, v)加入集合T中，如此不断重复，直到U=V为止，最小生成树构造完毕，这时集合T中包含了最小生成树中的所有边。
 
-  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/prime1.png)
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/prime11.gif)
 
   - Kruskal算法
 
   基本思想：按照权值从小到大的顺序选择n-1条边，并保证这n-1条边不构成回路。 具体做法：首先构造一个只含n个顶点的森林，然后依权值从小到大从连通网中选择边加入到森林中，并使森林中不产生回路，直至森林变成一棵树为止。
 
 
-
+  ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/kruskal11.gif)
 
 - 实战之Ford-Fulkerson最大流算法
 
