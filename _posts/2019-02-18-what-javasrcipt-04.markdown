@@ -122,6 +122,7 @@ Math.SQRT2 2的平方根
     舍入方法:
 
     ```
+
     Math.ceil()执行向上舍入，即它总是将数值向上舍入为最接近的整数；
     Math.floor()执行向下舍入，即它总是将数值向下舍入为最接近的整数；
     Math.round()执行标准舍入，即它总是将数值四舍五入为最接近的整数（这也是我们在数学课上学到的舍入规则）。
@@ -167,6 +168,7 @@ alert(color); // 可能是数组中包含的任何一个字符串
 ## 面向对象的程序设计
 
 ```
+
 var person = {
  name: "Nicholas",
  age: 29,
@@ -354,7 +356,7 @@ Person.prototype.job = "Software Engineer";
 Person.prototype.sayName = function(){
  alert(this.name);
 };
-var person1 = new Person(); 
+var person1 = new Person();
 person1.sayName(); //"Nicholas"
 var person2 = new Person();
 person2.sayName(); //"Nicholas"
