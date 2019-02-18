@@ -115,7 +115,6 @@ alert(getColor()); //"blue"
   对比上例子：
 
   ```
-
   var color = "blue";
 function getColor(){
  var color = "red";
@@ -123,6 +122,7 @@ function getColor(){
 }
 alert(getColor()); //"red"
 //修改后的代码在 getColor()函数中声明了一个名为 color 的局部变量。调用函数时，该变量就会被声明。而当函数中的第二行代码执行时，意味着必须找到并返回变量 color 的值。搜索过程首先从局部环境中开始，而且在这里发现了一个名为 color 的变量，其值为"red"。因为变量已经找到了，所以搜索即行停止，return 语句就使用这个局部变量，并为函数会返回"red"。也就是说，任何位于局部变量 color 的声明之后的代码，如果不使用 window.color 都无法访问全局 color变量。
+
 
   ```
 
@@ -224,7 +224,7 @@ colors[colors.length] = "brown"; //（在位置 4）再添加一种颜色
 ```
 
   检测数组：
-  
+
   ```
   if (value instanceof Array){
  //对数组执行某些操作
