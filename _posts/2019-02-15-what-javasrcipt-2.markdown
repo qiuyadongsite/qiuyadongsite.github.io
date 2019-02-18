@@ -31,7 +31,7 @@ JavaScript一种直译式脚本语言，是一种动态类型、弱类型、基�
 
   对于引用类型的值，我们可以为其添加属性和方法，也可以改变和删除其属性和方法。
 
-  ```JavaScript
+  ```
   var person = new Object();
   person.name = "Nicholas";
   alert(person.name); //"Nicholas"
@@ -41,7 +41,7 @@ JavaScript一种直译式脚本语言，是一种动态类型、弱类型、基�
 
   复制操作结束后，两个变量实际上将引用同一个对象。因此，改变其中一个变量，就会影响另一个变量，如下面的例子所示：
 
-  ```JavaScript
+  ```
   var obj1 = new Object();
   var obj2 = obj1;
   obj1.name = "Nicholas";
@@ -52,7 +52,7 @@ JavaScript一种直译式脚本语言，是一种动态类型、弱类型、基�
   但是当对象作为函数参数传递时，值不会改变。
 
   1) 对象传递指向同一个对象
-  ```JavaScript
+  ```
 function setName(obj) {
  obj.name = "Nicholas";
 }
@@ -64,7 +64,7 @@ alert(person.name); //"Nicholas"
 
   2）对象传递重新赋值
 
-  ```JavaScript
+  ```
   function setName(obj) {
  obj.name = "Nicholas";
  obj = new Object();
@@ -82,7 +82,7 @@ alert(person.name); //"Nicholas"
 
   没有块级作用域
 
-  ```JavaScript
+  ```
   if (true) {
  var color = "blue";
 }
@@ -98,7 +98,7 @@ alert(i); //10
 
 - 查询标识符
 
-  ```JavaScript
+  ```
 var color = "blue";
 function getColor(){
  return color;
@@ -110,7 +110,7 @@ alert(getColor()); //"blue"
   ```
   对比上例子：
 
-  ```JavaScript
+  ```
   var color = "blue";
 function getColor(){
  var color = "red";
@@ -218,7 +218,7 @@ colors[colors.length] = "brown"; //（在位置 4）再添加一种颜色
 ```
 
   检测数组：
-  ```JavaScript
+  ```
   if (value instanceof Array){
  //对数组执行某些操作
 }
@@ -234,7 +234,7 @@ if (Array.isArray(value)){
 
   调用数组的 toString()方法会返回由数组中每个值的字符串形式拼接而成的一个以逗号分隔的字符串。
 
-  ```JavaScript
+  ```
   //常用一
   var colors = ["red", "blue", "green"]; // 创建一个包含 3 个字符串的数组
 alert(colors.toString()); // red,blue,green
@@ -275,7 +275,7 @@ alert(colors.join("||")); //red||green||blue
 
   栈方法:
 
-  ```JavaScript
+  ```
   var colors = new Array(); // 创建一个数组
 var count = colors.push("red", "green"); // 推入两项
 alert(count); //2
@@ -296,7 +296,7 @@ alert(item); //"black"
 
   队列方法:
 
-  ```JavaScript
+  ```
   var colors = new Array(); //创建一个数组
 var count = colors.push("red", "green"); //推入两项
 alert(count); //2
@@ -320,7 +320,7 @@ alert(colors.length); //2
 
   重排序方法:
 
-  ```JavaScript
+  ```
   //反转
   var values = [1, 2, 3, 4, 5];
 values.reverse();
@@ -353,7 +353,7 @@ alert(values); //0,1,5,10,15
   ```
 
   操作方法：
-  ```JavaScript
+  ```
   var colors = ["red", "green", "blue"];
 var colors2 = colors.concat("yellow", ["black", "brown"]);
 alert(colors); //red,green,blue
@@ -382,7 +382,7 @@ alert(removed); // yellow，返回的数组中只包含一项
 
   位置方法:
 
-  ```JavaScript
+  ```
   var numbers = [1,2,3,4,5,4,3,2,1];
    alert(numbers.indexOf(4)); //3
 
@@ -400,7 +400,7 @@ alert(removed); // yellow，返回的数组中只包含一项
   some()：对数组中的每一项运行给定函数，如果该函数对任一项返回 true，则返回 true。
   以上方法都不会修改数组中的包含的值。
 
-  ```JavaScript
+  ```
   var numbers = [1,2,3,4,5,4,3,2,1];
 var everyResult = numbers.every(function(item, index, array){
  return (item > 2);
@@ -432,7 +432,7 @@ numbers.forEach(function(item, index, array){
 
   归并方法:
 
-  ```JavaScript
+  ```
   var values = [1,2,3,4,5];
 var sum = values.reduce(function(prev, cur, index, array){
  return prev + cur;
@@ -444,7 +444,7 @@ alert(sum); //15
 
   Date类型使用自 UTC（Coordinated Universal Time，国际协调时间）1970 年 1 月 1 日午夜（零时）开始经过的毫秒数来保存日期。
 
-  ```JavaScript
+  ```
   //取得开始时间
 var start = +new Date();
 //调用函数
@@ -456,7 +456,7 @@ var stop = +new Date(),
   ```
   日期格式化方法:
 
-  ```JavaScript
+  ```
   getTime() 返回表示日期的毫秒数；与valueOf()方法返回的值相同
 setTime(毫秒) 以毫秒数设置日期，会改变整个日期
 getFullYear() 取得4位数的年份（如2007而非仅07）
@@ -497,7 +497,7 @@ setMilliseconds(毫秒) 设置日期中的毫秒数
 
   格式：
 
-  ```JavaScript
+  ```
     var expression = / pattern / flags ;
 
     //（pattern）
@@ -535,7 +535,7 @@ var pattern3 = /.at/gi;
 */
 var pattern4 = /\.at/gi;
 
-/* 
+/*
 * 匹配第一个"bat"或"cat"，不区分大小
 */
 var pattern1 = /[bc]at/i;
