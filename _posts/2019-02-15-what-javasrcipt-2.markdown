@@ -83,19 +83,19 @@ alert(person.name); //"Nicholas"
 
   没有块级作用域
 
-  ```
-  
-  if (true) {
- var color = "blue";
+```
+if (true) {
+var color = "blue";
 }
 alert(color); //"blue"
 
 for (var i=0; i < 10; i++){
- doSomething(i);
+doSomething(i);
 }
 alert(i); //10
 
-  ```
+```
+
   >>在编写 JavaScript 代码的过程中，不声明而直接初始化变量是一个常见的错误做法，因为这样可能会导致意外。我们建议在初始化变量之前，一定要先声明，这样就可以避免类似问题。在严格模式下，初始化未经声明的变量会导致错误。
 
 - 查询标识符
