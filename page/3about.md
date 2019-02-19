@@ -42,7 +42,7 @@ icon: heart
 
 - 个人帐号
 
-  - 邮箱（qiuyadong5241@qq.com）
+  - 邮箱（qiuydsite@163.com）
 
 - 技术社区
 
