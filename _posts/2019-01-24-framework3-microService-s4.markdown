@@ -26,11 +26,6 @@ comments: true
 ## HTTP协议
 
 
-
-
-test
-![](http://git.inspur.com/cloud-doc/vpc-doc/blob/master/media/logo.png)
-
 - TCP/IP4层传输
 
 ![](https://github.com/qiuyadongsite/qiuyadongsite.github.io/blob/master/slfimg/SBW_createSBW01.png)
