@@ -42,3 +42,9 @@ comments: true
 ```
 return shell_exec("echo $input | $markdown_script");
 ```    
+
+## 常用快捷键
+
+alt + V :触发菜单栏
+
+F11 :全屏
