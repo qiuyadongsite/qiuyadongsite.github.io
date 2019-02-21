@@ -10,7 +10,7 @@ comments: true
 * content
 {:toc}
 
-JVM是Java Virtual Machine（Java虚拟机）的缩写。
+JVM是Java Virtual Machine（Java虚拟机）的缩写，是高级程序员必备知识。
 
 
 
@@ -57,7 +57,7 @@ Java也叫系统类加载器，加载当前应用的classpath的所有类
 
 - Native Interface  
 
-本地接口的作用是融合不同的编程语言为 Java 所用
+本地接口的作用是融合不同的编程语言为 Java 所用。
 
 - PC寄存器
 
