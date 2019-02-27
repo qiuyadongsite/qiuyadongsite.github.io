@@ -92,3 +92,241 @@ UDP 协议不会对 IP 层产生的错误进行修复，而是简单的扩展了
 https://media.pearsoncmg.com/aw/ecs_kurose_compnetwork_7/cw/content/interactiveanimations/selective-repeat-protocol/index.html
 
 - 应用层是如何使用tcp/udp进行通信的
+
+  - TCP
+
+  服务器端：
+
+  ```java
+
+
+  public class ServerSocketDemo {
+
+    public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket=null;
+        BufferedReader bufferedReader=null;
+        try{
+            serverSocket=new ServerSocket(8080);
+            Socket socket=serverSocket.accept(); //等待客户端连接
+            //获得输入流
+            bufferedReader=new BufferedReader
+                    (new InputStreamReader(socket.getInputStream()));
+            System.out.println(bufferedReader.readLine());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(bufferedReader!=null){
+                bufferedReader.close();
+            }
+            if(serverSocket!=null){
+                serverSocket.close();
+            }
+        }
+    }
+}
+
+  ```
+
+  客户端：
+
+  ```java
+  public class ClientSocketDemo {
+
+    public static void main(String[] args) throws IOException {
+        Socket socket=null;
+        try{
+            socket=new Socket("127.0.0.1",8080);
+            PrintWriter out=new PrintWriter(socket.getOutputStream(),true);
+            out.println("Hello");
+        }catch (Exception e){
+
+        }finally {
+            if(socket!=null) {
+                socket.close();
+            }
+        }
+    }
+}
+
+  ```
+
+  - UDP
+
+  服务器端：
+
+  ```java
+
+  public class UdpServerDemo {
+    public static void main(String[] args) throws IOException {
+        //创建服务, 并且接收一个数据包
+        DatagramSocket datagramSocket=new DatagramSocket(8080);
+        byte[] receiveData=new byte[1024];
+        DatagramPacket receivePacket=
+                new DatagramPacket(receiveData,receiveData.length);
+        datagramSocket.receive(receivePacket);;
+
+        System.out.println(new String
+                (receiveData,0,receivePacket.getLength()));
+
+
+    }
+}
+
+
+  ```
+
+客户端：
+
+```java
+public class UdpClientDemo {
+
+    public static void main(String[] args) throws IOException {
+        InetAddress address=InetAddress.getByName("localhost");
+        byte[] sendData="Hello,mic".getBytes();
+        DatagramPacket sendPacket=new
+                DatagramPacket(sendData,sendData.length,address,8080);
+        DatagramSocket datagramSocket=new DatagramSocket();
+        datagramSocket.send(sendPacket);
+    }
+}
+
+```
+
+- TCP双向通讯
+
+服务器端：
+
+```java
+
+public class ServerDemo1 {
+
+    public static void main(String[] args) {
+        ServerSocket server=null;
+        try{
+            server=new ServerSocket(8080);
+            Socket socket=server.accept(); //阻塞过程
+
+            BufferedReader is=new BufferedReader
+                    (new InputStreamReader(socket.getInputStream()));
+
+            PrintWriter os=new PrintWriter(socket.getOutputStream());
+
+            BufferedReader sin=new BufferedReader(new InputStreamReader(System.in));
+
+            System.out.println("Client:"+is.readLine()); //拿到客户端的信息
+
+            String line=sin.readLine();
+            while(!line.equals("bye")){
+                os.println(line);//输出数据
+                os.flush();
+                System.out.println("Server:"+line);
+                System.out.println("Client:"+is.readLine());
+                line=sin.readLine();
+            }
+            os.close();
+            is.close();
+            socket.close();
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+    }
+}
+
+```
+
+客户端：
+
+```java
+
+public class ClientDemo1 {
+
+    public static void main(String[] args) {
+        try{
+           Socket socket=new Socket("127.0.0.1",8080);
+           BufferedReader sin=new BufferedReader(new InputStreamReader(System.in));
+           PrintWriter os=new PrintWriter(socket.getOutputStream());
+           BufferedReader is=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+           String line=sin.readLine();
+           while(!line.equals("bye")){
+               os.println(line);
+               os.flush();
+               System.out.println("Client:"+line);
+               System.out.println("Server:"+is.readLine());
+               line=sin.readLine();
+           }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+    }
+}
+
+```
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/tcp11.png)
+
+  我们发现 TCP 响应服务器一次只能处理一个客户端请求，当一个客户端向一个已经被其他客户端占用的服务器发送连接请求时，虽然在连接建立后可以向服务端发送数据，但是在服务端处理完之前的请求之前，却不会对新的客户端做出响应，这种类型的服务器称为“迭代服务器”。
+
+  迭代服务器是按照顺序处理客户端请求，也就是服务端必须要处理完前一个请求才能对下一个客户端的请求进行响应。但是在实际应用中，我们不能接收这样的处理方式。
+
+  所以我们需要一种方法可以独立处理每一个连接，并且他们之间不会相互干扰。而 Java 提供的多线程技术刚好满足这个需求，这个机制使得服务器能够方便处理多个客户端的请求。
+
+## 如何提高性能
+
+TCP 协议的通信过程
+
+对于 TCP 通信来说，每个 TCP Socket 的内核中都有一个发送缓冲区和一个接收缓冲区，TCP 的全双工的工作模式及 TCP 的滑动窗口就是依赖于这两个独立的 Buffer 和 该Buffer 的填充状态。接收缓冲区把数据缓存到内核，若应用进程一直没有调用Socket 的 read 方法进行读取，那么该数据会一直被缓存在接收缓冲区内。不管进程是否读取 Socket，对端发来的数据都会经过内核接收并缓存到 Socket 的内核接收缓冲区。
+
+read 所要做的工作，就是把内核接收缓冲区中的数据复制到应用层用户的 Buffer 里。进程调用 Socket 的 send 发送数据的时候，一般情况下是将数据从应用层用户的 Buffer 里复制到 Socket 的内核发送缓冲区，然后 send 就会在上层返回。换句话说，send 返回时，数据不一定会被发送到对端。
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/tcp12.png)
+
+  Socket 的接收缓冲区被 TCP 用来缓存网络上收到的数据，一直保存到应用进程读走为止。如果应用进程一直没有读取，那么 Buffer 满了以后，出现的情况是：通知对端 TCP协议中的窗口关闭，保证 TCP 接收缓冲区不会移除，保证了 TCP 是可靠传输的。如果对方无视窗口大小发出了超过窗口大小的数据，那么接收方会把这些数据丢弃。
+
+如何使用非阻塞提高性能？
+
+非阻塞要解决的就是 I/O 线程与 Socket 解耦的问题，因此，它引入了事件机制来达到解耦的目的。我们可以认为NIO 底层中存在一个 I/O 调度线程，它不断的扫描每个Socket 的缓冲区，当发现写入缓冲区为空的时候，它会产生一个 Socket 可写事件，此时程序就可以把数据写入到 Socket 中。如果一次写不完，就等待下一次的可写事件通知；反之，当发现缓冲区里有数据的时候，它会产生一个 Socket 可读事件，程序收到这个通知事件就可以从Socket 读取数据了。
+
+关于 NIO
+
+实际上基于上面讲的传统的 BIO 模型，一个请求一个线程的方式，如果要涉及到上千个客户端访问时，会产生很多的问题，比如扩展性、系统资源开销等等。所以我们需要一种方法来轮询一组客户端，来查找哪个连接需要提供服务，这个就是我们讲的“NIO”；
+
+缓冲区
+
+在 NIO 中，所有数据都是用缓冲区处理，在读取数据的时候，它是直接读到缓冲区中，在写如数据的时候，也是写到缓冲区。任何时候访问 NIO 中的数据，都是通过缓冲区进行的操作.
+
+通道
+
+Channel 通道，就像一个自来水管一样，可以通过它读取和写入数据，Channel 是全双工的，所以数据是双向流动。
+
+多路复用
+
+多路复用器 Selector，是 NIO 的基础，多路复用器提供选择已经就绪的任务的能力，简单来说，Selector 会不断轮询注册上的 Channel，如果某个 Channel 上面有新的 TCP连接接入、读、写事件，这个 Channel 就处于就绪状态，会被 Selector 轮询出来，然后通过 SelectionKey 可以获取就绪的 Channel 进行 I/O 操作；一个多路复用器可以同时轮询多个 Channel。通过这个机制可以接入成千上万的客户端
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/nio.png)
+
+组播协议 Multicast
+
+对于某些信息，多个接受者都可能感兴趣的时候，那么我们应该怎么解决呢？我们可以向每个接受者单播一个数据副本，但是如果这样的话，效率会低；而且同样的数据发送多次，浪费带宽。
+
+解决方案是，我们可以把复制数据包的工作交给网络来做，而不是由发送者负责。这样无论是多少客户端，都没问题有两种分发类型，
+广播（broadcast）和多播（multicast）;
+
+广播：网络中的所有主机都会接收到一份数据副本
+多播：消息只发送给一个多播地址，网络只是将数据分发给哪些想要接收发送到该多播地址的数据的主机。总的来说，要实现这个功能，只有 UDP 是最合适的.
+
+
+广播
+
+广播是主机向子网内所有主机发送消息，子网内所有主机都能收到来自某台主机的广播信息，属于点对所有点的通信。广播意味着网络向子网每一个主机都投递一份数据包，不论这些主机是否乐意接收该数据包;
+
+多播
+
+多播是主机向一组主机发送信息，存在于某个组的所有主机都可以接收到消息，属于点对多点的通信。
