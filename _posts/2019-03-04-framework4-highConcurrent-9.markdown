@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  分布式协调之zookeeper学习一
+title:  分布式协调之zookeeper概念一
 date:   2019-03-04 21:52:12 +08:00
 category: 高并发分布式
 tags: zookeeper
