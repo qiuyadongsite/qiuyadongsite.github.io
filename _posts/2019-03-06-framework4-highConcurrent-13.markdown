@@ -3,7 +3,7 @@ layout: post
 title:  分布式服务治理之dubbo概念及使用
 date:   2019-03-06 21:52:12 +08:00
 category: 高并发分布式
-tags: zookeeper
+tags: dubbo
 comments: true
 ---
 
