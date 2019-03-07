@@ -919,6 +919,134 @@ private T injectExtension(T instance) {
 
 System.out.printf(ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension().getDefaultPort()+"");
 //抛出异常
-Exception in thread "main" java.lang.UnsupportedOperationException: method public abstract int com.alibaba.dubbo.rpc.Protocol.getDefaultPort() of interface com.alibaba.dubbo.rpc.Protocol is not adaptive method!
+//Exception in thread "main" java.lang.UnsupportedOperationException: method public ////abstract int com.alibaba.dubbo.rpc.Protocol.getDefaultPort() of interface //com.alibaba.dubbo.rpc.Protocol is not adaptive method!
 
 ```
+
+## 分析后总结：
+
+  当类上打上SPI标签的时候，可以使用ExtensionLoader进行实例化操作
+
+  @SPI 如果有值的话，为默认实现方法如，protocol.class Complie.classes
+
+  判断类实现（如：DubboProtocol）上有没有打上@Adaptive注解，如果打上了注解，将此类作为Protocol协议的设配类缓存起来，读取下一行；否则适配类通过javasisit修改字节码生成，关于设配类功能作用后续介绍
+
+  如果类没有打上@Adaptive， 判断实现类是否存在入参为接口的构造器（就是DubbboProtocol类是否还有入参为Protocol的构造器），有的话作为包装类缓存到此ExtensionLoader的Set<Class<?>>集合中，这个其实是个装饰模式如 ProtocolFilterWrapper
+
+  ```java
+
+  public class ProtocolFilterWrapper implements Protocol {
+
+    private final Protocol protocol;
+
+    public ProtocolFilterWrapper(Protocol protocol){
+        if (protocol == null) {
+            throw new IllegalArgumentException("protocol == null");
+        }
+        this.protocol = protocol;
+    }
+
+  ```
+
+如果即不是设配对象也不是wrapped的对象，那就是扩展点的具体实现对象
+
+  找实现类上有没有打上@Activate注解，有缓存到变量cachedActivates的map中
+
+  将实现类缓存到cachedClasses中，以便于使用时获取
+
+获取或者创建设配对象getAdaptiveExtension
+
+a)如果cachedAdaptiveClass有值，说明有且仅有一个实现类打了@Adaptive, 实例化这个对象返回
+
+b) 如果cachedAdaptiveClass为空， 创建设配类字节码。
+
+为什么要创建设配类，一个接口多种实现，SPI机制也是如此，这是策略模式，但是我们在代码执行过程中选择哪种具体的策略呢。Dubbo采用统一数据模式com.alibaba.dubbo.common.URL(它是dubbo定义的数据模型不是jdk的类)，它会穿插于系统的整个执行过程，URL中定义的协议类型字段protocol，会根据具体业务设置不同的协议。url.getProtocol()值可以是dubbo也是可以webservice， 可以是zookeeper也可以是redis。
+
+设配类的作用是根据url.getProtocol()的值extName，去ExtensionLoader. getExtension( extName)选取具体的扩展点实现。
+
+所以能够利用javasist生成设配类的条件
+
+1）接口方法中必须至少有一个方法打上了@Adaptive注解
+
+2）打上了@Adaptive注解的方法参数必须有URL类型参数或者有参数中存在getURL()方法
+
+下面给出createAdaptiveExtensionClassCode()方法生成javasist用来生成Protocol适配类后的代码
+
+import com.alibaba.dubbo.common.extension;
+public class Protocol$Adpative implements com.alibaba.dubbo.rpc.Protocol {
+
+//没有打上@Adaptive的方法如果被调到抛异常
+      public void destroy() {
+
+throw new UnsupportedOperationException(
+  "methodpublic abstract void com.alibaba.dubbo.rpc.Protocol.destroy() of interfacecom.alibaba.dubbo.rpc.Protocol is not adaptive method!")
+
+}
+
+//没有打上@Adaptive的方法如果被调到抛异常
+      public int getDefaultPort() {
+             throw newUnsupportedOperationException(
+             "method public abstractint com.alibaba.dubbo.rpc.Protocol.getDefaultPort() of interfacecom.alibaba.dubbo.rpc.Protocol is not adaptive method!");
+      }
+
+ 
+
+//接口中export方法打上@Adaptive注册
+      publiccom.alibaba.dubbo.rpc.Exporter export(
+             com.alibaba.dubbo.rpc.Invokerarg0)  throws com.alibaba.dubbo.rpc.Invoker{
+             if (arg0 == null)
+                    throw newIllegalArgumentException("com.alibaba.dubbo.rpc.Invokerargument == null");
+             //参数类中要有URL属性
+
+if(arg0.getUrl() == null)
+                    throw newIllegalArgumentException( "com.alibaba.dubbo.rpc.Invokerargument getUrl() == null");
+             //从入参获取统一数据模型URL
+
+com.alibaba.dubbo.common.URL url = arg0.getUrl();
+           String extName =(url.getProtocol() == null ? "dubbo" : url.getProtocol());
+           //从统一数据模型URL获取协议，协议名就是spi扩展点实现类的key
+
+if (extName == null) throw new IllegalStateException( "Fail to getextension(com.alibaba.dubbo.rpc.Protocol) name from url("  + url.toString() + ") usekeys([protocol])");
+          
+
+//利用dubbo服务查找机制根据名称找到具体的扩展点实现
+
+com.alibaba.dubbo.rpc.Protocol extension =(com.alibaba.dubbo.rpc.Protocol)ExtensionLoader.getExtensionLoader(com.alibaba.dubbo.rpc.Protocol.class).getExtension(extName);      
+
+//调具体扩展点的方法
+
+return extension.export(arg0);
+ }
+
+
+//接口中refer方法打上@Adaptive注册
+ publiccom.alibaba.dubbo.rpc.Invoker refer(java.lang.Class arg0,
+                    com.alibaba.dubbo.common.URLarg1) throws java.lang.Class {
+     
+
+//统一数据模型URL不能为空
+
+if (arg1 == null)
+             throw newIllegalArgumentException("url == null");
+     
+
+ com.alibaba.dubbo.common.URL url =arg1;
+
+//从统一数据模型URL获取协议，协议名就是spi扩展点实现类的key
+
+String extName = (url.getProtocol() == null ?"dubbo" : url.getProtocol());
+    if (extName == null)
+       thrownewIllegalStateException("Failtogetextension(com.alibaba.dubbo.rpc.Protocol)name from url("+ url.toString() + ") use keys([protocol])");
+
+
+   //利用dubbo服务查找机制根据名称找到具体的扩展点实现
+
+com.alibaba.dubbo.rpc.Protocol extension =(com.alibaba.dubbo.rpc.Protocol)  ExtensionLoader.getExtensionLoader(com.alibaba.dubbo.rpc.Protocol.class)
+.getExtension(extName);
+    //调具体扩展点的方法
+
+return extension.refer(arg0, arg1);
+
+}
+
+}
