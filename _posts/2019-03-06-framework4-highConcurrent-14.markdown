@@ -972,6 +972,8 @@ b) 如果cachedAdaptiveClass为空， 创建设配类字节码。
 
 下面给出createAdaptiveExtensionClassCode()方法生成javasist用来生成Protocol适配类后的代码
 
+```java
+
 import com.alibaba.dubbo.common.extension;
 public class Protocol$Adpative implements com.alibaba.dubbo.rpc.Protocol {
 
@@ -1050,3 +1052,142 @@ return extension.refer(arg0, arg1);
 }
 
 }
+
+
+```
+
+自动Wrap上扩展点的Wrap类
+
+这是一种装饰模式的实现，在jdk的输入输出流实现中有很多这种设计，在于增强扩展点功能。这里我们拿对于Protocol接口的扩展点实现作为实例讲解。
+
+Dubbo是如何自动的给扩展点wrap上装饰对象的呢？
+
+1）在ExtensionLoader.loadFile加载扩展点配置文件的时候
+
+对扩展点类有接口类型为参数的构造器就是包转对象，缓存到集合中去
+
+2）在调ExtensionLoader的createExtension(name)根据扩展点key创建扩展的时候， 先实例化扩展点的实现， 在判断时候有此扩展时候有包装类缓存，有的话利用包转器增强这个扩展点实现的功能。如下图是实现流程
+
+
+```java
+
+private T createExtension(String name) {
+       Class<?> clazz = getExtensionClasses().get(name);
+       if (clazz == null) {
+           throw findException(name);
+       }
+       try {
+           T instance = (T) EXTENSION_INSTANCES.get(clazz);
+           if (instance == null) {
+               EXTENSION_INSTANCES.putIfAbsent(clazz, (T) clazz.newInstance());
+               instance = (T) EXTENSION_INSTANCES.get(clazz);
+           }
+           injectExtension(instance);
+           Set<Class<?>> wrapperClasses = cachedWrapperClasses;
+           if (wrapperClasses != null && wrapperClasses.size() > 0) {
+               for (Class<?> wrapperClass : wrapperClasses) {
+                   instance = injectExtension((T) wrapperClass.getConstructor(type).newInstance(instance));//这里对protocol进行了包装
+               }
+           }
+           return instance;
+       } catch (Throwable t) {
+           throw new IllegalStateException("Extension instance(name: " + name + ", class: " +
+                   type + ")  could not be instantiated: " + t.getMessage(), t);
+       }
+   }
+
+```
+
+IOC大家所熟知的ioc是spring的三大基础功能之一， dubbo的ExtensionLoader在加载扩展实现的时候内部实现了个简单的ioc机制来实现对扩展实现所依赖的参数的注入，dubbo对扩展实现中公有的set方法且入参个数为一个的方法，尝试从对象工厂ObjectFactory获取值注入到扩展点实现中去。
+
+```java
+
+private T injectExtension(T instance) {
+        try {
+            if (objectFactory != null) {
+                for (Method method : instance.getClass().getMethods()) {
+                    if (method.getName().startsWith("set")
+                            && method.getParameterTypes().length == 1
+                            && Modifier.isPublic(method.getModifiers())) {
+                        Class<?> pt = method.getParameterTypes()[0];
+                        try {
+                            String property = method.getName().length() > 3 ? method.getName().substring(3, 4).toLowerCase() + method.getName().substring(4) : "";
+                            Object object = objectFactory.getExtension(pt, property);//看看ObjectFactory是如何根据类型和名字来获取对象的，ObjectFactory也是基于dubbo的spi扩展机制的
+                            if (object != null) {
+                                method.invoke(instance, object);
+                            }
+                        } catch (Exception e) {
+                            logger.error("fail to inject via method " + method.getName()
+                                    + " of interface " + type.getName() + ": " + e.getMessage(), e);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return instance;
+    }
+
+```
+
+看看ObjectFactory是如何根据类型和名字来获取对象的，ObjectFactory也是基于dubbo的spi扩展机制的
+
+它跟Compiler接口一样设配类注解@Adaptive是打在类AdaptiveExtensionFactory上的不是通过javassist编译生成的。
+
+AdaptiveExtensionFactory持有所有ExtensionFactory对象的集合，dubbo内部默认实现的对象工厂是SpiExtensionFactory和SpringExtensionFactory，他们经过TreeMap排好序的查找顺序是优先先从SpiExtensionFactory获取，如果返回空在从SpringExtensionFactory获取。
+
+1） SpiExtensionFactory工厂获取要被注入的对象，就是要获取dubbo spi扩展的实现，所以传入的参数类型必须是接口类型并且接口上打上了@SPI注解，返回的是一个设配类对象。
+
+```java
+
+public class SpiExtensionFactory implements ExtensionFactory {
+
+    public <T> T getExtension(Class<T> type, String name) {
+        if (type.isInterface() && type.isAnnotationPresent(SPI.class)) {
+            ExtensionLoader<T> loader = ExtensionLoader.getExtensionLoader(type);
+            if (loader.getSupportedExtensions().size() > 0) {
+                return loader.getAdaptiveExtension();
+            }
+        }
+        return null;
+    }
+
+}
+
+```
+
+2） SpringExtensionFactory，Dubbo利用spring的扩展机制跟spring做了很好的融合。在发布或者去引用一个服务的时候，会把spring的容器添加到SpringExtensionFactory工厂集合中去， 当SpiExtensionFactory没有获取到对象的时候会遍历SpringExtensionFactory中的spring容器来获取要注入的对象
+
+```java
+
+public class SpringExtensionFactory implements ExtensionFactory {
+
+    private static final Set<ApplicationContext> contexts = new ConcurrentHashSet<ApplicationContext>();
+
+    public static void addApplicationContext(ApplicationContext context) {
+        contexts.add(context);
+    }
+
+    public static void removeApplicationContext(ApplicationContext context) {
+        contexts.remove(context);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getExtension(Class<T> type, String name) {
+        for (ApplicationContext context : contexts) {
+            if (context.containsBean(name)) {
+                Object bean = context.getBean(name);
+                if (type.isInstance(bean)) {
+                    return (T) bean;
+                }
+            }
+        }
+        return null;
+    }
+
+}
+
+```
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/extensionLoader.png)
