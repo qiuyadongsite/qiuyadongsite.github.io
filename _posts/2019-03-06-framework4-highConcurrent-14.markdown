@@ -529,3 +529,396 @@ public String getDefaultExtensionName() {
     }
 
 ```
+
+
+如果调用ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension()
+
+由于Protocol的子类没有被@Adaptive注解的类，所以如下：
+
+```java
+private Class<?> getAdaptiveExtensionClass() {
+        getExtensionClasses();
+        if (cachedAdaptiveClass != null) {
+            return cachedAdaptiveClass;
+        }
+        return cachedAdaptiveClass = createAdaptiveExtensionClass();//将生产adaptive
+    }
+
+//again
+
+private Class<?> createAdaptiveExtensionClass() {
+       String code = createAdaptiveExtensionClassCode();
+       ClassLoader classLoader = findClassLoader();//当前类的ClassLoader
+       com.alibaba.dubbo.common.compiler.Compiler compiler = ExtensionLoader.getExtensionLoader(com.alibaba.dubbo.common.compiler.Compiler.class).getAdaptiveExtension();
+
+       //@Adaptive
+       //public class AdaptiveCompiler implements Compiler {},获取了一个AdaptiveCompiler的实例
+
+       return compiler.compile(code, classLoader);
+   }    
+
+
+   public Class<?> compile(String code, ClassLoader classLoader) {
+       Compiler compiler;
+       ExtensionLoader<Compiler> loader = ExtensionLoader.getExtensionLoader(Compiler.class);
+       String name = DEFAULT_COMPILER; // copy reference
+       if (name != null && name.length() > 0) {
+           compiler = loader.getExtension(name);
+       } else {
+           compiler = loader.getDefaultExtension();
+           //@SPI("javassist")
+           //public interface Compiler {}获取默认的javassistcompile
+       }
+       return compiler.compile(code, classLoader);//生产代理类
+   }
+
+
+```
+
+生产代码的逻辑：(完全没有Adaptive方法，则不需要生成Adaptive类)
+
+```java
+
+private String createAdaptiveExtensionClassCode() {
+        StringBuilder codeBuidler = new StringBuilder();
+        Method[] methods = type.getMethods();
+        boolean hasAdaptiveAnnotation = false;
+        for(Method m : methods) {
+            if(m.isAnnotationPresent(Adaptive.class)) {
+                hasAdaptiveAnnotation = true;
+                break;
+            }
+        }
+        // 完全没有Adaptive方法，则不需要生成Adaptive类
+        if(! hasAdaptiveAnnotation)
+            throw new IllegalStateException("No adaptive method on extension " + type.getName() + ", refuse to create the adaptive class!");
+
+        codeBuidler.append("package " + type.getPackage().getName() + ";");
+        codeBuidler.append("\nimport " + ExtensionLoader.class.getName() + ";");
+        codeBuidler.append("\npublic class " + type.getSimpleName() + "$Adpative" + " implements " + type.getCanonicalName() + " {");
+
+        for (Method method : methods) {
+            Class<?> rt = method.getReturnType();
+            Class<?>[] pts = method.getParameterTypes();
+            Class<?>[] ets = method.getExceptionTypes();
+
+            Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive.class);
+            StringBuilder code = new StringBuilder(512);
+            if (adaptiveAnnotation == null) {
+                code.append("throw new UnsupportedOperationException(\"method ")
+                        .append(method.toString()).append(" of interface ")
+                        .append(type.getName()).append(" is not adaptive method!\");");
+            } else {
+                int urlTypeIndex = -1;
+                for (int i = 0; i < pts.length; ++i) {
+                    if (pts[i].equals(URL.class)) {
+                        urlTypeIndex = i;
+                        break;
+                    }
+                }
+                // 有类型为URL的参数
+                if (urlTypeIndex != -1) {
+                    // Null Point check
+                    String s = String.format("\nif (arg%d == null) throw new IllegalArgumentException(\"url == null\");",
+                                    urlTypeIndex);
+                    code.append(s);
+
+                    s = String.format("\n%s url = arg%d;", URL.class.getName(), urlTypeIndex);
+                    code.append(s);
+                }
+                // 参数没有URL类型
+                else {
+                    String attribMethod = null;
+
+                    // 找到参数的URL属性
+                    LBL_PTS:
+                    for (int i = 0; i < pts.length; ++i) {
+                        Method[] ms = pts[i].getMethods();
+                        for (Method m : ms) {
+                            String name = m.getName();
+                            if ((name.startsWith("get") || name.length() > 3)
+                                    && Modifier.isPublic(m.getModifiers())
+                                    && !Modifier.isStatic(m.getModifiers())
+                                    && m.getParameterTypes().length == 0
+                                    && m.getReturnType() == URL.class) {
+                                urlTypeIndex = i;
+                                attribMethod = name;
+                                break LBL_PTS;
+                            }
+                        }
+                    }
+                    if(attribMethod == null) {
+                        throw new IllegalStateException("fail to create adative class for interface " + type.getName()
+                        		+ ": not found url parameter or url attribute in parameters of method " + method.getName());
+                    }
+
+                    // Null point check
+                    String s = String.format("\nif (arg%d == null) throw new IllegalArgumentException(\"%s argument == null\");",
+                                    urlTypeIndex, pts[urlTypeIndex].getName());
+                    code.append(s);
+                    s = String.format("\nif (arg%d.%s() == null) throw new IllegalArgumentException(\"%s argument %s() == null\");",
+                                    urlTypeIndex, attribMethod, pts[urlTypeIndex].getName(), attribMethod);
+                    code.append(s);
+
+                    s = String.format("%s url = arg%d.%s();",URL.class.getName(), urlTypeIndex, attribMethod);
+                    code.append(s);
+                }
+
+                String[] value = adaptiveAnnotation.value();
+                // 没有设置Key，则使用“扩展点接口名的点分隔 作为Key
+                if(value.length == 0) {
+                    char[] charArray = type.getSimpleName().toCharArray();
+                    StringBuilder sb = new StringBuilder(128);
+                    for (int i = 0; i < charArray.length; i++) {
+                        if(Character.isUpperCase(charArray[i])) {
+                            if(i != 0) {
+                                sb.append(".");
+                            }
+                            sb.append(Character.toLowerCase(charArray[i]));
+                        }
+                        else {
+                            sb.append(charArray[i]);
+                        }
+                    }
+                    value = new String[] {sb.toString()};
+                }
+
+                boolean hasInvocation = false;
+                for (int i = 0; i < pts.length; ++i) {
+                    if (pts[i].getName().equals("com.alibaba.dubbo.rpc.Invocation")) {
+                        // Null Point check
+                        String s = String.format("\nif (arg%d == null) throw new IllegalArgumentException(\"invocation == null\");", i);
+                        code.append(s);
+                        s = String.format("\nString methodName = arg%d.getMethodName();", i);
+                        code.append(s);
+                        hasInvocation = true;
+                        break;
+                    }
+                }
+
+                String defaultExtName = cachedDefaultName;
+                String getNameCode = null;
+                for (int i = value.length - 1; i >= 0; --i) {
+                    if(i == value.length - 1) {
+                        if(null != defaultExtName) {
+                            if(!"protocol".equals(value[i]))
+                                if (hasInvocation)
+                                    getNameCode = String.format("url.getMethodParameter(methodName, \"%s\", \"%s\")", value[i], defaultExtName);
+                                else
+                                    getNameCode = String.format("url.getParameter(\"%s\", \"%s\")", value[i], defaultExtName);
+                            else
+                                getNameCode = String.format("( url.getProtocol() == null ? \"%s\" : url.getProtocol() )", defaultExtName);
+                        }
+                        else {
+                            if(!"protocol".equals(value[i]))
+                                if (hasInvocation)
+                                    getNameCode = String.format("url.getMethodParameter(methodName, \"%s\", \"%s\")", value[i], defaultExtName);
+                                else
+                                    getNameCode = String.format("url.getParameter(\"%s\")", value[i]);
+                            else
+                                getNameCode = "url.getProtocol()";
+                        }
+                    }
+                    else {
+                        if(!"protocol".equals(value[i]))
+                            if (hasInvocation)
+                                getNameCode = String.format("url.getMethodParameter(methodName, \"%s\", \"%s\")", value[i], defaultExtName);
+                            else
+                                getNameCode = String.format("url.getParameter(\"%s\", %s)", value[i], getNameCode);
+                        else
+                            getNameCode = String.format("url.getProtocol() == null ? (%s) : url.getProtocol()", getNameCode);
+                    }
+                }
+                code.append("\nString extName = ").append(getNameCode).append(";");
+                // check extName == null?
+                String s = String.format("\nif(extName == null) " +
+                		"throw new IllegalStateException(\"Fail to get extension(%s) name from url(\" + url.toString() + \") use keys(%s)\");",
+                        type.getName(), Arrays.toString(value));
+                code.append(s);
+
+                s = String.format("\n%s extension = (%<s)%s.getExtensionLoader(%s.class).getExtension(extName);",
+                        type.getName(), ExtensionLoader.class.getSimpleName(), type.getName());
+                code.append(s);
+
+                // return statement
+                if (!rt.equals(void.class)) {
+                    code.append("\nreturn ");
+                }
+
+                s = String.format("extension.%s(", method.getName());
+                code.append(s);
+                for (int i = 0; i < pts.length; i++) {
+                    if (i != 0)
+                        code.append(", ");
+                    code.append("arg").append(i);
+                }
+                code.append(");");
+            }
+
+            codeBuidler.append("\npublic " + rt.getCanonicalName() + " " + method.getName() + "(");
+            for (int i = 0; i < pts.length; i ++) {
+                if (i > 0) {
+                    codeBuidler.append(", ");
+                }
+                codeBuidler.append(pts[i].getCanonicalName());
+                codeBuidler.append(" ");
+                codeBuidler.append("arg" + i);
+            }
+            codeBuidler.append(")");
+            if (ets.length > 0) {
+                codeBuidler.append(" throws ");
+                for (int i = 0; i < ets.length; i ++) {
+                    if (i > 0) {
+                        codeBuidler.append(", ");
+                    }
+                    codeBuidler.append(pts[i].getCanonicalName());
+                }
+            }
+            codeBuidler.append(" {");
+            codeBuidler.append(code.toString());
+            codeBuidler.append("\n}");
+        }
+        codeBuidler.append("\n}");
+        if (logger.isDebugEnabled()) {
+            logger.debug(codeBuidler.toString());
+        }
+        return codeBuidler.toString();
+    }
+
+```
+
+因为有adaptive标注的方法生成代码：
+
+```java
+
+package com.alibaba.dubbo.rpc;
+
+import com.alibaba.dubbo.common.extension.ExtensionLoader;
+
+public class Protocol$Adpative implements com.alibaba.dubbo.rpc.Protocol {
+
+public void destroy() {throw new UnsupportedOperationException("method public abstract void com.alibaba.dubbo.rpc.Protocol.destroy() of
+interface com.alibaba.dubbo.rpc.Protocol is not adaptive method!");
+}
+
+public int getDefaultPort() {throw new UnsupportedOperationException("method public abstract int com.alibaba.dubbo.rpc.Protocol.getDefaultPort() of interface com.alibaba.dubbo.rpc.Protocol is not adaptive method!");
+}
+
+public com.alibaba.dubbo.rpc.Invoker refer(java.lang.Class arg0, com.alibaba.dubbo.common.URL arg1) throws java.lang.Class {
+if (arg1 == null) throw new IllegalArgumentException("url == null");
+com.alibaba.dubbo.common.URL url = arg1;
+String extName = ( url.getProtocol() == null ? "dubbo" : url.getProtocol() );
+if(extName == null) throw new IllegalStateException("Fail to get extension(com.alibaba.dubbo.rpc.Protocol) name from url(" + url.toString() + ") use keys([protocol])");
+com.alibaba.dubbo.rpc.Protocol extension = (com.alibaba.dubbo.rpc.Protocol)ExtensionLoader.getExtensionLoader(com.alibaba.dubbo.rpc.Protocol.class).getExtension(extName);
+return extension.refer(arg0, arg1);
+}
+
+public com.alibaba.dubbo.rpc.Exporter export(com.alibaba.dubbo.rpc.Invoker arg0) throws com.alibaba.dubbo.rpc.Invoker {
+if (arg0 == null) throw new IllegalArgumentException("com.alibaba.dubbo.rpc.Invoker argument == null");
+if (arg0.getUrl() == null) throw new IllegalArgumentException("com.alibaba.dubbo.rpc.Invoker argument getUrl() == null");com.alibaba.dubbo.common.URL url = arg0.getUrl();
+String extName = ( url.getProtocol() == null ? "dubbo" : url.getProtocol() );
+if(extName == null) throw new IllegalStateException("Fail to get extension(com.alibaba.dubbo.rpc.Protocol) name from url(" + url.toString() + ") use keys([protocol])");
+com.alibaba.dubbo.rpc.Protocol extension = (com.alibaba.dubbo.rpc.Protocol)ExtensionLoader.getExtensionLoader(com.alibaba.dubbo.rpc.Protocol.class).getExtension(extName);
+return extension.export(arg0);
+}
+}
+
+```
+
+生产了 Protocol$Adpative 实例后由于该Protocol类的extensionfactory
+
+```java
+
+@SPI("dubbo")
+public interface Protocol {
+
+    /**
+     * 获取缺省端口，当用户没有配置端口时使用。
+     *
+     * @return 缺省端口
+     */
+    int getDefaultPort();
+
+    /**
+     * 暴露远程服务：<br>
+     * 1. 协议在接收请求时，应记录请求来源方地址信息：RpcContext.getContext().setRemoteAddress();<br>
+     * 2. export()必须是幂等的，也就是暴露同一个URL的Invoker两次，和暴露一次没有区别。<br>
+     * 3. export()传入的Invoker由框架实现并传入，协议不需要关心。<br>
+     *
+     * @param <T> 服务的类型
+     * @param invoker 服务的执行体
+     * @return exporter 暴露服务的引用，用于取消暴露
+     * @throws RpcException 当暴露服务出错时抛出，比如端口已占用
+     */
+    @Adaptive
+    <T> Exporter<T> export(Invoker<T> invoker) throws RpcException;
+
+    /**
+     * 引用远程服务：<br>
+     * 1. 当用户调用refer()所返回的Invoker对象的invoke()方法时，协议需相应执行同URL远端export()传入的Invoker对象的invoke()方法。<br>
+     * 2. refer()返回的Invoker由协议实现，协议通常需要在此Invoker中发送远程请求。<br>
+     * 3. 当url中有设置check=false时，连接失败不能抛出异常，并内部自动恢复。<br>
+     *
+     * @param <T> 服务的类型
+     * @param type 服务的类型
+     * @param url 远程服务的URL地址
+     * @return invoker 服务的本地代理
+     * @throws RpcException 当连接服务提供方失败时抛出
+     */
+    @Adaptive
+    <T> Invoker<T> refer(Class<T> type, URL url) throws RpcException;
+
+    /**
+     * 释放协议：<br>
+     * 1. 取消该协议所有已经暴露和引用的服务。<br>
+     * 2. 释放协议所占用的所有资源，比如连接和端口。<br>
+     * 3. 协议在释放后，依然能暴露和引用新的服务。<br>
+     */
+    void destroy();
+
+}
+
+```
+
+```java
+
+private T injectExtension(T instance) {
+        try {
+            if (objectFactory != null) {//由于此时的objectFactory为AdaptiveExtensionFasctory
+
+              //方法没有以set开始的所以不执行
+                for (Method method : instance.getClass().getMethods()) {
+                    if (method.getName().startsWith("set")
+                            && method.getParameterTypes().length == 1
+                            && Modifier.isPublic(method.getModifiers())) {
+                        Class<?> pt = method.getParameterTypes()[0];
+                        try {
+                            String property = method.getName().length() > 3 ? method.getName().substring(3, 4).toLowerCase() + method.getName().substring(4) : "";
+                            Object object = objectFactory.getExtension(pt, property);
+                            if (object != null) {
+                                method.invoke(instance, object);
+                            }
+                        } catch (Exception e) {
+                            logger.error("fail to inject via method " + method.getName()
+                                    + " of interface " + type.getName() + ": " + e.getMessage(), e);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return instance;
+    }
+
+```
+
+当测试：
+
+```java
+
+System.out.printf(ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension().getDefaultPort()+"");
+//抛出异常
+Exception in thread "main" java.lang.UnsupportedOperationException: method public abstract int com.alibaba.dubbo.rpc.Protocol.getDefaultPort() of interface com.alibaba.dubbo.rpc.Protocol is not adaptive method!
+
+```
