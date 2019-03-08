@@ -18,4 +18,4 @@ comments: true
 
 ## 知识结构
 通过大量的资源检索发现，这个结构图还是很全的，为了跟的上每天预习上面的知识点，一点一滴进步！
-![结构图](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/framework.png)
+包括：设计模式、分布式、微服务、高并发、大数据、算法等。
