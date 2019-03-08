@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  分布式服务治理DUBBO之服务发布与消费源码分析
+title:  分布式服务治理Dubbo之服务发布与消费源码分析
 date:   2019-03-08 21:52:12 +08:00
 category: 高并发分布式
 tags: dubbo
@@ -23,7 +23,7 @@ comments: true
 
 
 
-## DUBBo使用Sping发布服务
+## dubbo使用Sping发布服务
 
   继承Sping的方式：
 
