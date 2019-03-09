@@ -86,85 +86,76 @@ comments: true
 
   ```
 
-5 加载完xml文件后，猜想ServiceBean实现了InitializingBean所以使用afterPropertiesSet发布服务
+5 加载完xml文件后，猜想ServiceBean实现了ApplicationListener所以使用onApplicationEvent发布服务
 
 ```java
-public interface InitializingBean {
-
-	/**
-	 * Invoked by a BeanFactory after it has set all bean properties supplied
-	 * (and satisfied BeanFactoryAware and ApplicationContextAware).
-	 * <p>This method allows the bean instance to perform initialization only
-	 * possible when all bean properties have been set and to throw an
-	 * exception in the event of misconfiguration.
-	 * @throws Exception in the event of misconfiguration (such
-	 * as failure to set an essential property) or if initialization fails.
-   在beanfactory设置了所有提供的bean属性之后调用
-
-*（并满足BeanFactoryAware和ApplicationContextAware）。
-
-*<p>此方法只允许bean实例执行初始化
-
-*当所有bean属性都设置好并抛出
-
-*配置错误时出现异常。
-
-*@在配置错误时引发异常（例如
-
-*如未能设置基本属性）或初始化失败。
-	 */
-
-
-	void afterPropertiesSet() throws Exception;
-
-  // if (! isDelay()) {
-  //          export();
-  //      }
-
+public interface ApplicationListener<E extends ApplicationEvent> extends EventListener {
+    void onApplicationEvent(E var1);
 }
+```
 
-```  
-
-接下来就着重分析ServiceConfig的export方法：
-
-一些简单的校验检查后,获取注册中心：
+6 接下来就着重分析ServiceBean的onApplicationEvent方法：
 
 ```java
-private void doExportUrls() {
-        List<URL> registryURLs = loadRegistries(true);
-        //是不是获得注册中心的配置
-        // registry://172.19.42.25:2181/com.alibaba.dubbo.registry.RegistryService?application=dubbo-server&dubbo=2.5.3&owner=mic&pid=11640&registry=zookeeper&timestamp=1552032137819 id="com.alibaba.dubbo.config.RegistryConfig" />
-        for (ProtocolConfig protocolConfig : protocols) { //是不是支持多协议发布
-          //protocolConfig <dubbo:protocol name="dubbo" port="20880" id="dubbo" />
-            doExportUrlsFor1Protocol(protocolConfig, registryURLs);
+
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (ContextRefreshedEvent.class.getName().equals(event.getClass().getName()) && this.isDelay() && !this.isExported() && !this.isUnexported()) {
+            if (logger.isInfoEnabled()) {
+                logger.info("The service ready on spring started. service: " + this.getInterface());
+            }
+
+            this.export();
         }
-    }
 
+    }
 ```
 
-接下来
+7 ServiceConfig是ServiceBean的父类，调用父类的export()
+
+经过重重检查之后调用发布逻辑
 
 ```java
-             if (registryURLs != null && registryURLs.size() > 0
-                        && url.getParameter("register", true)) {
-                    for (URL registryURL : registryURLs) {
-                        url = url.addParameterIfAbsent("dynamic", registryURL.getParameter("dynamic"));
-                        URL monitorUrl = loadMonitor(registryURL);
-                        if (monitorUrl != null) {
-                            url = url.addParameterAndEncoded(Constants.MONITOR_KEY, monitorUrl.toFullString());
-                        }
-                        if (logger.isInfoEnabled()) {
-                            logger.info("Register dubbo service " + interfaceClass.getName() + " url " + url + " to registry " + registryURL);
-                        }
-                        //通过proxyFactory来获取Invoker对象
-                        Invoker<?> invoker = proxyFactory.getInvoker(ref, (Class) interfaceClass, registryURL.addParameterAndEncoded(Constants.EXPORT_KEY, url.toFullString()));
-                        //发布服务
-                        Exporter<?> exporter = protocol.export(invoker);
-                        //将exporter添加到list中
-                        exporters.add(exporter);
-                    }
-                }
+private void doExportUrlsFor1Protocol(ProtocolConfig protocolConfig, List<URL> registryURLs) {
+
+      if (!"none".toString().equalsIgnoreCase(scope)) {
+          if (!"remote".toString().equalsIgnoreCase(scope)) {
+              this.exportLocal(url);
+          }
+
+          if (!"local".toString().equalsIgnoreCase(scope)) {
+              if (logger.isInfoEnabled()) {
+                  logger.info("Export dubbo service " + this.interfaceClass.getName() + " to url " + url);
+              }
+
+              if (registryURLs != null && registryURLs.size() > 0 && url.getParameter("register", true)) {
+                  Iterator i$ = registryURLs.iterator();
+
+                  while(i$.hasNext()) {
+                      URL registryURL = (URL)i$.next();
+                      url = url.addParameterIfAbsent("dynamic", registryURL.getParameter("dynamic"));
+                      URL monitorUrl = this.loadMonitor(registryURL);
+                      if (monitorUrl != null) {
+                          url = url.addParameterAndEncoded("monitor", monitorUrl.toFullString());
+                      }
+
+                      if (logger.isInfoEnabled()) {
+                          logger.info("Register dubbo service " + this.interfaceClass.getName() + " url " + url + " to registry " + registryURL);
+                      }
+
+                      Invoker<?> invoker = proxyFactory.getInvoker(this.ref, this.interfaceClass, registryURL.addParameterAndEncoded("export", url.toFullString()));
+                      Exporter<?> exporter = protocol.export(invoker);
+                      this.exporters.add(exporter);
+                  }
+              } else {
+                  Invoker<?> invoker = proxyFactory.getInvoker(this.ref, this.interfaceClass, url);
+                  Exporter<?> exporter = protocol.export(invoker);
+                  this.exporters.add(exporter);
+              }
+          }
+      }
+
+      this.urls.add(url);
+  }
+
 
 ```
-
-先分析注册服务：Exporter<?> exporter = protocol.export(invoker)
