@@ -3,7 +3,7 @@ layout: post
 title:  分布式消息通讯kafka概念与使用
 date:   2019-03-12 21:52:12 +08:00
 category: 高并发分布式
-tags: ActiveMQ
+tags: kafka
 comments: true
 ---
 
