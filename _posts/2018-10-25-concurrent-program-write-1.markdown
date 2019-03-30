@@ -3,7 +3,7 @@ layout: post
 title:  并发编程术语
 date:   2018-10-25 22:52:12 +08:00
 category: 并发编程
-tags: JAVA并发 概念
+tags: 并发编程
 comments: true
 ---
 
