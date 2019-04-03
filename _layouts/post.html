@@ -42,7 +42,7 @@ layout: default
                 <li>本站网址：<a href="http://qiuyadongsite.github.io/" target="_blank">http://qiuyadongsite.github.io</a> </li>
                 <li>作者 <a href="https://github.com/YoucanyouUp1/" target="_blank">@qiuyadong</a>
                 更多文章：<a href="http://47.95.209.106/" target="_blank">个人网站</a> |
-                <a href="https://blog.csdn.net/u010446936/" target="_blank">CSDN</a> | 
+                <a href="https://blog.csdn.net/u010446936/" target="_blank">CSDN</a> |
                 </li>
                 <li>如需转载，请先阅读 「<a href="/about/#版权声明"> ©️版权声明</a> 」</li>
             </ul>
@@ -114,5 +114,19 @@ layout: default
         aTags[i].setAttribute('target', '_blank')
     }
 }());
+</script>
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+    owner: 'qiuyadongsite',
+    repo: 'qiuyadongsite.github.io',
+    oauth: {
+        client_id: '1eb061c98b415b1667d4',
+        client_secret: '77479e3711513326c69e02a123dc475368b81a11',
+    },
+});
+gitment.render('gitmentContainer');
 </script>
 <script src="{{ "/js/pageContent.js " | prepend: site.baseurl }}" charset="utf-8"></script>
