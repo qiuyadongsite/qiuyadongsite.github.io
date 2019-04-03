@@ -37,7 +37,7 @@ disqus_shortname: qiuyadong
 # xxxxx字符串
 baidu_tongji_id: 7e23cad6c81f8770fc532957952464bf
 # google 分析追踪id
-google_analytics_id: UA-77782495-1
+#@google_analytics_id: UA-77782495-1
 
 
 # Build settings
