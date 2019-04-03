@@ -115,18 +115,4 @@ layout: default
     }
 }());
 </script>
-<div id="gitmentContainer"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-var gitment = new Gitment({
-    owner: 'qiuyadongsite',
-    repo: 'qiuyadongsite.github.io',
-    oauth: {
-        client_id: '1eb061c98b415b1667d4',
-        client_secret: '77479e3711513326c69e02a123dc475368b81a11',
-    },
-});
-gitment.render('gitmentContainer');
-</script>
 <script src="{{ "/js/pageContent.js " | prepend: site.baseurl }}" charset="utf-8"></script>
