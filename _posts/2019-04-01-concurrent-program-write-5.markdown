@@ -70,3 +70,46 @@ monitorenter指令插入到同步代码块开始的位置、monitorexit指令插
 这两个指令，本质上都是对一个对象的监视器(monitor)进行获取，这个过程是排他的，也就是说同一时刻只能有一个线程获取到由synchronized所保护对象的监视器线程执行到monitorenter指令时，会尝试获取对象所对应的monitor所有权，也就是尝试获取对象的锁；而执行monitorexit，就是释放monitor的所有权
 
 ## synchronized的锁的原理
+
+jdk1.6以后对synchronized锁进行了优化，包含偏向锁、轻量级锁、重量级锁; 在了解synchronized锁之前，我们需要了解两个重要的概念，一个是对象头、另一个是monitor
+
+Java对象头
+
+在Hotspot虚拟机中，对象在内存中的布局分为三块区域：对象头、实例数据和对齐填充；
+
+Java对象头是实现synchronized的锁对象的基础，一般而言，synchronized使用的锁对象是存储在Java对象头里。它是轻量级锁和偏向锁的关键
+
+Mawrk Word
+
+Mark Word用于存储对象自身的运行时数据，如哈希码（HashCode）、GC分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等等。Java对象头一般占有两个机器码（在32位虚拟机中，1个机器码等于4字节，也就是32bit）
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/MawrkWord001.png)
+
+在源码中的体现
+
+如果想更深入了解对象头在JVM源码中的定义，需要关心几个文件，oop.hpp/markOop.hpp
+
+oop.hpp，每个 Java Object 在 JVM 内部都有一个 native 的 C++ 对象 oop/oopDesc 与之对应。先在oop.hpp中看oopDesc的定义
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/oopDesc001.png)
+
+```
+
+_mark 被声明在 oopDesc 类的顶部，所以这个 _mark 可以认为是一个 头部, 前面我们讲过头部保存了一些重要的
+状态和标识信息，在markOop.hpp文件中有一些注释说明markOop的内存布局
+```
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/oopdesc002.png)
+
+Monitor
+
+什么是Monitor？我们可以把它理解为一个同步工具，也可以描述为一种同步机制。所有的Java对象是天生的Monitor，每个object的对象里 markOop->monitor() 里可以保存ObjectMonitor的对象。从源码层面分析一下monitor对象
+
+ oop.hpp下的oopDesc类是JVM对象的顶级基类，所以每个object对象都包含markOop
+
+markOop.hpp**中** markOopDesc继承自oopDesc，并扩展了自己的monitor方法，这个方法返回一个ObjectMonitor指针对象
+
+
+ objectMonitor.hpp,在hotspot虚拟机中，采用ObjectMonitor类来实现monitor，
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/objectmonitor001.png)
