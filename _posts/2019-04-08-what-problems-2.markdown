@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  TransactionTemplate编程式事务
-date:   2019-04-08 22:52:12 +08:00
+date:   2019-04-08 20:52:12 +08:00
 category: 面试题库
 tags: spring
 comments: true
