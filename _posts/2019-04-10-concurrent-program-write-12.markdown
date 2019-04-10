@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  高并发编程-ReentrantLock公平锁深入解析
+title:  高并发编程-ReentrantLock锁深入解析
 date:   2019-04-10 20:54:12 +08:00
 category: 并发编程
 tags: 并发编程
@@ -319,6 +319,7 @@ ReentrantLock公平锁相对于非公平锁来说，多线程并发情况下的�
 
 公平锁倾向于把锁分配给先到来的线程，所以，ReentrantLock公平锁适应于多线程并发不是很高、倾向于先来先到的应用场景。
 
+
 ### 面试考点
 
 ReentrantLock是如何实现公平锁及可重入的？
@@ -330,3 +331,73 @@ A、B两个线程同时执行lock()方法获取锁，假设A先执行获取到�
 当线程B执行lock()方法获取锁时，会将线程B封装成Node节点，并将其插入到同步等待队列的尾部，然后阻塞当前线程，等待被唤醒再次尝试获取锁；
 
 线程A每次执行unlock()方法都会将state值减1，直到state的值等于零则表示完全释放掉了线程A持有的锁，此时将从同步等待队列的头节点开始唤醒阻塞的线程，阻塞线程恢复执行，再次尝试获取锁。ReentrantLock公平锁的实现使用了AQS的同步等待队列和state。
+
+### ReentrantLock公平锁和非公平锁的区别
+
+通过分析ReentrantLock中的公平锁和非公平锁的实现，其中tryAcquire是公平锁和非公平锁实现的区别，下面的两种类型的锁的tryAcquire的实现，从中我们可以看出在
+
+公平锁中，每一次的tryAcquire都会检查CLH队列中是否仍有前驱的元素，如果仍然有那么继续等待，通过这种方式来保证先来先服务的原则；
+
+而非公平锁，首先是检查并设置锁的状态，这种方式会出现即使队列中有等待的线程，但是新的线程仍然会与排队线程中的对头线程竞争（但是排队的线程是先来先服务的），所以新的线程可能会抢占已经在排队的线程的锁，这样就无法保证先来先服务，但是已经等待的线程们是仍然保证先来先服务的，所以总结一下公平锁和非公平锁的区别：
+
+1、公平锁能保证：老的线程排队使用锁，新线程仍然排队使用锁。
+
+2、非公平锁保证：老的线程排队使用锁；但是无法保证新线程抢占已经在排队的线程的锁。
+
+公平锁的tryAcquire:
+
+```java
+
+/**
+        * Fair version of tryAcquire.  Don't grant access unless
+        * recursive call or no waiters or is first.
+        */
+       protected final boolean tryAcquire(int acquires) {
+           final Thread current = Thread.currentThread();
+           int c = getState();
+           if (c == 0) {
+               // !hasQueuedPredecessors()保证了不论是新的线程还是已经排队的线程都顺序使用锁
+               if (!hasQueuedPredecessors() &&
+                   compareAndSetState(0, acquires)) {
+                   setExclusiveOwnerThread(current);
+                   return true;
+               }
+           }
+           else if (current == getExclusiveOwnerThread()) {
+               int nextc = c + acquires;
+               if (nextc < 0)
+                   throw new Error("Maximum lock count exceeded");
+               setState(nextc);
+               return true;
+           }
+           return false;
+       }
+
+```
+
+非公平锁的:
+
+```java
+
+final boolean nonfairTryAcquire(int acquires) {
+           final Thread current = Thread.currentThread();
+           int c = getState();
+           if (c == 0) {
+               // 新的线程可能抢占已经排队的线程的锁的使用权
+               if (compareAndSetState(0, acquires)) {
+                   setExclusiveOwnerThread(current);
+                   return true;
+               }
+           }
+           else if (current == getExclusiveOwnerThread()) {
+               int nextc = c + acquires;
+               if (nextc < 0) // overflow
+                   throw new Error("Maximum lock count exceeded");
+               setState(nextc);
+               return true;
+           }
+           return false;
+       }
+
+
+```
