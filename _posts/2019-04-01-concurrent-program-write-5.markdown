@@ -113,3 +113,7 @@ markOop.hpp**中** markOopDesc继承自oopDesc，并扩展了自己的monitor方
  objectMonitor.hpp,在hotspot虚拟机中，采用ObjectMonitor类来实现monitor，
 
 ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/objectmonitor001.png)
+
+下图展示获取锁和释放锁monitor中数据变化：
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/syn000001.png)
