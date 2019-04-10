@@ -10,8 +10,6 @@ comments: true
 * content
 {:toc}
 
-
-
 对于单一JVM来说，synchronized可以保证在并发情况下，同一时刻只有一个线程执行某个方法或某段代码。synchronized可用于修饰普通方法、静态方法和代码块，都可以实现对同步代码的并发安全控制。
 
 

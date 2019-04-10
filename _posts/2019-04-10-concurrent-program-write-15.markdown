@@ -10,11 +10,6 @@ comments: true
 * content
 {:toc}
 
-
-
-
-
-
 Condition接口位于java.util.concurrent.locks包下，实现类有 AbstractQueuedLongSynchronizer.ConditionObject和 AbstractQueuedSynchronizer.ConditionObject。
 
 Condition将Object监视器方法(wait、notify和 notifyAll)分解成截然不同的对象，以便通过将这些对象与任意Lock实现组合使用。其中，Lock替代了synchronized方法的使用及作用，Condition替代了Object监视器方法的使用及作用。
