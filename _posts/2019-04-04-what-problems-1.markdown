@@ -2,7 +2,7 @@
 layout: post
 title:  synchronized与Lock的区别
 date:   2019-04-04 20:52:12 +08:00
-category: 面试题库
+category: 疑难点
 tags: 并发编程
 comments: true
 ---

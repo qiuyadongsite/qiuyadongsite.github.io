@@ -2,7 +2,7 @@
 layout: post
 title:  JAVA IO流总结
 date:   2019-04-08 21:52:12 +08:00
-category: 面试题库
+category: 疑难点
 tags: JAVASE
 comments: true
 ---
