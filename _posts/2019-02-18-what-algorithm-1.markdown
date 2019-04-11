@@ -52,7 +52,9 @@ comments: true
   - 归并排序
   应该算是链表排序最佳的选择了，保证了最好和最坏时间复杂度都是nlogn，而且它在数组排序中广受诟病的空间复杂度在链表排序中也从O(n)降到了O(1)。
 
-  ```
+
+  ```java
+
 
   public class Leetcode148 {
     public static void main(String[] args) {
