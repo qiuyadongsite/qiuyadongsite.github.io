@@ -3,7 +3,7 @@ layout: post
 title:  mysql-使用规范
 date:   2019-04-11 18:52:12 +08:00
 category: 性能优化
-tags: jvm
+tags: mysql
 comments: true
 ---
 
