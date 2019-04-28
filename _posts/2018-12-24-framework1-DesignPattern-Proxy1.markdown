@@ -34,10 +34,13 @@ comments: true
 ## 静态代理
 
 优点：可以做到不对目标对象进行修改的前提下，对目标对象进行功能的扩展和拦截。
+
 缺点：因为代理对象，需要实现与目标对象一样的接口，会导致代理类十分繁多，不易维护，同时一旦接口增加方法，则目标对象和代理类都需要维护。
 
 共同的接口
-```
+
+```java
+
 /**
  * 目标对象实现的接口
  * @author jiyukai
@@ -47,8 +50,11 @@ public interface BussinessInterface {
 }
 
 ```
+
 目标的实现类
-```
+
+```java
+
 /**
  * 目标对象实现类
  * @author jiyukai
@@ -62,8 +68,11 @@ public class Bussiness implements BussinessInterface{
 }
 
 ```
+
 代理类
-```
+
+```java
+
 /**
  * 代理类，通过实现与目标对象相同的接口
  * 并维护一个代理对象，通过构造器传入实际目标对象并赋值
@@ -96,7 +105,8 @@ public class BussinessProxy implements BussinessInterface{
 
 缺点：代理对象不需要实现接口，但是目标对象一定要实现接口，否则无法使用JDK动态代理。
 
-```
+```java
+
 /**
  * 动态代理对象，无需实现任何接口
  * 通过传入任何类型的目标对象并指定接口

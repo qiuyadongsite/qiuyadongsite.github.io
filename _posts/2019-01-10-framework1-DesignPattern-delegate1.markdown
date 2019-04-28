@@ -37,7 +37,8 @@ comments: true
 
 BOSS类
 
-```
+```java
+
 public class Boss {
 
     public static void main(String[] args) {
@@ -59,7 +60,8 @@ public class Boss {
 
 定义统一实现接口（老板关注的只有结果，谁干都一样）
 
-```
+```java
+
 public interface ITarget {
 
     public void doing(String command);
@@ -68,7 +70,8 @@ public interface ITarget {
 ```
 项目经理就是委派角色
 
-```
+```java
+
 public class Leader implements  ITarget {
 
     private Map<String,ITarget> targets = new HashMap<String,ITarget>();
@@ -90,7 +93,8 @@ public class Leader implements  ITarget {
 具体干活的目标
 员工a
 
-```
+```java
+
 public class TargetA implements ITarget {
     @Override
     public void doing(String command) {
@@ -100,7 +104,9 @@ public class TargetA implements ITarget {
 
 ```
 员工b
-```
+
+```java
+
 public class TargetB implements  ITarget {
     @Override
     public void doing(String command) {

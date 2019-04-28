@@ -28,7 +28,9 @@ comments: true
 ## 简单工厂
 
 简单工厂模式中，只要添加新的产品类，就得去修改工厂类，这样做势必违反了开闭原则。
-```
+
+```java
+
 public class SimpleFactory {
 
     public Milk getMilk(String name){
@@ -45,9 +47,12 @@ public class SimpleFactory {
     }
 
 }
+
 ```
 test
-```
+
+```java
+
 /**
  * 小作坊式的工厂模型
  */
@@ -79,7 +84,8 @@ public class SimpleFactoryTest {
 新增抽象工厂类，让抽象产品对应抽象工厂，让具体产品对应具体工厂，实际的创建工作推迟到子类工厂中去做。
 
 工厂接口-标准
-```
+
+```java
 /**
  * 工厂模型
  */
@@ -91,8 +97,11 @@ public interface Factory {
 }
 
 ```
+
 蒙牛子场
-```
+
+```java
+
 public class MengniuFactory implements  Factory {
     @Override
     public Milk getMilk() {
@@ -103,7 +112,9 @@ public class MengniuFactory implements  Factory {
 ```
 
 test
-```
+
+```java
+
 public class FactoryTest {
     public static void main(String[] args) {
         //货比三家

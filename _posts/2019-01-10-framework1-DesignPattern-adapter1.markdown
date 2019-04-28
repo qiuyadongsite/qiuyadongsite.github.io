@@ -34,7 +34,8 @@ comments: true
 
 登录类（通用的稳定方法）
 
-```
+```java
+
 public class SiginService {
 
     /**
@@ -64,7 +65,7 @@ public class SiginService {
 ```
 扩展的登录类
 
-```
+```java
 /**
  *
  * 稳定的方法不去动，直接继承下来
@@ -110,8 +111,10 @@ public class SiginForThirdService extends SiginService {
 }
 
 ```
+
 测试
-```
+
+```java
 public class SiginForThirdServiceTest {
 
     public static void main(String[] args) {

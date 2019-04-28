@@ -28,6 +28,7 @@ comments: true
 ## 模板(方法)模式（template）
 
 应用场景：定义一个操作中的算法的骨架，（1.2.3.4.。。。）,而将一些步骤延迟到子类中，使子类可以改变一个算法的结构即可重定义该算法的某些特定步骤。
+
 >* Template Method 模式一般是需要继承的。 这里想要探讨另一种对 Template Method 的理解。 Spring
 >* 中的 JdbcTemplate， 在用这个类时并不想去继承这个类， 因为这个类的方法太多， 但是我们还是想用
 >* 到 JdbcTemplate 已有的稳定的、 公用的数据库连接， 那么我们怎么办呢？ 我们可以把变化的东西抽出
@@ -41,7 +42,8 @@ comments: true
 
 定义一个Template
 
-```
+```java
+
 public class JdbcTemplate {
 
     private DataSource dataSource;
@@ -122,7 +124,8 @@ public class JdbcTemplate {
 ```
 具体的Dao
 
-```
+```java
+
 public class MemberDao {
 
     //为什么不继承，主要是为了解耦
@@ -149,7 +152,9 @@ public class MemberDao {
 ```
 这里只是对RowMapper的mapRow进行了重写
 定义RowMappper接口
-```
+
+```java
+
 public interface RowMapper<T> {
 
     public T mapRow(ResultSet rs, int rowNum) throws Exception;
@@ -159,7 +164,8 @@ public interface RowMapper<T> {
 ```
 实体类
 
-```
+```java
+
 public class Member {
 
     private String username;
@@ -206,14 +212,15 @@ public class Member {
     }
 
     public void setAddr(String addr) {
-        this.addr = addr; 
+        this.addr = addr;
     }
 }
 
 ```
 测试
 
-```
+```java
+
 public class MemberDaoTest {
 
     public static void main(String[] args) {

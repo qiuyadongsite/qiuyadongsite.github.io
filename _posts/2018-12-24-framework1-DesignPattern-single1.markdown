@@ -30,7 +30,9 @@ comments: true
 概念：它是在类加载的时候就立即初始化，并且创建单例对象
 优点：没有加任何的锁、执行效率比较高，
 缺点：类加载的时候就初始化，不管你用还是不用，我都占着空间，绝对线程安全，在线程还没出现以前就是实例化了，不可能存在访问安全问题；
-```
+
+```java
+
 public class Hungry {
     private Hungry(){}
     //先静态、后动态
@@ -41,13 +43,16 @@ public class Hungry {
         return  hungry;
     }
 }
+
 ```
 
 ## 懒汉式
 
 优点：用的时候加载，节省空间；
 缺点：枷锁，性能差；
-```
+
+```java
+
 public class Lazy {
     private Lazy(){};
     private static Lazy instance=null;
@@ -60,8 +65,11 @@ public class Lazy {
 }
 
 ```
+
 补充：双重校验，像这样两次判空的机制叫做双重检测机制。
+
 涉及到了JVM编译器的指令重排。
+
 指令重排是什么意思呢？比如java中简单的一句 instance = new Singleton，会被编译器编译成如下JVM指令：
 
 memory =allocate();    //1：分配对象的内存空间
@@ -71,8 +79,11 @@ ctorInstance(memory);  //2：初始化对象
 instance =memory;     //3：设置instance指向刚分配的内存地址
 
 但是这些指令顺序并非一成不变，有可能会经过JVM和CPU的优化，指令重排成下面的顺序：
+
 memory =allocate();    //1：分配对象的内存空间
+
 instance =memory;     //3：设置instance指向刚分配的内存地址
+
 ctorInstance(memory);  //2：初始化对象
 
 当线程A执行完1,3,时，instance对象还未完成初始化，但已经不再指向null。此时如果线程B抢占到CPU资源，执行  if（instance == null）的结果会是false，从而返回一个没有初始化完成的instance对象。
@@ -81,7 +92,9 @@ memory =allocate();    //1：分配对象的内存空间
 ctorInstance(memory);  //2：初始化对象
 instance =memory;     //3：设置instance指向刚分配的内存地址
 如此在线程B看来，instance对象的引用要么指向null，要么指向一个初始化完毕的Instance，而不会出现某个中间态，保证了安全。
-```
+
+```java
+
 public class Lazy {
     private Lazy(){};
     private static Lazy instance=null;
@@ -136,7 +149,9 @@ public class LazyThree {
 ## 注册式
 
 Spring中的做法，就是用这种注册式单例
-```
+
+```java
+
 public class RegisterMap {
 
     private RegisterMap(){}
@@ -166,7 +181,8 @@ public class RegisterMap {
 
 ## 枚举式
 
-```
+```java
+
 public enum Color {
     RED(){
        private int r = 255;
@@ -189,7 +205,9 @@ public enum Color {
 ## 序列化式
 
 主要防止反序列化时导致单例破坏
-```
+
+```java
+
 //反序列化时导致单例破坏
 public class Seriable implements Serializable {
 
@@ -212,8 +230,11 @@ public class Seriable implements Serializable {
 }
 
 ```
+
 序列化单例测试代码
-```
+
+```java
+
 public class SeriableTest {
     public static void main(String[] args) {
         Seriable s1 = null;

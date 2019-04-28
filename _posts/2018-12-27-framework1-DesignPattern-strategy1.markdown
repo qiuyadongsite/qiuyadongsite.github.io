@@ -31,7 +31,8 @@ comments: true
 例如：支付方式、旅游路线的选择
 
 定义一个公共借口
-```
+
+```java
 /**
  * 支付渠道
  */
@@ -44,7 +45,8 @@ public interface Payment {
 
 各种实现方式：
 第一种：
-```
+
+```java
 1
 public class AliPay implements Payment {
 
@@ -60,7 +62,8 @@ public class AliPay implements Payment {
 
 ```
 第二种：
-```
+
+```java
 2
 public class JDPay implements Payment {
 
@@ -76,8 +79,11 @@ public class JDPay implements Payment {
 
 
 ```
+
 第三种：
-```
+
+```java
+
 3
 public class WechatPay implements Payment {
 
@@ -95,7 +101,9 @@ public class WechatPay implements Payment {
 ```
 
  姑且把这个枚举当做一个常量去维护
-```
+
+```java
+
 public enum PayType {
     ALI_PAY(new AliPay()),
     WECHAT_PAY(new WechatPay()),
@@ -112,7 +120,8 @@ public enum PayType {
 ```
 
 返回状态
-```
+
+```java
 public class PayState {
     private int code;
     private Object data;
@@ -132,7 +141,9 @@ public class PayState {
 ```
 
 订单类
-```
+
+```java
+
 public class Order {
     private String uid;
     private String orderId;
@@ -142,7 +153,7 @@ public class Order {
         this.uid = uid;
         this.orderId = orderId;
         this.amount = amount;
-    } 
+    }
 
 
     //这个参数，完全可以用Payment这个接口来代替
@@ -159,7 +170,9 @@ public class Order {
 
 ```
 测试
-```
+
+```java
+
 public class PayStrategyTest {
 
     public static void main(String[] args) {

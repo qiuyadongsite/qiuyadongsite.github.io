@@ -34,7 +34,8 @@ comments: true
 通用事件类
 事件
 
-```
+```java
+
 public class Event {
 
     //事件源
@@ -113,7 +114,8 @@ public class Event {
 
 事件的注册跟监听
 
-```
+```java
+
 /**
  * 事件的注册和监听
  * Created by Tom on 2018/3/17.
@@ -151,7 +153,8 @@ public class EventLisenter {
 ```
 被观察者需要继承监听类
 
-```
+```java
+
 /**
  * 被观察者
  * 如果做过Swing开发的话，有一种似曾相识的感觉
@@ -201,7 +204,8 @@ public class Mouse extends EventLisenter{
 
 观察者，响应类
 
-```
+```java
+
 /**
  * 观察者
  *
@@ -243,7 +247,9 @@ public class MouseEventCallback {
 
 ```
 定义一个触发常量类型
-```
+
+```java
+
 public enum MouseEventType {
     ON_CLICK,
     ON_DOUBLE_CLICK,
@@ -259,7 +265,8 @@ public enum MouseEventType {
 
 测试
 
-```
+```java
+
 public class MouseTest {
 
     public static void main(String[] args) {

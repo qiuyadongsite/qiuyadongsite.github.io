@@ -33,7 +33,8 @@ comments: true
 
 登录接口
 
-```
+```java
+
 public interface ISigninService {
     public ResultMsg regist(String username,String password);
 
@@ -51,7 +52,8 @@ public interface ISigninService {
 
 登录基础实现类
 
-```
+```java
+
 public class SigninService implements ISigninService {
 
     public ResultMsg regist(String username,String password){
@@ -72,7 +74,8 @@ public class SigninService implements ISigninService {
 ```
 扩展第三方实现接口
 
-```
+```java
+
 public interface ISigninForThirdService extends ISigninService {
 
 
@@ -93,7 +96,8 @@ public interface ISigninForThirdService extends ISigninService {
 
 第三方登录实现类，
 
-```
+```java
+
 public class SigninForThirdService implements ISigninForThirdService {
 
     private ISigninService service;
@@ -146,7 +150,9 @@ public class SigninForThirdService implements ISigninForThirdService {
 
 ```
 测试
-```
+
+```java
+
 public class SigginTest {
 
 
