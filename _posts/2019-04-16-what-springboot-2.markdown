@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  springboot-SpringApplication
-date:   2019-04-15 21:52:12 +08:00
+title:  springmvc
+date:   2019-04-16 21:52:12 +08:00
 category: 微服务架构
-tags: Springboot
+tags: springmvc
 comments: true
 ---
 
@@ -363,7 +363,15 @@ SpringApplication 利用
 - Spring 应用上下文（ApplicationContext）生命周期控制 注解驱动 Bean
 - Spring 事件/监听（ApplicationEventMulticaster）机制加载或者初始化组件
 
-框架底层的事件是单线程么？业务实现是否可以使用事件去实现？如果使用事件实现会不会是不是会有性能问题？
+
+
+
+
+q1：webApplicationType分为三种都有什么实用地方
+
+
+
+ q2：框架底层的事件是单线程么？业务实现是否可以使用事件去实现？如果使用事件实现会不会是不是会有性能问题？
 
 
 ```java
@@ -373,108 +381,6 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
   @Nullable
   private Executor taskExecutor;
     ...
-}
-
-
-```
-
-## Spring的事件机制案例
-
-事件发布者
-
-```java
-
-//需要实现ApplicationEventPublisherAware这个Aware接口，广播事件需要利用applicationEventPublisher
-@Component
-public class SaySomethingPublisher implements ApplicationEventPublisherAware{
-    private ApplicationEventPublisher applicationEventPublisher;
-
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
-
-    public void saySomething(String msg){
-        applicationEventPublisher.publishEvent(msg);
-    }
-}
-
-
-```
-
-事件监听者
-
-```java
-
-//事件监听者需要实现ApplicationListener接口
-@Component
-public class ListenerA implements ApplicationListener<PayloadApplicationEvent<String>> {
-    // 由于监听的是String类型的事件会被封装成PayloadApplicationEvent，所以此处类型是PayloadApplicationEvent
-    public void onApplicationEvent(PayloadApplicationEvent event) {
-        // getSource返回真实的事件
-        Object msg = event.getSource();
-        System.out.println("ListenerA receive:" + msg);
-    }
-}
-
-```
-
-
-可以测试
-
-```java
-
-public class SpringEventListenerDemo {
-
-    public static void main(String[] args) {
-        GenericApplicationContext context = new GenericApplicationContext();
-
-				// 添加自义定监听器
-			 context.addApplicationListener(new ClosedListener());
-			 context.addApplicationListener(new RefreshedListener());
-			 context.addApplicationListener(new MyEventListener());
-			 // 启动 Spring 应用上下文
-			 context.refresh();
-
-			 context.publishEvent("HelloWorld"); // 发布一个 HelloWorld 内容的事件
-		 // 一个是 MyEvent
-		 context.publishEvent(new MyEvent("HelloWorld 2018"));
-
-		 // 一个是 ContextClosedEvent
-		 // 关闭应用上下文
-		 context.close();
-	 }
-
-	private static class RefreshedListener implements ApplicationListener<ContextRefreshedEvent> {
-
-			@Override
-			public void onApplicationEvent(ContextRefreshedEvent event) {
-
-					System.out.println("上下文启动：" + event);
-			}
-	}
-
-	private static class ClosedListener implements ApplicationListener<ContextClosedEvent> {
-
-			@Override
-			public void onApplicationEvent(ContextClosedEvent event) {
-
-					System.out.println("关闭上下文：" + event);
-			}
-	}
-	private static class MyEventListener implements ApplicationListener<MyEvent> {
-
-			@Override
-			public void onApplicationEvent(MyEvent event) {
-
-					System.out.println("监听到：" + event.getSource());
-			}
-	}
-	private static class MyEvent extends ApplicationEvent {
-
-			public MyEvent(Object source) {
-					super(source);
-			}
-	}
 }
 
 
