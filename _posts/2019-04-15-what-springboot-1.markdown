@@ -479,3 +479,25 @@ public class SpringEventListenerDemo {
 
 
 ```
+
+## bean的生命周期
+
+Bean 生命周期
+
+实例化 -> Bean Class -> Bean Object
+
+初始化前 -> Bean before/pre init()
+
+- org.springframework.beans.factory.config.BeanPostProcessor#postProcessBeforeInitialization
+
+初始化 -> init()
+
+- org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+
+初始化后
+
+- org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization()
+
+销毁
+
+- org.springframework.beans.factory.DisposableBean#destroy()
