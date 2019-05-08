@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  springmvc
+title:  Thymeleaf
 date:   2019-04-16 21:52:12 +08:00
 category: 微服务架构
-tags: springmvc
+tags: Thymeleaf
 comments: true
 ---
 

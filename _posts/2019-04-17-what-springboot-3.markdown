@@ -223,3 +223,28 @@ HTTP 消息转换器（HttpMessageConverter）
   - MappingJackson2HttpMessageConverter
 - text/html
   - StringHttpMessageConverter
+
+
+  代码导读
+
+
+
+@EnableWebMvc
+
+- 导入 DelegatingWebMvcConfiguration（配置 Class）
+  - 注册   WebMvcConfigurer
+    - 装配各种 Spring MVC 需要的Bean
+    - 注解驱动扩展点
+      - HandlerMethodArgumentResolver
+      - HandlerMethodReturnValueHandler
+      - @RequestBody 和 @ResponseBody 实现类
+        - RequestResponseBodyMethodProcessor
+        - HttpEntityMethodProcessor
+
+
+
+实现 WebMvcConfigurer？
+
+
+
+WebMvcConfigurerAdapter 实现
