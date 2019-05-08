@@ -10,7 +10,7 @@ comments: true
 * content
 {:toc}
 
-springboot启动类就是SpringApplication。
+Thymeleaf 视图技术、
 
 
 
@@ -24,364 +24,271 @@ springboot启动类就是SpringApplication。
 
 
 
-## SpringApplication
+## Thymeleaf
 
-### 简单实例
+渲染上下文（模型） Model
 
-为了使用springboot，[springboot快速构建](https://start.spring.io/)，下载代码；
+- Spring Web MVC
 
-拷贝相关的依赖
+  - 接口类型
 
-创建启动类
+    - Model
 
-```java
+    - ModelMap
 
-@SpringBootApplication
-public class DemoApplication {
+    - ModelAndView
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+      - Model  -> ModelMap
 
-}
+      - View
+
+	- 注解类型
+
+    - `@ModelAttrtibute`
+
+    EL 表达式
+
+- 字符值
+- 多种数据类型
+- 逻辑表达式
+  - if else
+- 迭代表达式
+  - for each / while
+- 反射
+  - Java Reflection
+  - CGLib
+
+  模板寻址
+
+  prefix + view-name + suffix
 
 ```
 
-这里有两个关键`@SpringBootApplication`注解类、SpringApplication启动类；
+# Thymeleaf 配置
+spring.thymeleaf.cache = false
+spring.thymeleaf.prefix = classpath:/templates/thymeleaf/
+spring.thymeleaf.suffix = .dota2
 
-`@SpringBootApplication`
+```
+
+```html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+</head>
+<body>
+<p th:text="#{home.welcome}">Welcome to our grocery store!</p>
+<p th:text="${!#strings.isEmpty(message)}">Message!</p>
+<p th:text="${string.isNotBlank(message) ? message : 'No Content'}">Message!!!!!</p>
+</body>
+</html>
+
+```
+
+## Spring MVC 模板渲染逻辑
+
+Spring MVC 核心总控制器 `DispatcherServlet`
+
+C ：DispatcherServlet
+
+M
+
+- Spring MVC（部分）
+  - Model / ModelMap / ModelAndView(Model 部分)
+  - `@ModelAttribute`
+
+-  模板引擎（通常）
+
+- 通用的方式
+  - 模板上下文
+    - 内建/内嵌自己工具变量
+
+
+   JSP 内置（ built-in ）九大变量
+
+- Servlet Scope 上下文（Spring @Scope）
+  - PageContext（page 变量）
+    - 关注当前页面
+    - A forward B
+      - A 变量只能 A 页面使用，不能共享给 B
+      - A t 和 B t 可以采用同名变量，同时使用
+  - Servlet Request（请求上下文） - WebApplicationContext#SCOPE_REQUEST
+    - 关注当前请求
+      - A forward B
+        - A 请求变量可以用于 B 页面
+
+  - Servlet Session（会话上下文） - WebApplicationContext#SCOPE_SESSION
+    - 关注当前会话
+      - A forward / redirect B
+        - A 请求变量可以用于 B 页面
+
+  - Servlet ServletContext（应用上下文） - WebApplicationContext#SCOPE_APPLICATION
+    - 关注当前应用
+      - 用户 A 和 用户 B 会话可以共享
+
+- JSP 内置变量( JSP = Servlet )
+
+  - out（Writer = ServletResponse#getWriter()）
+
+  - exception ( Throwable)
+
+  - config( ServletConfig )
+
+  - page ( Jsp Servlet 对象)
+
+  - response（ServletResponse)
+
+  Thymeleaf 内置变量
+
+  StandardExpressionObjectFactory -> 构建 IExpressionContext
+
+  - 上下文（模型）
+  - strings
+  - numbers
+  - ...
+
+  V：
+
+- 视图对象
+  - Servlet
+    - RequestDispatcher#forward
+    - RequestDispatcher#include
+    - HttpServletResponse#sendRedirect
+  - Spring MVC
+    - View
+      - forward:
+        - InternalResourceView
+      - redirect:
+        - RedirectView
+  - Struts
+    - Action
+      - ForwardAction
+      - RedirectAction
+
+      视图处理对象
+
+
+
+      - Spring MVC
+        - `*.do `-> DispatcherServlet -> Controller -> View -> ViewResolver -> View#render -> HTML -> HttpServletResponse
+          - Thymeleaf
+            - ViewResolver -> ThymeleafViewResolver
+            - View -> ThymeleafView
+              - 通过模板名称解析模板资源（ClassPathResource）
+                - TemplateResolution
+              - 读取资源，并且渲染内容 HTML
+                - IEngineContext
+                - ProcessorTemplateHandler
+              - HTML 内容输出到 Response
+            - 源码路径
+              - org.thymeleaf.TemplateEngine#process(org.thymeleaf.TemplateSpec, org.thymeleaf.context.IContext, java.io.Writer)
+              - org.thymeleaf.engine.TemplateManager#parseAndProcess
+          - JSP
+                <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+                    <property name="prefix" value="/WEB-INF/jsp/"/>
+                    <property name="suffix" value=".jsp"/>
+                </bean>
+            - ViewResolver ->InternalResourceViewResolver
+            - View -> JstlView
+              - Foward -> RequestDispatcher
+
+
+      - Struts
+        - `*.do` -> ActionServlet -> Action -> ForwardAction -> RequestDispatcher -> JSP（Servlet） -> HTML -> HttpServletResponse
+
+## 学习技巧
+
+  学会配置代码
+
+  假设需要了解的技术是 thymeleaf -> thymeleaf Properties -> ThymeleafProperties
+
+  第一步：找到 @ConfigurationProperties，确认前缀
+
+  ```java
+
+  @ConfigurationProperties(prefix = "spring.thymeleaf")
+public class ThymeleafProperties {
+
+}
+
+  ```
+
+  比如：“spring.thymeleaf”
+
+
+
+第二步：进一步确认，是否字段和属性名一一对应
+
+```
+spring.thymeleaf.cache
+spring.thymeleaf.mode=HTML
+
+```
 
 ```java
 
-@SpringBootConfiguration
-@EnableAutoConfiguration
-@ComponentScan(excludeFilters = {
-		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
-		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
-public @interface SpringBootApplication {
+@ConfigurationProperties(prefix = "spring.thymeleaf")
+public class ThymeleafProperties {
+    ...
+	private boolean cache = true;
+    ...
+    private String mode = "HTML";
     ...
 }
 
 ```
 
-`@ComponentScan` :Spring Framework 3.1引入
+配置项前缀 - spring.messages
 
-`@EnableAutoConfiguration`:
-  激活自动装配 @Enable -> @Enable 开头的
+学会打断点
 
-- @EnableWebMvc
-- @EnableTransactionManagement
-- @EnableAspectJAutoProxy
-- @EnableAsync
+DispatcherServlet#doDispatch  -> 拦截请求
 
-@SpringBootConfiguration : 等价于 @Configuration -> Configuration Class 注解
+Controller  -> 执行业务，并且控制视图
 
-@Component -> @ComponentScan
+DispatcherServlet#resolveViewName -> 视图解析
 
-处理类 -> ConfigurationClassParser
+DispatcherServlet#render -> 视图渲染
 
+## 国际化
 
-扫描类 ->
+Locale
 
-- ClassPathBeanDefinitionScanner
-  - ClassPathScanningCandidateComponentProvider
+Spring MVC
 
-  ```java
+- Locale
+  - Servlet
+    - ServletRequest#getLocale()
+      - Accept-Language: en,zh;q=0.9,zh-TW;q=0.8
+  - LocaleContextHolder
+    - 来自于
+      - DispatcherServlet
+        - FrameworkServlet#initContextHolders
+    - 存储是ThreadLocal
 
-  protected void registerDefaultFilters() {
-		this.includeFilters.add(new AnnotationTypeFilter(Component.class));
-    	...
-	}
+    Spring Boot
 
-  ```
+    - MessageSource
+      - MessageSourceAutoConfiguration
+        - MessageSourceProperties
+          - message.properties
+          - message_en.properties
+          - message_zh.properties
+          - message_zh_CN.properties
+          - message_zh_TW.properties
 
-## spring的注解编程模型
+hymeleaf
 
-- `@Component`
+- key => messageSource.get
 
-  - @Service
+JSP -> JSP 模板 -> 翻译 Servlet Java 源文件 -> 编译 Servlet Class -> Servlet 加载 -> Servlet 执行（字节码执行）
 
-  ```java
+Thymeleaf -> Thymeleaf 模板 -> 解释执行模板表达式（动态运行时）
 
-  @Component
-  public @interface Service {
-      ...
-  }
-  ```
-
-  - @Repository
-
-    ```java
-        @Component
-        public @interface Repository {
-            ...
-        }
-    ```
-  - @Controller
-
-    ```java
-        @Component
-        public @interface Controller {
-            ...
-        }
-  ```      
-  - @Configuration
-
-    ```java
-        @Component
-        public @interface Configuration {
-        	...
-        }
-
-    ```    
-
-## Spring 模式注解：Stereotype Annotations
-
-Spring 注解驱动示例
-
-注解驱动上下文 AnnotationConfigApplicationContext ， Spring Framework 3.0 开始引入的
-
-```java
-
-@Configuration
-public class SpringAnnotationDemo {
-
-    public static void main(String[] args) {
-
-        //   XML 配置文件驱动       ClassPathXmlApplicationContext
-        // Annotation 驱动
-        // 找 BeanDefinition
-        // @Bean @Configuration
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        // 注册一个 Configuration Class = SpringAnnotationDemo
-        context.scan("com.gupao.microservicesproject");
-        // 上下文启动
-        context.refresh();
-
-        System.out.println(context.getBean(SpringAnnotationDemo.class));
-
-    }
-}
-
-```
-
-`@SpringBootApplication` 标注当前一些功能
-
-- @SpringBootApplication
-
-  - @SpringBootConfiguration
-
-    - @Configuration
-
-      - @Component
-
-##  Spring Boot 应用的引导
-
-基本写法
-
-SpringApplication
-
-```java
-
-SpringApplication springApplication = new SpringApplication(MicroservicesProjectApplication.class);
-        Map<String,Object> properties = new LinkedHashMap<>();
-        properties.put("server.port",0);
-        springApplication.setDefaultProperties(properties);
-        springApplication.run(args);
-```      
-
-
-SpringApplicationBuilder
-
-```java
-
-new SpringApplicationBuilder(MicroservicesProjectApplication.class) // Fluent API
-                // 单元测试是 PORT = RANDOM
-                .properties("server.port=0")  // 随机向 OS 要可用端口
-                .run(args);
-
-```
-
-Spring Boot 引导示例
-
-```java
-
-@SpringBootApplication
-public class MicroservicesProjectApplication {
-
-    public static void main(String[] args) {
-        SpringApplication springApplication = new SpringApplication(MicroservicesProjectApplication.class);
-        Map<String,Object> properties = new LinkedHashMap<>();
-        properties.put("server.port",0);
-        springApplication.setDefaultProperties(properties);
-        ConfigurableApplicationContext context = springApplication.run(args);
-        // 有异常？
-        System.out.println(context.getBean(MicroservicesProjectApplication.class));
-    }
-}
-
-```
-
-调整示例为 非 Web 程序
-
-```java
-
-@SpringBootApplication
-public class MicroservicesProjectApplication {
-
-    public static void main(String[] args) {
-        SpringApplication springApplication = new SpringApplication(MicroservicesProjectApplication.class);
-        Map<String, Object> properties = new LinkedHashMap<>();
-        properties.put("server.port", 0);
-        springApplication.setDefaultProperties(properties);
-        // 设置为 非 web 应用
-        springApplication.setWebApplicationType(WebApplicationType.NONE);
-        ConfigurableApplicationContext context = springApplication.run(args);
-        // 有异常？
-        System.out.println(context.getBean(MicroservicesProjectApplication.class));
-        // 输出当前 Spring Boot 应用的 ApplicationContext 的类名
-        System.out.println("当前 Spring 应用上下文的类：" + context.getClass().getName());
-    }
-}
-
-
-```
-
-## Spring Boot 事件
-
-Spring 事件
-
-Spring 内部发送事件
-
-- ContextRefreshedEvent
-
-  - ApplicationContextEvent
-
-    - ApplicationEvent
-
-refresh() -> finishRefresh() ->  publishEvent(new ContextRefreshedEvent(this));
-
-- ContextClosedEvent
-  - ApplicationContextEvent
-    - ApplicationEvent
-
-close() -> doClose() -> publishEvent(new ContextClosedEvent(this));
-
-
-自定义事件
-
-PayloadApplicationEvent
-
-
-
-Spring 事件 都是 ApplicationEvent 类型
-
-
-发送 Spring 事件通过  ApplicationEventMulticaster#multicastEvent(ApplicationEvent, ResolvableType)
-
-
-Spring 事件的类型 ApplicationEvent
-
-Spring 事件监听器 ApplicationListener
-
-Spring 事件广播器 ApplicationEventMulticaster
-
-- 实现类：SimpleApplicationEventMulticaster
-
-
-
-Spring 事件理解为消息
-
-ApplicationEvent 相当于消息内容
-
-ApplicationListener 相当于消息消费者、订阅者
-
-ApplicationEventMulticaster 相当于消息生产者、发布者
-
-Spring Boot 事件监听示例
-
-```java
-
-@EnableAutoConfiguration
-public class SpringBootEventDemo {
-
-    public static void main(String[] args) {
-        new SpringApplicationBuilder(SpringBootEventDemo.class)
-                .listeners(event -> { // 增加监听器
-                    System.err.println("监听到事件 ： " + event.getClass().getSimpleName());
-                })
-                .run(args)
-                .close();
-        ; // 运行
-    }
-}
-
-```
-
-1. ApplicationStartingEvent（1）
-2. ApplicationEnvironmentPreparedEvent（2）
-3. ApplicationPreparedEvent（3）
-4. ContextRefreshedEvent
-5. ServletWebServerInitializedEvent
-6. ApplicationStartedEvent（4）
-7. ApplicationReadyEvent（5）
-8. ContextClosedEvent
-9. ApplicationFailedEvent (特殊情况)（6）
-
-
-Spring Boot 事件监听器
-
-```java
-
-org.springframework.context.ApplicationListener=\
-org.springframework.boot.ClearCachesApplicationListener,\
-org.springframework.boot.builder.ParentContextCloserApplicationListener,\
-org.springframework.boot.context.FileEncodingApplicationListener,\
-org.springframework.boot.context.config.AnsiOutputApplicationListener,\
-org.springframework.boot.context.config.ConfigFileApplicationListener,\
-org.springframework.boot.context.config.DelegatingApplicationListener,\
-org.springframework.boot.context.logging.ClasspathLoggingApplicationListener,\
-org.springframework.boot.context.logging.LoggingApplicationListener,\
-org.springframework.boot.liquibase.LiquibaseServiceLocatorApplicationListener
-
-```
-
-ConfigFileApplicationListener 监听 ApplicationEnvironmentPreparedEvent 事件
-
-从而加载 application.properties 或者 application.yml 文件
-
-
-
-Spring Boot 很多组件依赖于 Spring Boot 事件监听器实现，本质是 Spring Framework 事件/监听机制
-
-
-
-
-
-SpringApplication 利用
-
-- Spring 应用上下文（ApplicationContext）生命周期控制 注解驱动 Bean
-- Spring 事件/监听（ApplicationEventMulticaster）机制加载或者初始化组件
-
-
-
-
-
-q1：webApplicationType分为三种都有什么实用地方
-
-
-
- q2：框架底层的事件是单线程么？业务实现是否可以使用事件去实现？如果使用事件实现会不会是不是会有性能问题？
-
-
-```java
-
-public class SimpleApplicationEventMulticaster extends AbstractApplicationEventMulticaster {
-
-  @Nullable
-  private Executor taskExecutor;
-    ...
-}
-
-
-```
+很明显jsp速度更快，也很明显jsp适合对外项目
