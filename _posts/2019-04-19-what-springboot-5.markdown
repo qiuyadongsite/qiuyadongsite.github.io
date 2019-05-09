@@ -196,3 +196,99 @@ public String processSubmit(@ModelAttribute Pet pet) {
 ```
 
 首先查询 `@SessionAttributes`有无绑定的Pet对象，若没有则查询`@ModelAttribute`方法层面上是否绑定了Pet对象，若没有则将URI template中的值按对应的名称绑定到Pet对象的各属性上。
+
+
+
+`@ModelAttribute`注释void返回值的方法
+
+```java
+@Controller
+public class HelloModelController {
+
+    @ModelAttribute
+    public void populateModel(@RequestParam String abc, Model model) {  
+       model.addAttribute("attributeName", abc);  
+    }  
+
+    @RequestMapping(value = "/helloWorld")  
+    public String helloWorld() {  
+       return "helloWorld.jsp";  
+    }  
+
+}
+
+```
+
+在这个代码中，访问控制器方法helloWorld时，会首先调用populateModel方法，将页面参数abc(/helloWorld.ht?abc=text)放到model的attributeName属性中，在视图中可以直接访问。
+
+jsp页面页面如下。
+
+```
+
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<html>
+<head>
+</head>
+<body>
+<c:out value="${attributeName}"></c:out>
+</body>
+</html>
+
+```
+
+`@ModelAttribute`注释返回具体类的方法
+
+```java
+
+@Controller
+public class Hello2ModelController {
+
+    @ModelAttribute
+    public User populateModel() {  
+       User user=new User();
+       user.setAccount("ray");
+       return user;
+    }  
+    @RequestMapping(value = "/helloWorld2")  
+    public String helloWorld() {  
+       return "helloWorld.jsp";  
+    }  
+}
+
+```
+
+当用户请求 http://localhost:8080/test/helloWorld2.ht时，首先访问populateModel方法，返回User对象，model属性的名称没有指定，
+
+它由返回类型隐含表示，如这个方法返回User类型，那么这个model属性的名称是user。
+这个例子中model属性名称有返回对象类型隐含表示，model属性对象就是方法的返回值。它无须要特定的参数。
+
+jsp 中如下访问：
+
+```
+
+<c:out value="${user.account}"></c:out>
+
+```
+
+也可以指定属性名称
+
+```java
+
+@Controller
+public class Hello2ModelController {
+
+    @ModelAttribute(value="myUser")
+    public User populateModel() {  
+       User user=new User();
+       user.setAccount("ray");
+       return user;
+    }  
+    @RequestMapping(value = "/helloWorld2")  
+    public String helloWorld(Model map) {  
+       return "helloWorld.jsp";  
+    }  
+}
+
+```
