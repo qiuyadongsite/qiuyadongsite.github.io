@@ -14,6 +14,28 @@ comments: true
 绑定在方法上的参数注解详解：@PathVariable、@RequestHeader,@CookieValue、@RequestParam,@RequestBody、@SessionAttributes,@ModelAttribute
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 简介
 
 handler method参数绑定常用的注解,我们根据他们处理的Request的不同内容部分分为四类：（主要讲解常用类型）
