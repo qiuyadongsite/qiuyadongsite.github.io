@@ -360,4 +360,4 @@ index ： index scan;
 
 ## 实践
 
-### linux下安装与配置
+###
