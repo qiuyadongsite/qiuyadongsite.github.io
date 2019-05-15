@@ -368,7 +368,7 @@ UNION RESULT：从union表获取结果的select
 
 <subqueryN> 由ID为N查询生产的结果
 
-执行计划-`type`
+- 执行计划-`type`
 
 访问类型，sql查询优化中一个很重要的指标，结果值从好到坏依次是：
 
@@ -391,9 +391,85 @@ ALL：Full Table Scan，遍历全表以找到匹配的行
 
 possible_keys   查询过程中有可能用到的索引
 
-key             实际使用的索引，如果为NULL，则没有使用索引 rows 根据表统计信息或者索引选用情况，大致估算出找到所需的记录所需要读取的行数
+key             实际使用的索引，如果为NULL，则没有使用索引
+
+rows 根据表统计信息或者索引选用情况，大致估算出找到所需的记录所需要读取的行数
 
 filtered  它指返回结果的行占需要读到的行(rows列的分比   表示返回结果的行数占需读取行数的百分比，filtered的值越大越好
 
+- 执行计划的额外-extra
 
-  
+1、Using filesort ：
+
+mysql对数据使用一个外部的文件内容进行了排序，而不是按照表内的索引进行排序读取
+
+2、Using temporary：
+
+使用临时表保存中间结果，也就是说mysql在对查询结果排序时使用了临时表，常见于order by 或 group by
+
+3、Using index：
+
+表示相应的select操作中使用了覆盖索引（Covering Index），避免了访问表的数据行，效率高
+
+4、Using where ：
+
+使用了where过滤条件
+
+5、select tables optimized away：
+
+基于索引优化MIN/MAX操作或者MyISAM存储引擎优化COUNT(`*`)操作，不必等到执行阶段在进行计算，查询执行计划生成的阶段即可完成优化
+
+- 查询执行引擎
+
+调用插件式的存储引擎的原子API的功能进行执行计划的执行
+
+- 返回客户端
+
+1、有需要做缓存的，执行缓存操作
+
+2、增量的返回结果：
+
+开始生成第一条结果时,mysql就开始往请求方逐步返回数据
+
+好处： mysql服务器无须保存过多的数据，浪费内存用户体验好，马上就拿到了数据
+
+## 如何定位慢sql
+
+1、业务驱动
+
+2、测试驱动
+
+3、慢查询日志
+
+### 慢查询日志
+
+show variables like 'slow_query_log'
+
+set global slow_query_log = on
+
+set global slow_query_log_file = '/var/lib/mysql/gupaoedu-slow.log'
+
+set global log_queries_not_using_indexes = on set global long_query_time = 0.1 (秒)
+
+### 慢查询日志分析
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/mysql0010.png)
+
+
+Time ：日志记录的时间
+
+User@Host：执行的用户及主机
+
+Query_time：查询耗费时间 Lock_time 锁表时间
+
+Rows_sent 发送给请求方的记录条数 Rows_examined 语句扫描的记录条数
+
+SET timestamp 语句执行的时间点
+
+select .... 执行的具体语句
+
+### 慢查询日志分析工具
+
+mysqldumpslow -t 10 -s at /var/lib/mysql/gupaoedu-slow.log
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/mysql434.png)
