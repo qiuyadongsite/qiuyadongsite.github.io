@@ -3,7 +3,7 @@ layout: post
 title:  重新认识ReentrantLock
 date:   2019-05-16 21:52:12 +08:00
 category: 性能优化
-tags: mysql
+tags: 多线程
 comments: true
 ---
 
@@ -318,5 +318,65 @@ public class App
 
 }
 
+
+```
+
+## Fair与NonFair的区别
+
+非公平锁直接尝试获取锁
+
+```java
+
+//非公平锁
+
+final void lock() {
+            if (compareAndSetState(0, 1))
+                setExclusiveOwnerThread(Thread.currentThread());
+            else
+                acquire(1);
+        }
+
+//公平锁
+final void lock() {
+              acquire(1);
+          }  
+
+```
+
+公平锁会先判断一下head之后有无其他等待节点
+
+```java
+
+protected final boolean tryAcquire(int acquires) {
+            final Thread current = Thread.currentThread();
+            int c = getState();
+            if (c == 0) {
+                if (!hasQueuedPredecessors() &&
+                    compareAndSetState(0, acquires)) {
+                    setExclusiveOwnerThread(current);
+                    return true;
+                }
+            }
+            else if (current == getExclusiveOwnerThread()) {
+                int nextc = c + acquires;
+                if (nextc < 0)
+                    throw new Error("Maximum lock count exceeded");
+                setState(nextc);
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public final boolean hasQueuedPredecessors() {
+        // The correctness of this depends on head being initialized
+        // before tail and on head.next being accurate if the current
+        // thread is first in queue.
+        Node t = tail; // Read fields in reverse initialization order
+        Node h = head;
+        Node s;
+        return h != t &&
+            ((s = h.next) == null || s.thread != Thread.currentThread());
+    }
 
 ```
