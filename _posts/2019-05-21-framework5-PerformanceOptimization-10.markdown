@@ -332,3 +332,7 @@ eBay 在 2008 年公布了一个关于 BASE 准则提到一个分布式事务解
 ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/tcc011.png)
 
 通过异步消息执行方案的本质是，把两个事物转化成两个本地事务，然后依靠消息本身的可靠性，以及消息的重试机制达到最终一致性。
+
+## 代码实践
+
+github上开源的tcc-transaction，可以很好解决分布式事务问题
