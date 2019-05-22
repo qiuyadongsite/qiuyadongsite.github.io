@@ -336,3 +336,9 @@ eBay 在 2008 年公布了一个关于 BASE 准则提到一个分布式事务解
 ## 代码实践
 
 github上开源的tcc-transaction，可以很好解决分布式事务问题
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/tcc012.png)
+
+TCC 事务解决方案本质上是一种补偿的思路，它把事务运行过程分成 Try、Confirm/cancel 两个阶段，每个阶段由业务代码控制，这样事务的锁力度可以完全自由控制。
+
+需要注意的是，TCC 事务和 2pc 的思想类似，但并不是 2pc 的实现，TCC 不再是两阶段提交，而只是它对事务的提交/回滚是通过执行一段 confirm/cancel 业务逻辑来实现，并且也并没有全局事务来把控整个事务逻辑。
