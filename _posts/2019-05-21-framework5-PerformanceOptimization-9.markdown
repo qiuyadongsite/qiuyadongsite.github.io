@@ -273,7 +273,7 @@ public class UserController extends BaseController{
 
       data.setMessage(userLoginResponse.getMsg());
       data.setCode(userLoginResponse.getCode());
-      data.setData(GpmallWebConstant.GPMALL_ACTIVITY_ACCESS_URL);
+      data.setData(WebConstant.ACCESS_URL);
       return data;
    }
 }
@@ -367,3 +367,5 @@ public CheckAuthResponse validToken(CheckAuthRequest request) {
     	}
     }
 ```
+
+代码地址：https://github.com/qiuyadongsite/show-my-code/tree/master/show-spring-parent/show-single-login-web
