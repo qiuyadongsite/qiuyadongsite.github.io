@@ -199,3 +199,46 @@ redis+lua:令牌桶算法实现
 具体实现
 
 参考 Redisson 中的令牌桶实现逻辑即可
+
+简陋的设计思路：假设一个用户（用IP判断）每分钟访问某一个服务接口的次数不能超过10次，那么我们可以在Redis中创建一个键，并此时我们就设置键的过期时间为60秒，每一个用户对此服务接口的访问就把键值加1，在60秒内当键值增加到10的时候，就禁止访问服务接口。在某种场景中添加访问时间间隔还是很有必要的。
+
+    1）使用Redis的incr命令，将计数器作为Lua脚本
+
+    ```
+
+    local current
+     current = redis.call("incr",KEYS[1])
+     if tonumber(current) == 1 then
+         redis.call("expire",KEYS[1],1)
+     end
+
+    ```        
+      Lua脚本在Redis中运行，保证了incr和expire两个操作的原子性。
+
+     2）使用Reids的列表结构代替incr命令
+
+```
+
+FUNCTION LIMIT_API_CALL(ip)
+current = LLEN(ip)
+IF current > 10 THEN
+    ERROR "too many requests per second"
+ELSE
+    IF EXISTS(ip) == FALSE
+        MULTI
+            RPUSH(ip,ip)
+            EXPIRE(ip,1)
+        EXEC
+    ELSE
+        RPUSHX(ip,ip)
+    END
+    PERFORM_API_CALL()
+END
+
+```
+
+
+
+  Rate Limit使用Redis的列表作为容器，LLEN用于对访问次数的检查，一个事物中包含了RPUSH和EXPIRE两个命令，用于在第一次执行计数是创建列表并设置过期时间，
+
+  RPUSHX在后续的计数操作中进行增加操作。
