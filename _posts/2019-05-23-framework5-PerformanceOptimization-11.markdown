@@ -226,6 +226,7 @@ IF current > 10 THEN
 ELSE
     IF EXISTS(ip) == FALSE
         MULTI
+        
             RPUSH(ip,ip)
             EXPIRE(ip,1)
         EXEC
