@@ -167,3 +167,7 @@ class Stack<E> extends Vector<E> {
 ```
 
 ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/javaset003.png)
+
+没啥看的
+
+###
