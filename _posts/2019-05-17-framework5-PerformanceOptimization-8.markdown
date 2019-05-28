@@ -190,7 +190,7 @@ Constant pool:
         line 7: 4                 //7，4代表，从4: iload_1
         line 8: 10                //8，10代表，从10: new   #3 依赖于java/lang/StringBuilder  
         line 9: 32                 //9，32代表，从32: return
-      LocalVariableTable:
+      LocalVariableTable:          //本地变量表
         Start  Length  Slot  Name   Signature
             0      33     0  args   [Ljava/lang/String;
             2      31     1    i1   I
@@ -250,7 +250,111 @@ PC寄存器：每个线程都有一个程序计数器，是线程私有的,就�
 内存调优，首先JDK提供的内存查看工具，比如JConsole和Java VisualVM。
 
 内存调优主要的目的是减少GC的频率和Full GC的次数，过多的GC和Full GC是会占用很多的系统资源（主要是CPU），影响系统的吞吐量。
+（不是本篇重点）
 
 ## 实践篇
 
 jvm识别和运行的都是class文件，如果开发可以动态生成class文件，可以减少重复编写的源码，提高效率。（dubbo就是这么做的，基本原理生成代码，使用动态代理实现相同的功能和提高可扩展性）
+
+### SPI
+
+先介绍一下SPI，java提供了Service Provider Interface，简称SPI,为接口寻找服务实现类,"基于接口的编程＋策略模式＋配置文件"组合实现的动态加载机制。
+
+在META-INF/services/下创建一个以接口名命名的文件，内容为实现类，当使用
+
+```java
+
+ServiceLoader<？> serviceloader = ServiceLoader.load(？.class);//可以加载所有该？接口的包括jar中的实现类，遍历它可以获取
+
+```
+
+现实开发中common-logging、jdbc都是使用了它。
+
+虽然用了懒加载方式，减缓了实现类的初始化，但是问题明显，就是肯定会实例化所有配置的实现类，dubbo对其进行了改进
+
+### dubbo的@spi
+
+dubbo（2.7.1）使用注解@SPI类标注接口,如本篇要提到的字节码编译类：
+
+```java
+package org.apache.dubbo.common.compiler;
+@SPI("javassist")
+public interface Compiler {
+
+    Class<?> compile(String code, ClassLoader classLoader);
+
+}
+
+```
+
+在配置文件org.apache.dubbo.common.compiler.Compiler里写了：
+
+```
+
+adaptive=org.apache.dubbo.common.compiler.support.AdaptiveCompiler
+jdk=org.apache.dubbo.common.compiler.support.JdkCompiler
+javassist=org.apache.dubbo.common.compiler.support.JavassistCompiler
+
+```
+
+如果调用方没有配置编译类型，默认就使用javassist的JavassistCompiler来编译动态生成的code类编译。
+
+
+而ExtensionLoader<T>类就是dubbo加载扩展的核心类，其中有个方法createAdaptiveExtensionClass，可以获取编译类去编译生成的code:
+
+1 AdaptiveClassCodeGenerator的代码生成方法:
+
+```java
+
+public String generate() {
+       if (!hasAdaptiveMethod()) {
+           throw new IllegalStateException("No adaptive method exist on extension " + type.getName() + ", refuse to create the adaptive class!");
+       }
+
+       StringBuilder code = new StringBuilder();
+       code.append(generatePackageInfo());
+       code.append(generateImports());
+       code.append(generateClassDeclaration());
+
+       Method[] methods = type.getMethods();
+       for (Method method : methods) {
+           code.append(generateMethod(method));
+       }
+       code.append("}");
+
+       if (logger.isDebugEnabled()) {
+           logger.debug(code.toString());
+       }
+       return code.toString();
+   }
+```
+
+2 ExtensionLoader<T>的createAdaptiveExtensionClass创建类，以及对代码进行编译方法
+
+```java   
+
+
+private Class<?> createAdaptiveExtensionClass() {
+        String code = new AdaptiveClassCodeGenerator(type, cachedDefaultName).generate();
+        ClassLoader classLoader = findClassLoader();
+        org.apache.dubbo.common.compiler.Compiler compiler = ExtensionLoader.getExtensionLoader(org.apache.dubbo.common.compiler.Compiler.class).getAdaptiveExtension();
+        return compiler.compile(code, classLoader);
+    }
+
+```
+
+3 ExtensionLoader<T>的createAdaptiveExtension()根据配置可以实例化
+
+```java
+
+private T createAdaptiveExtension() {
+       try {
+           return injectExtension((T) getAdaptiveExtensionClass().newInstance());
+       } catch (Exception e) {
+           throw new IllegalStateException("Can't create adaptive extension " + type + ", cause: " + e.getMessage(), e);
+       }
+   }
+
+```
+
+这就很聪明的通过用户配置动态的创建与加载某个类，同时也节约大量代码的编写，通过这种策略，使用方也可以很容易扩展。
