@@ -358,3 +358,70 @@ private T createAdaptiveExtension() {
 ```
 
 这就很聪明的通过用户配置动态的创建与加载某个类，同时也节约大量代码的编写，通过这种策略，使用方也可以很容易扩展。
+
+### javassist的编译方法
+
+对于Javassist的简单运用：
+
+```java
+
+public class JavassistCompiler extends AbstractCompiler {
+
+    private static final Pattern IMPORT_PATTERN = Pattern.compile("import\\s+([\\w\\.\\*]+);\n");//impot
+
+    private static final Pattern EXTENDS_PATTERN = Pattern.compile("\\s+extends\\s+([\\w\\.]+)[^\\{]*\\{\n");//extends
+
+    private static final Pattern IMPLEMENTS_PATTERN = Pattern.compile("\\s+implements\\s+([\\w\\.]+)\\s*\\{\n");//implements
+
+    private static final Pattern METHODS_PATTERN = Pattern.compile("\n(private|public|protected)\\s+");// 方法的查找
+
+    private static final Pattern FIELD_PATTERN = Pattern.compile("[^\n]+=[^\n]+;"); //属性的查找
+
+    @Override
+    public Class<?> doCompile(String name, String source) throws Throwable {
+        CtClassBuilder builder = new CtClassBuilder();
+        builder.setClassName(name);//创建一个类名
+
+        // process imported classes
+        Matcher matcher = IMPORT_PATTERN.matcher(source);
+        while (matcher.find()) {
+            builder.addImports(matcher.group(1).trim());//导入所有引用的包
+        }
+
+        // process extended super class
+        matcher = EXTENDS_PATTERN.matcher(source);
+        if (matcher.find()) {
+            builder.setSuperClassName(matcher.group(1).trim());
+        }
+
+        // process implemented interfaces
+        matcher = IMPLEMENTS_PATTERN.matcher(source);
+        if (matcher.find()) {
+            String[] ifaces = matcher.group(1).trim().split("\\,");
+            Arrays.stream(ifaces).forEach(i -> builder.addInterface(i.trim()));
+        }
+
+        // process constructors, fields, methods
+        String body = source.substring(source.indexOf('{') + 1, source.length() - 1);
+        String[] methods = METHODS_PATTERN.split(body);
+        String className = ClassUtils.getSimpleClassName(name);
+        Arrays.stream(methods).map(String::trim).filter(m -> !m.isEmpty()).forEach(method-> {
+            if (method.startsWith(className)) {
+                builder.addConstructor("public " + method);
+            } else if (FIELD_PATTERN.matcher(method).matches()) {
+                builder.addField("private " + method);
+            } else {
+                builder.addMethod("public " + method);
+            }
+        });
+
+        // compile
+        ClassLoader classLoader = ClassHelper.getCallerClassLoader(getClass());
+        CtClass cls = builder.build(classLoader);
+        return cls.toClass(classLoader, JavassistCompiler.class.getProtectionDomain());
+    }
+
+}
+
+
+```
