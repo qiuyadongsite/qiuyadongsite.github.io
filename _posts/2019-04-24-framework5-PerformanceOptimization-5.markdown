@@ -373,7 +373,7 @@ UNION RESULT：从union表获取结果的select
 访问类型，sql查询优化中一个很重要的指标，结果值从好到坏依次是：
 
 
->>system > const > eq_ref > ref > range > index > ALL
+system `>` const `> `eq_ref `>` ref `> `range `> `index `>` ALL
 
 
 system：表只有一行记录（等于系统表），const类型的特例，基本不会出现，可以忽略不计
