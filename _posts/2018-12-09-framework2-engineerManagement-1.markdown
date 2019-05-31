@@ -23,4 +23,12 @@ comments: true
 
 
 
-[Git最详细篇-五星收藏](https://www.jianshu.com/p/e8a6c4e40b58)
+## 常用命令
+
+- 先从网上clone项目
+
+  git clone https://github.com/qiuyadongsite/show-my-code.git
+
+- 更新本地的项目
+
+ git fetch origin
