@@ -2,8 +2,8 @@
 layout: post
 title:  Tomcat的优化
 date:   2019-05-31 21:52:12 +08:00
-category: 算法
-tags: 集合类
+category: 性能优化
+tags: Tomcat
 comments: true
 ---
 
@@ -115,214 +115,101 @@ tomcat是java语言开发的servlet技术的实现，既然它是一个web容器
 
 5 在这个servlet中又可以使用request和response,那么应该是分别封装了socket的输入输出流，url对应servlet的url-pattern,方法则对应的是servlet-class
 
+6 Tomcat发布项目需要默认将项目拷贝到webapps，或者在server.xml配置context,从而映射到指定发布的目录，Context在xml中配置，应该会被解析成对象
+
+```xml
+
+</Server>
+ </Service>
+     <Engine>
+           <Host>
+               <Context path="/" docBase="/root/java/xx"  debug="0" reloadable="true"></Context>
+           </Host>
+    </Engine>
+  </Service>
+</Server>
+
+```
+
+
+
 
 ### 验证
 
+- 验证servlet
 
+首先看[官方文档](http://tomcat.apache.org/tomcat-8.0-doc/architecture/overview.html)中，有context的介绍：
 
-如何入手，既然servlet规范中要讲servlet配置到web.xml中，则启动tomcat肯定会初始化，肯定会扫描该文件目录。
+>A Context represents a web application. A Host may contain multiple contexts, each with a unique path. The Context interface may be implemented to create custom Contexts, but this is rarely the case because the StandardContext provides significant additional functionality.
 
+源码中找到Context，发现是个接口，那么Host、Engine、Service、Server都应该是接口，并得以验证;
 
-- 先看看web.xml的调用路径
-
-1 在源码中检索 "/WEB-INF/web.xml"
-
-```java
-
-public class Constants {
-    public static final String WEB_XML_LOCATION = "/WEB-INF/web.xml";
-}
-
-```
-
-2 那么久查找WEB_XML_LOCATION的使用位置 JspCServletContext中使用
+StandardContext中查找方法，排除掉get,set方法，找load*或者init*方法，找到,
 
 ```java
-
-
-private WebXml buildMergedWebXml(boolean validate, boolean blockExternal)
-           throws JasperException {
-               //...
-             URL url = getResource(
-                   org.apache.tomcat.util.descriptor.web.Constants.WEB_XML_LOCATION);
-
-            //    ...   
-           }
-
-//见名知意，向上找
-public JspCServletContext(PrintWriter aLogWriter, URL aResourceBaseURL,
-           ClassLoader classLoader, boolean validate, boolean blockExternal)
-    throws JasperException {
-
-       myAttributes = new HashMap<>();
-       myParameters = new ConcurrentHashMap<>();
-       myParameters.put(Constants.XML_BLOCK_EXTERNAL_INIT_PARAM,
-               String.valueOf(blockExternal));
-       myLogWriter = aLogWriter;
-       myResourceBaseURL = aResourceBaseURL;
-       this.loader = classLoader;
-       this.webXml = buildMergedWebXml(validate, blockExternal);
-       jspConfigDescriptor = webXml.getJspConfigDescriptor();
-   }
-
-```
-
-3 JspCServletContext有个实现位置Jspc.java的
-
-```java
-
-protected void initServletContext(ClassLoader classLoader)
-            throws IOException, JasperException {
-              //...
-              context = new JspCServletContext(log, resourceBase, classLoader,
-               isValidateXml(), isBlockExternal());
-                 //...
-            }
-
-```
-
-4 initServletContext方法的调用位置JspC.java的
-
-```java
-
- public void execute() {
- //...
-    initServletContext(loader);
-     //...
- }
-
-```
-
-而public class JspC extends Task implements Options。可以见名知意，Task是根据某个选项的任务。
-
-```java
-
-//查看是个模板方法模式开发的类
-public abstract class Task extends ProjectComponent {
-
-}
-
-```
-
-![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/tomcat009.png)
-
-这个在ant包下，又有copyfile/mkdir,则用于ant构建时使用。
-
-- 再看看web.xml的解析
-
-再JspCServletContext中根据web.xml构建了
-
-```java
-
- this.webXml = buildMergedWebXml(validate, blockExternal);
-
-```
-
-使用位置也只用
-
-```java
-
-jspConfigDescriptor = webXml.getJspConfigDescriptor();
-
-```
-
-找到如下：
-
-```java
-
-public class JspConfig {
-
-
-    private Vector<JspPropertyGroup> jspProperties = null;
-    private final ServletContext ctxt;
-
-   private void processWebDotXml() {
-  JspConfigDescriptor jspConfig = ctxt.getJspConfigDescriptor();
-
-        if (jspConfig == null) {
-            return;
-        }
-
-        jspProperties = new Vector<>();
-        Collection<JspPropertyGroupDescriptor> jspPropertyGroups =
-                jspConfig.getJspPropertyGroups();
-
-        for (JspPropertyGroupDescriptor jspPropertyGroup : jspPropertyGroups) {
-
-            Collection<String> urlPatterns = jspPropertyGroup.getUrlPatterns();
-
-            if (urlPatterns.size() == 0) {
-                continue;
-            }
-
-            JspProperty property = new JspProperty(jspPropertyGroup.getIsXml(),
-                    jspPropertyGroup.getElIgnored(),
-                    jspPropertyGroup.getScriptingInvalid(),
-                    jspPropertyGroup.getPageEncoding(),
-                    jspPropertyGroup.getIncludePreludes(),
-                    jspPropertyGroup.getIncludeCodas(),
-                    jspPropertyGroup.getDeferredSyntaxAllowedAsLiteral(),
-                    jspPropertyGroup.getTrimDirectiveWhitespaces(),
-                    jspPropertyGroup.getDefaultContentType(),
-                    jspPropertyGroup.getBuffer(),
-                    jspPropertyGroup.getErrorOnUndeclaredNamespace());
-        }
-
-
-  }
-}
-
-```
-
-查找到jspconfig的
-
-```java
-
-private void init() {
-
-       if (!initialized) {
-           synchronized (this) {
-               if (!initialized) {
-                   processWebDotXml();
-                   defaultJspProperty = new JspProperty(defaultIsXml,
-                           defaultIsELIgnored,
-                           defaultIsScriptingInvalid,
-                           null, null, null,
-                           defaultDeferedSyntaxAllowedAsLiteral,
-                           defaultTrimDirectiveWhitespaces,
-                           defaultDefaultContentType,
-                           defaultBuffer,
-                           defaultErrorOnUndeclaredNamespace);
-                   initialized = true;
-               }
-           }
-       }
-   }
-
-```
-
-既然是容器，那么肯定有context（规范），确实有：
-
-```java
-
-public interface Context extends Container {}
-
-```
-
-再找一个实现：
-
-```java
-
-//不看set get方法
-//肯定有load方法
-public class StandardContext extends ContainerBase
-        implements Context{
 
 public boolean loadOnStartup(Container children[]) {
 
+       // Collect "load on startup" servlets that need to be initialized
+       TreeMap<Integer, ArrayList<Wrapper>> map = new TreeMap<>();
+       for (int i = 0; i < children.length; i++) {
+           Wrapper wrapper = (Wrapper) children[i];
+           int loadOnStartup = wrapper.getLoadOnStartup();
+           if (loadOnStartup < 0)
+               continue;
+           Integer key = Integer.valueOf(loadOnStartup);
+           ArrayList<Wrapper> list = map.get(key);
+           if (list == null) {
+               list = new ArrayList<>();
+               map.put(key, list);
+           }
+           list.add(wrapper);
+       }
+       for (ArrayList<Wrapper> list : map.values()) {
+           for (Wrapper wrapper : list) {
+              wrapper.load();}
+            }
 
 }
 
-        }
-
 ```
+
+根据注释得到验证。
+
+对于这种只需要了解流程的项目没必要看懂每一行代码，而且tomcat的代码没有代表性，接着看文档看看启动流程：
+
+官网给的[流程](http://tomcat.apache.org/tomcat-8.0-doc/architecture/startup/serverStartup.pdf)
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/tomcat011.png)
+
+[上图的解释](http://tomcat.apache.org/tomcat-8.0-doc/architecture/startup/serverStartup.txt)
+
+可以发现Catalina.start()的第三步 ContextConfig.start() 来解析web.xml,详细方法在webConfig();-> configureContext(webXml);
+
+[查看该代码](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/files/configureContext.java)：作用就是解析web.xm中的各个配置errorPage、filter、listener等。
+
+- 验证socket
+
+   根据查看tomcat源码的经验，可以发现Connector配置了端口，
+
+```java
+
+   public class Connector extends LifecycleMBeanBase  {
+   }
+```
+
+根据Tomcat中生命周期的定义Lifecycle，会实现initInternal()->AbstractProtocol的init()->AbstractEndpoint的bind():
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/tomcat012.png)
+
+根据配置不同的协议绑定端口，apr的[bind方法](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/files/apr.java)
+
+看到int ret = Socket.bind(serverSock, inetAddress)得到验证。并且其中使用了线程池来解决bio的同步阻塞问题。
+
+验证完毕！
+
+## 架构
+
+猜想验证简单的可以达到手写tomcat服务器最基础的功能，那么看看Tomcat还做了什么？
+
+![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/tomcat013.png)
