@@ -213,3 +213,5 @@ public boolean loadOnStartup(Container children[]) {
 猜想验证简单的可以达到手写tomcat服务器最基础的功能，那么看看Tomcat还做了什么？
 
 ![](https://raw.githubusercontent.com/qiuyadongsite/qiuyadongsite.github.io/master/_posts/images/tomcat013.png)
+
+对应关系是server.xml配置文件；
