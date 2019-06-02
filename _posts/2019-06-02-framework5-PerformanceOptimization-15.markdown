@@ -167,13 +167,13 @@ Tomcat是Java web最常用的web服务器,有必要对其进行深入了解。
 
   - session
 
-  ```xml
+```xml
 
-  <session-config>
+<session-config>
 <session-timeout>30</session-timeout>
 </session-config>
 
-  ```
+```
 
 ### 修改
 
