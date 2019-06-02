@@ -256,9 +256,6 @@ ps -ef | grep tomcat
 
 kill pid
 
-
-输入
-
 测试结果：
 
 连接数小的时候：
