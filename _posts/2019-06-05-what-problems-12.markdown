@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  重点名称解释
-date:   2019-0-05 20:52:12 +08:00
+date:   2019-06-05 20:52:12 +08:00
 category: 疑难点
 tags: 并发编程
 comments: true
