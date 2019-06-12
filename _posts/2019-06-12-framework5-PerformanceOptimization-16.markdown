@@ -101,7 +101,7 @@ List接口：具体可查看ArrayList、LinkedList等；
     中序遍历：（左-中-右）
     后序遍历：（左-右-中）
 
-    代码地址：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/tree/BinaryTreeDemo.java
+    [代码地址](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/tree/BinaryTreeDemo.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/tree/BinaryTreeDemo.java
 
 ### 特殊二叉树
 
@@ -109,7 +109,8 @@ List接口：具体可查看ArrayList、LinkedList等；
 
 左子树小于根节点，根节点大于右子树。符合中序遍历原则。
 
-对于二叉搜索树的代码（构建、删除、检索）：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/tree/SearchBinaryTree.java
+对于二叉搜索树的代码（构建、删除、检索）
+[代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/tree/SearchBinaryTree.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/tree/SearchBinaryTree.java
 
 - 堆
 
@@ -119,7 +120,7 @@ List接口：具体可查看ArrayList、LinkedList等；
 
 大根堆：根节点大于左右子树；具体可以在堆排序中得到应用
 
-代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeepSort.java
+[代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeepSort.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeepSort.java
 
 - 哈夫曼树
 
@@ -181,13 +182,13 @@ n个带权叶子节点构成的所有二叉树中，带权WPL路径最小的二�
 
 每次从树T中到T外的所有边中找一个条最短的边。
 
-代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/graph/Graph.java
+[代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/graph/Graph.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/graph/Graph.java
 
 - 克鲁斯卡尔算法
 
 先按照权值进行排序，从小到大选取不形成回路。
 
-代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/graph/GraphKruskal.java
+[代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/graph/GraphKruskal.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-ability/src/main/java/com/qyd/learn/show/algorithm/graph/GraphKruskal.java
 
 最短路径、拓扑排序、关键路径下次搞吧，能力有限。
 
@@ -219,102 +220,104 @@ n个带权叶子节点构成的所有二叉树中，带权WPL路径最小的二�
 - 插入排序
   - 直接插入排序
   思想：往有序的队列中插入，后边的元素后移。
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/InsertSort.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/InsertSort.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/InsertSort.java
 
   - 二分法插入排序
   思想：直接插入排序不高效，同样往有序的队列中插入，二分插入直到left指针不小于right指针，找到位置快，同样后边的元素后移。
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/BinaryInsortSort.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/BinaryInsortSort.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/BinaryInsortSort.java
 
   - 希尔排序
   思想：增量的对比，以及增量改变对比，最后保证输出结果，不稳定排序。
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeerSort.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeerSort.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeerSort.java
 - 选择排序
   - 简单选择排序
   思想：选最小的放最前边
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeerSort.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeerSort.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeerSort.java
 
   - 堆排序
   思想：构建大堆，根节点下沉，放最后一个。以此类推。
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeepSort.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeepSort.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/HeepSort.java
 
 - 交换排序
   - 冒泡排序
   思想：进行n轮比较，每次上浮一个最大的。O(n^2)
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/MaoSort.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/MaoSort.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/MaoSort.java
   - 快速交换排序
   思想：找到第一个元素在集合中的位置，进行交换，以此对左边和右边递归。
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/QuickSwap.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/QuickSwap.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/QuickSwap.java
 
 - 归并排序
   思想：一分为二，最后分为一个一个元素，再合并两个有序数组；
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/MergeSort.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/MergeSort.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/MergeSort.java
 
 - 基数排序
   思想：针对数字特性的排序，找到最大数的位数，将从各位数开始，个位-十位-百位，把他们分别放入ArrayList<ArrayList>的集合的集合中。遍历即为结果。
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/BasicSort.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/BasicSort.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/sort/BasicSort.java
 
 ### 算法分析方法
 
 - 递归法
   - 汉诺塔
   思想：移动柱子上的盘子。
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/HaNota.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/HaNota.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/HaNota.java
 
   - 二分查找法
   思想：递归左右指针，直到找到mid
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/search/BinarySearch.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/search/BinarySearch.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/search/BinarySearch.java
 
   - 欧几里得算法
   思想：求最大公约数M N M>N 等价于N M%N
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/Gcd.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/Gcd.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/Gcd.java
 
   - 阶乘求解
   思想：递归
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/CallNFact.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/CallNFact.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/CallNFact.java
 
 - 穷举法
   - 泊松分酒
   思想：倒出一定数量的酒；
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/ShareWine.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/ShareWine.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/recur/ShareWine.java
 
 - 贪心算法
   - 背包问题
   思想：得到最好的价值最大化的结果
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/PackageProblem.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/PackageProblem.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/PackageProblem.java
 
 - 分治法
   思想：大问题变小，小问题化了；
   - n个球队n-1天进行的循环赛比赛
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/SportsSchedule.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/SportsSchedule.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/SportsSchedule.java
 
   - 寻找棋盘特殊位置
   找出棋盘的特殊位置，其他用L覆盖
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/ChessBoradProblem.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/ChessBoradProblem.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/ChessBoradProblem.java
 
 - 动态规划法
   思想：根据现阶段有效情况，执行下阶段操作
   - 求最长公共子序列
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/LCS.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/LCS.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/LCS.java
 
 - 迭代法
 
   - Fibonacci数列
 
-  代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/Fibonacci.java
+  [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/Fibonacci.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/Fibonacci.java
 
 - 回溯法
   - 八皇后
     思想：在棋盘上放8个皇后，对角线和平行线上不能有皇后，放位置的时候，放到最后发现放不下了，回退再找合适的结果。
-    代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/Queen.java
+    [代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/Queen.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/Queen.java
 
 ### 其他
 
 - 约瑟夫杀人算法
 
-代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/Josephus.java
+[代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/Josephus.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/Josephus.java
 
 - 大数相乘
 
-代码：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/BigCount.java
+[代码](https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/BigCount.java)：https://github.com/qiuyadongsite/show-my-code/blob/master/show-me-common/src/main/java/com/qyd/learn/show/algorithm/others/BigCount.java
+
+看代码查看原文，或者查看https://qiuyadongsite.github.io/
 
 下一篇再加深。
