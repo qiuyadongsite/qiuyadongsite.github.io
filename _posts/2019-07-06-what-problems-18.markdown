@@ -29,7 +29,9 @@ java -version
 
 ：包含的含义
 
-jps
+jps列出系统中所有的java进程
+
+在Linux系统中使用ps -ef|grep java
 
 jinfo -flags [ID]
 

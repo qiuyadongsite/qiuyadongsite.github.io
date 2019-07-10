@@ -1,4 +1,6 @@
 message: API/开发官网
 items:
-  - text: Java 8 API
-    url: https://docs.oracle.com/javase/8/docs/api/
+  - text: Java 8 DOC
+    url: https://docs.oracle.com/javase/8/docs
+  - text: JAVA语言规范
+    url: https://docs.oracle.com/javase/specs
