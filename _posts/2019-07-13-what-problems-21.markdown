@@ -825,3 +825,7 @@ java内存模型要求lock、unlock、read、load、assign、use、store、write
 - 偏向锁
 
 轻量级锁在无竞争的情况下使用CAS操作消除同步使用的互斥量，那偏向锁就是在无竞争的情况下把整个同步都消除掉，连CAS操作都不做了。
+
+
+
+JVM OVER!
