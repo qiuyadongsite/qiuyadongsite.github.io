@@ -26,6 +26,15 @@ comments: true
 
 ## 常用案例
 
+### 查看安装目录
+
+ps -ef|grep redis
+
+得到了进程号 xxxx
+
+然后 ls -l /proc/xxxx/cwd
+
+
 ### 端口占用
 
 netstat -anp | grep 8080
