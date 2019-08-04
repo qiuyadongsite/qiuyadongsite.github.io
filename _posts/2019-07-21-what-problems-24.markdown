@@ -61,6 +61,58 @@ zadd zset-key 728 member1 添加一个带score的key，这个score用于排序�
 
 zrem key subkey 移除一个value
 
+### 常用命令
+
+- 字符串操作
+
+INCR/DECR +1 -1
+
+INCRBY/DECRBY/INCRBYFLOAT key amount + - amount  
+
+APPEND key value 在当前存储值得末尾添加值
+
+GETRANGE key start end 获取start-end范围内所有字符组成的字串
+
+SETRange key offset value 从offset开始设置的值
+
+GetBit key offset 返回字符串中的偏移量
+
+setbit key offset value
+
+bitcount key start end 统计数量
+
+- 列表
+
+RPUSH LPUSH RPOP LPOP LiNDEX LRange Ltrim(对列表进行修剪)
+
+- 集合
+
+SADD SREM SISMEMBER SCARD SMEMBERS SRANGEMEMBER SPOP SMOVE
+
+SDIFF SDIFFSTORE SINTER SINTERSTORE SUNION SUNIONSTROE
+
+- 散列
+
+HMGET HMSET HDEL HLEN HEXITSTS HKEYS HVALS HGETALL HINCRBY HINCRBYFLOAT
+
+- 有序集合
+
+ZADD ZREM ZCARD ZINCRBY ZCOUNT ZRANK ZSCORE zrange
+
+ZREVRANK ZREVRANGE ZRANGEBYSCORE
+
+- 发布和订阅
+
+SUBSCRIBE UNSUBSCRIBE PUBlish PSUBSCRIBE PUNSUBSCRIBE
+
+- 其他命令
+
+sort:排序
+
+MULTI/EXEC：事务
+
+键的过期时间：persist/ttl、expire/expireat、pttl、pexpire
+
 ### 数据类型的应用
 
 一个文章应用系统
@@ -157,57 +209,6 @@ redis在这个时候来实现登陆cookie功能，取代关系型数据库实现
 
 从用户的访问、交互和购买行为中收集有价值的信息。
 
-## 常用命令
-
-- 字符串操作
-
-INCR/DECR +1 -1
-
-INCRBY/DECRBY/INCRBYFLOAT key amount + - amount  
-
-APPEND key value 在当前存储值得末尾添加值
-
-GETRANGE key start end 获取start-end范围内所有字符组成的字串
-
-SETRange key offset value 从offset开始设置的值
-
-GetBit key offset 返回字符串中的偏移量
-
-setbit key offset value
-
-bitcount key start end 统计数量
-
-- 列表
-
-RPUSH LPUSH RPOP LPOP LiNDEX LRange Ltrim(对列表进行修剪)
-
-- 集合
-
-SADD SREM SISMEMBER SCARD SMEMBERS SRANGEMEMBER SPOP SMOVE
-
-SDIFF SDIFFSTORE SINTER SINTERSTORE SUNION SUNIONSTROE
-
-- 散列
-
-HMGET HMSET HDEL HLEN HEXITSTS HKEYS HVALS HGETALL HINCRBY HINCRBYFLOAT
-
-- 有序集合
-
-ZADD ZREM ZCARD ZINCRBY ZCOUNT ZRANK ZSCORE zrange
-
-ZREVRANK ZREVRANGE ZRANGEBYSCORE
-
-- 发布和订阅
-
-SUBSCRIBE UNSUBSCRIBE PUBlish PSUBSCRIBE PUNSUBSCRIBE
-
-- 其他命令
-
-sort:排序
-
-MULTI/EXEC：事务
-
-键的过期时间：persist/ttl、expire/expireat、pttl、pexpire
 
 ## 数据安全与性能保障
 
@@ -326,3 +327,5 @@ Redis复制的启动过程
 为了让实际中可用，一般让主服务器只使用50%~65%的内存，留下30~45%的内存用于执行bgsave命令和创建记录写命令的缓冲区。
 
 Redis不支持主主复制，从服务器在进行同步时，会清空自己的所有数据。
+
+###
