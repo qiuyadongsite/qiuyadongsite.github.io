@@ -47,7 +47,7 @@ comments: true
 
 根据七大设计，将平时开发的经验总结了设计模式，每个设计模式一般也不是独立存在的。
 
-![代码:](https://github.com/qiuyadongsite/show-my-code/tree/master/show-me-ability/src/main/java/com/qyd/learn/show/pattern)https://github.com/qiuyadongsite/show-my-code/tree/master/show-me-ability/src/main/java/com/qyd/learn/show/pattern
+代码:<https://github.com/qiuyadongsite/show-my-code/tree/master/show-me-ability/src/main/java/com/qyd/learn/show/pattern> https://github.com/qiuyadongsite/show-my-code/tree/master/show-me-ability/src/main/java/com/qyd/learn/show/pattern
 
 ### 工厂设计模式
 
