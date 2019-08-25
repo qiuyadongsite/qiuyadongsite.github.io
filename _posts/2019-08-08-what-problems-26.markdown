@@ -26,7 +26,7 @@ keys!
 
 请求头：
 
-方法 url 协议版本
+方法 url 协议版本1
 
 Accept：浏览器可接受的MIME类型。
 Accept-Charset：浏览器可接受的字符集。
