@@ -146,3 +146,25 @@ docker run -d --name my-filesystem -p 7000:7003 qiuyd-file-image
 docker pull registry.cn-beijing.aliyuncs.com/qiuyd/qiuydsite:laster
 
 ```
+
+查看docker的资源使用情况：docker stats
+
+如果不加限制，将无限制的使用物理机的资源
+
+- 内存限制
+
+docker run -d --memory 100M --name tomcat1 tomcat
+
+- cpu限制
+
+docker run -d --cpu-shares 10 --name tomcat2 tomcat
+
+Container是一种轻量级的虚拟技术，不用模拟硬件创建虚拟机
+
+docker是基于Linux Kernel的Namespace、CGroups、UnionFileSystem等技术封装成一种自定义的容器格式，从而提供一套虚拟运行环境。
+
+Namespace用来隔离：pid（进程）、net(网络)、mnt(挂载点)
+
+CGroups用来隔离：资源的限制如cpu,内存
+
+UnionFileSystem：用来做images和container分层。
