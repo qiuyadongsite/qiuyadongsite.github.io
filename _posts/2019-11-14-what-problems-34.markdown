@@ -168,3 +168,21 @@ Namespace用来隔离：pid（进程）、net(网络)、mnt(挂载点)
 CGroups用来隔离：资源的限制如cpu,内存
 
 UnionFileSystem：用来做images和container分层。
+
+- 卸载与安装docker
+
+yum list installed | grep docker
+
+yum remove docker-ce.x86_64 ddocker-ce-cli.x86_64 -y
+
+rm -rf /var/lib/docker
+
+yum list docker-ce --showduplicates | sort -r
+
+yum install docker-ce-17.12.0.ce
+
+启动、设置开启开机启动
+
+sudo systemctl start docker
+
+sudo systemctl enable docker
