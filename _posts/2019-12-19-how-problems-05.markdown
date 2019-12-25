@@ -93,4 +93,4 @@ java的内存模型：主内存和工作内存
 
 - ReentrantReadWriteLock 重入读写锁，读多写少的情况下解决线程安全问题
 
-- StampedLock
+- StampedLock 可以理解为读写锁的升级版，由于虽然读写分离了，但是只适合于读多写少，读线程太多之后，造成写锁饥饿，现在的StampedLock中的是一种乐观锁完全不阻塞，这样性能就提高了
