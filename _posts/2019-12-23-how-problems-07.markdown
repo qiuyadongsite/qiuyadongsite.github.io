@@ -72,4 +72,4 @@ FairSync:所有线程严格按照FIFO进行获取锁
 
   synchronized可以通过notify和wait控制线程的基本组合；
 
-  JUC中使用Condition来实现线程走到某个条件进行唤醒
+  JUC中使用Condition来实现线程走到某个条件进行唤醒 :lock.newCondition();
