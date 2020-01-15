@@ -36,33 +36,30 @@ comments: true
 
 每天一个专题，找题做！
 
-1.设计模式和源码学习
+星期一.设计模式和源码学习
 
 源码：spring、mybaits、springboot、dubbo等框架源码,看源码总结设计模式
 
-2.分布式
+星期二.分布式
 
 多线程、网络协议、序列化、通讯框架Netty、springboot、dubbo、zk、rocketMQ、KAFKA等
 
-3.微服务
+星期三.微服务
 
 springcloud、redis、分库分表、任务调度
 
-4.性能优化
+星期四.性能优化
 
 jvm、tomcat、mysql等
 
-5.架构师必懂
+星期五.架构师必懂
 
 docker、linux、k8s、git、uml、maven、svn等
 
-6.算法
+星期六.算法
 
 各种算法概念及案例、各种排序和数据结构等
 
-7.休息一天
+星期天.休息一天
 
 如果哪天没完成相应得进行补充！每天十道题！
-
-
-
