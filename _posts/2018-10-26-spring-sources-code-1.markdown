@@ -109,6 +109,10 @@ allprojects{
 
  参数设为：distributionUrl=file:///D:/gradle/gradle-4.4.1-all.zip
 
+添加aspectj的编译：
+
+ https://blog.csdn.net/a704397849/article/details/102754505
+
 ## Spring的基本概念
 
 简介：解决java开发中`简化开发`的目标;
