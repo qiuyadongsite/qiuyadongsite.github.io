@@ -42,11 +42,11 @@ comments: true
 
 星期二.分布式
 
-多线程、网络协议、序列化、通讯框架Netty、springboot、dubbo、zk、rocketMQ、KAFKA等
+多线程、网络协议、序列化、通讯框架Netty、dubbo、zk、rocketMQ、KAFKA等
 
 星期三.微服务
 
-springcloud、redis、分库分表、任务调度
+springboot、springcloud、redis、分库分表、任务调度
 
 星期四.性能优化
 
