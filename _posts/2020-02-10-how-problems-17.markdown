@@ -92,3 +92,16 @@ Starters are a set of convenient dependency descriptors that you can include in 
 
   命名：*-spring-boot-starter 
 
+## 3、怎么理解自动装配？
+
+Spring Boot自动配置尝试根据添加的jar依赖项自动配置Spring应用程序。 
+
+>Spring Boot auto-configuration attempts to automatically configure your Spring application based on the jar dependencies that you have added.     
+>
+>You should only ever add one **@SpringBootApplication** or **@EnableAutoConfiguration** annotation.    
+
+### @SpringBootApplication
+
+- @EnableAutoConfiguration    
+- @ComponentScan    
+- @Configuration    
