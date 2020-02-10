@@ -100,8 +100,156 @@ Spring Boot自动配置尝试根据添加的jar依赖项自动配置Spring应用
 >
 >You should only ever add one **@SpringBootApplication** or **@EnableAutoConfiguration** annotation.    
 
-### @SpringBootApplication
+**@SpringBootApplication**：
 
 - @EnableAutoConfiguration    
+
 - @ComponentScan    
+
 - @Configuration    
+
+   
+
+**@Import**
+
+**@Conditional**
+
+
+
+## 4、理解Production-Ready
+
+- Springboot Actuator
+
+使用场景：监视和管理投入生产的应用；
+
+监控媒介：HTTP或者JMX端点；
+
+端点类型：审计、健康、指标收集；
+
+基本特点：自动运行；
+
+- Springboot Actuator Endpoints
+
+beans:
+
+conditions:
+
+env:
+
+health:
+
+info:
+
+- 外部化配置
+
+Bean的@Value注入
+
+Spring Environment读取
+
+@ConfigurationProperties绑定到结构化对象
+
+## 5、理解注解驱动编程
+
+### 注解历史
+
+2.5
+
+依赖注入：@Autowired
+
+依赖查找：@Qualifier
+
+组件声明：@Component、@Service
+
+Springmvc注解：@Controller、@RequestMapping、@ModelAttribute等
+
+JSR-250注解：@Resource以及@PostConstruct、@PreDestroy（init-method、destroy-method）
+
+3.x
+
+配置类注解：@Configuration
+
+AnnotationConfigApplicationContext:
+
+@Bean
+
+@DependsOn
+
+@Lazy
+
+@Primary
+
+@Role
+
+@Profile
+
+springmvc方面的注解：@RequestHeader、@CookieValue、@RequestPart、@PathVariable、@RequestBody、@ResponseStatus
+
+JAX-RS
+
+配置属性：Environment接口、PropertySources
+
+@PropertySource
+
+缓存抽象Cache和CacheManager
+
+异步@Async、@Scheduled、异步web请求处理deferredResule
+
+检验：@Validated(JSR-303)
+
+模块驱动：@EnableWebMvc(RequestMapping、RequestMappingHandlerAdapter、HandlerExceptionResolver)
+
+4.x
+
+@Conditional
+
+java.time(jsr-310)
+
+@Repeatable(jsr-337)
+
+@PropertySource
+
+@ComponentScans
+
+@EventListener(ApplicationListener)
+
+@AliasFor
+
+@RequestMapping
+
+@GetMapping
+
+@RestController
+
+@RestControllerAdvice
+
+@CrossOrigin(CorsRegistry)
+
+@Lookup
+
+5.x
+
+@Indexed
+
+NonNull、Nullable(JSR-305)
+
+### 注解分类
+
+- 元注解(Meta-Annotations)
+
+  - java元注解：@Inherited、@Documented、@Repeatable等
+  - spring元注解：@Component
+
+- Spring模式注解(Stereotype)
+
+  如@Repository、@Controller、@Service都是@Component派生的，理解派生性
+
+- Spring组合注解(Composed)
+
+  如@TransactionalService、@SpringbootApplication
+
+- Spring注解属性别名和覆盖(Attribute Aliases and Overrides)
+
+## 6、Spring注解驱动设计模式
+
+
+
