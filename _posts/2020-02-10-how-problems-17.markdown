@@ -251,5 +251,68 @@ NonNull、Nullable(JSR-305)
 
 
 
+## 6、Spring注解驱动设计模式
+
+### Spring@Enable模块驱动
+
+#### 1、已有的注解
+
+- Spring Framework 
+  - @EnableWebMvc
+  - @EnableTransactionManagement
+  - @EnableCaching
+  - @EnableMBean
+  - @EnableAsync
+  - @EnableWebFlux
+  - @EnableAspectJAutoProxy
+- Spring Boot
+  - EnableAutoConfiguration
+  - EnableManagementContext
+  - EnableConfigurationProperties
+  - EnableOAuth2Sso
+- Spring Cloud
+  - EnableEurekaServer
+  - EnableConfigServer
+  - EnableFeignClients
+  - EnableZuulProxy
+  - EnableCircuitBreaker
+
+#### 2、自定义@Enable注解
+
+@ImportResource用于导入XML配置文件，@Import导入一个或者多个ConfigurationClass，spring3.0需要该类必须被@Configuration标注,3.1进行了扩大，至少一个@Bean方法的类，以及ImportSelector或者ImportBeanDefinitionRegistrar的实现类
+
+- 注解驱动
+
+  @Configuration和@Bean
+
+- 接口驱动
+
+  ImportSelector或者ImportBeanDefinitionRegistrar的实现类
+
+#### 3、@Enable模块驱动原理
+
+- 装载@Configuration Class
+- 装载ImportSelector和ImportBeanDefinitionRegistrar实现
+
+### Spring web的自动装配
+
+- 自定义Web自动装配
+  - 新增@Controller
+  - 新增SpringWebMVC配置-SpringWebMvcConfiguration
+  - 实现AbstractAnnotationConfigDispatcherServletInitializer-SpringMvcServletInitializer
+  - Pom依赖和插件配置
+- Web自动装配原理
+  - ServletContext配置方法
+- Spring条件配置
+
+## 7、Spring Boot自动装配
 
 
+
+## 8、SpringApplication初始化阶段
+
+
+
+## 9、SpringApplication运行阶段
+
+## 10、SpringApplication结束阶段
