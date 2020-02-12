@@ -19,7 +19,7 @@ comments: true
 
 ## 学习总结
 
-定定住天涯，依依向物华。 寒梅最堪恨，常作去年花。 
+定定住天涯，依依向物华。 寒梅最堪恨，常作去年花。
 
 
 
@@ -27,23 +27,23 @@ comments: true
 
 - 概念
 
-  Redis是一个开源(BSD许可)的内存数据结构存储，用作数据库、缓存和消息代理。 
+  Redis是一个开源(BSD许可)的内存数据结构存储，用作数据库、缓存和消息代理。
 
 - 数据类型
 
-  它支持诸如字符串、散列、列表、集、带范围查询的排序集、位图、hyperloglogs、带半径查询和流的地理空间索引等数据结构。 
+  它支持诸如字符串、散列、列表、集、带范围查询的排序集、位图、hyperloglogs、带半径查询和流的地理空间索引等数据结构。
 
 - 特性
 
-  Redis具有内置的复制、Lua脚本、LRU清除、事务和不同级别的磁盘持久性，并通过Redis Sentinel和带有Redis集群的自动分区提供高可用性（自动故障切换）。 
+  Redis具有内置的复制、Lua脚本、LRU清除、事务和不同级别的磁盘持久性，并通过Redis Sentinel和带有Redis集群的自动分区提供高可用性（自动故障切换）。
 
 - 原子操作
 
-  包括附加到一个字符串、在散列中增加值、将元素推入列表、计算集的交，并，差、得到排序集中排名最高的成员。 
+  包括附加到一个字符串、在散列中增加值、将元素推入列表、计算集的交，并，差、得到排序集中排名最高的成员。
 
 ## 2、Redis中的key
 
-Redis的key是二进制安全的，这意味着您可以使用任何二进制序列作为key，从“foo”这样的字符串到JPEG文件的内容。空字符串也是一个有效的键。 
+Redis的key是二进制安全的，这意味着您可以使用任何二进制序列作为key，从“foo”这样的字符串到JPEG文件的内容。空字符串也是一个有效的键。
 
 **key使用规则**
 
@@ -56,7 +56,7 @@ Redis的key是二进制安全的，这意味着您可以使用任何二进制序
   点或破折号通常用于多字字段
 
   - "object-type:id" （"user:1000" ）
-  - "comment：1234:reply.to" or "comment：123：reply-to" 
+  - "comment：1234:reply.to" or "comment：123：reply-to"
 
 - 最大运行512M
 
@@ -69,21 +69,21 @@ Redis的key是二进制安全的，这意味着您可以使用任何二进制序
 
 - 操作
 
-  - GET 
+  - GET
 
-  - SET 
+  - SET
 
     如果存在key就失败nail，
 
-  -  INCR 
+  -  INCR
 
     当时int时使用，原子增加1，多个客户操作能够保证原子性；类似的有INCRBY增加x, DECR and DECRBY.
 
-  - GETSET 
+  - GETSET
 
     设置为新的值，返回旧的值
 
-  - MSET 
+  - MSET
 
     批量设置，MGET批量返回
 
@@ -105,7 +105,7 @@ Redis的key是二进制安全的，这意味着您可以使用任何二进制序
 
 - 操作
 
-  - rpush 
+  - rpush
 
     右边添加
 
@@ -236,7 +236,7 @@ OK
 
   - zrevrange
 
-  - zrangebyscore 
+  - zrangebyscore
 
     - zrangebyscore  hackers -inf 1950
 
@@ -276,18 +276,18 @@ OK
 
 - 原则
 
-  - 事务中的所有命令都被序列化并按顺序执行。在执行一个Redis事务的过程中，不可能出现另一个客户端发出的请求。这保证了命令作为一个单独的独立操作执行。 
-  - 要么处理所有命令，要么一个也不处理，因此Redis事务也是原子性的。 
+  - 事务中的所有命令都被序列化并按顺序执行。在执行一个Redis事务的过程中，不可能出现另一个客户端发出的请求。这保证了命令作为一个单独的独立操作执行。
+  - 要么处理所有命令，要么一个也不处理，因此Redis事务也是原子性的。
 
 - Redis不支持事务回滚
 
 - 命令
 
-  - MULTI 
+  - MULTI
 
     事务开始前的标志，总是返回ok
 
-  - EXEC 
+  - EXEC
 
     执行从MULTL之后的queued的命令
 
@@ -295,9 +295,9 @@ OK
 
     退出事务
 
-  - WATCH 
+  - WATCH
 
-    监控键的值得修改，提供a check-and-set (CAS) behavior to Redis transactions. 
+    监控键的值得修改，提供a check-and-set (CAS) behavior to Redis transactions.
 
     ```
     WATCH mykey
@@ -308,7 +308,7 @@ OK
     EXEC
     ```
 
-    
+
 
 ## 5、Pub/Sub
 
@@ -321,7 +321,7 @@ OK
 
 ## 6、Lua scripting
 
-EVAL和EVALSHA用于使用从版本2.6.0开始构建到Redis中的Lua解释器来评估脚本。 
+EVAL和EVALSHA用于使用从版本2.6.0开始构建到Redis中的Lua解释器来评估脚本。
 
 ```
 > eval "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}" 2 key1 key2 first second
@@ -344,7 +344,7 @@ EVAL和EVALSHA用于使用从版本2.6.0开始构建到Redis中的Lua解释器�
 
   两者的区别是一个失败返回失败，另一个返回异常信息
 
-  
+
 
 ## 7、Keys with a limited time-to-live
 
@@ -360,17 +360,17 @@ EVAL和EVALSHA用于使用从版本2.6.0开始构建到Redis中的Lua解释器�
 
   命令： SET, GETSET and all the *STORE commands
 
-- PERSIST 
+- PERSIST
 
 - 不改变超时时间的行为
 
-  这意味着，所有在概念上更改存储在键上的值而不使用新值替换它的操作都不会影响超时。例如，使用INCR增加键值，使用LPUSH将新值推入列表，或者使用HSET更改散列的字段值，这些操作都不会影响超时。 
+  这意味着，所有在概念上更改存储在键上的值而不使用新值替换它的操作都不会影响超时。例如，使用INCR增加键值，使用LPUSH将新值推入列表，或者使用HSET更改散列的字段值，这些操作都不会影响超时。
 
   - RENAME
 
 #### 设置超时时间
 
-- EXPIRE 
+- EXPIRE
 
   如果key存在返回1，不存在返回0
 
@@ -398,39 +398,39 @@ EVAL和EVALSHA用于使用从版本2.6.0开始构建到Redis中的Lua解释器�
   -  删除所有已过期的密钥
   - 如果超过25%的key过期，则重新从步骤1开始
 
-#### 如何在复制链接和AOF文件中处理过期 
+#### 如何在复制链接和AOF文件中处理过期
 
-- 为了在不牺牲一致性的情况下获得正确的行为，当密钥过期时，将在AOF文件中合成DEL操作并获得所有附加的副本节点。 
-- 然而而独立副本连接到一个主键不会到期(但将等待DEL来自master),他们仍然会把到期的全部状态存在的数据集,所以当一个复制品当选掌握它将能够到期独立的关键,完全充当master。 
+- 为了在不牺牲一致性的情况下获得正确的行为，当密钥过期时，将在AOF文件中合成DEL操作并获得所有附加的副本节点。
+- 然而而独立副本连接到一个主键不会到期(但将等待DEL来自master),他们仍然会把到期的全部状态存在的数据集,所以当一个复制品当选掌握它将能够到期独立的关键,完全充当master。
 
 ## 8、LRU eviction of keys
 
 使用Redis作为LRU最少使用缓存
 
-配置最大使用内存，当达到指定的内存量时，可以在不同的行为(称为策略)之间进行选择。 
+配置最大使用内存，当达到指定的内存量时，可以在不同的行为(称为策略)之间进行选择。
 
 ```
 maxmemory 100mb
 # 如果设置为0，没有限制，这是64位系统的默认行为，而32位系统使用3GB的隐式内存限制。
 ```
 
-配置策略maxmemory-policy 
+配置策略maxmemory-policy
 
 - noeviction
 
    没有策略
 
-- **allkeys-lru** 
+- **allkeys-lru**
 
   最近最少使用的删掉；**期望是幂律分布时**；
 
-- volatile-lru 
+- volatile-lru
 
   在设置了超时时间的key中执行，最近最少使用的删掉
 
 - **allkeys-random**
 
-  所有的key中随机删除；**如果您有一个循环访问，其中所有的键被连续地扫描，或者当您期望分布是均匀的** 
+  所有的key中随机删除；**如果您有一个循环访问，其中所有的键被连续地扫描，或者当您期望分布是均匀的**
 
 - volatile-random
 
@@ -438,11 +438,11 @@ maxmemory 100mb
 
 - **volatile-ttl**
 
-  在设置了超时时间的key中执行，删掉存活时间最短的key，**希望能够通过使用不同的TTL值向** 
+  在设置了超时时间的key中执行，删掉存活时间最短的key，**希望能够通过使用不同的TTL值向**
 
 如果没有设置超时时间这个先决条件，那么volatile-lru 、volatile-random、volatile-ttl跟noeviction是一样的
 
-volatile-lru和volatile-random策略在希望使用单个实例进行缓存和拥有一组持久键时非常有用。然而，运行两个Redis实例来解决这样的问题通常是一个更好的主意。 
+volatile-lru和volatile-random策略在希望使用单个实例进行缓存和拥有一组持久键时非常有用。然而，运行两个Redis实例来解决这样的问题通常是一个更好的主意。
 
 Redis LRU算法不是一个精确的实现(需要大的内存)：那么通过抽样解决问题，通过抽样的数量来配置增加精度;
 
@@ -463,13 +463,13 @@ lfu-decay-time 1
 
 Redis Sentinel哨兵为Redis提供高可用性。
 
-Redis Sentinel还提供其他附属任务，如监控、通知和为客户提供配置。 
+Redis Sentinel还提供其他附属任务，如监控、通知和为客户提供配置。
 
-- **Monitoring**. 
+- **Monitoring**.
 
   Sentinel constantly checks if your master and replica instances are working as expected.
 
-- **Notification**. 
+- **Notification**.
 
   Sentinel can notify the system administrator, or other computer programs, via an API, that something is wrong with one of the monitored Redis instances.
 
@@ -477,7 +477,7 @@ Redis Sentinel还提供其他附属任务，如监控、通知和为客户提供
 
    If a master is not working as expected, Sentinel can start a failover process where a replica is promoted to master, the other additional replicas are reconfigured to use the new master, and the applications using the Redis server are informed about the new address to use when connecting.
 
-- **Configuration provider**. 
+- **Configuration provider**.
 
   Sentinel acts as a source of authority for clients service discovery: clients connect to Sentinels in order to ask for the address of the current Redis master responsible for a given service. If a failover occurs, Sentinels will report the new address.
 
