@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  redis1
-date:   2020-02-11 20:53:12 +08:00
+date:   2020-02-12 20:53:12 +08:00
 category: 签到系列
 tags: 多线程
 comments: true
