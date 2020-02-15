@@ -24,25 +24,32 @@ icon: heart
 - 短期规划
 
   - 星期一.设计模式和源码学习
+
     源码：spring、mybaits、springboot、dubbo等框架源码,看源码总结设计模式
 
   - 星期二.分布式
+
     多线程、网络协议、序列化、通讯框架Netty、dubbo、zk、rocketMQ、KAFKA等
 
   - 星期三.微服务
+
     springcloud、redis、分库分表、任务调度
 
   - 星期四.性能优化
+
     jvm、tomcat、mysql等
 
   - 星期五.架构师必懂
+
     docker、linux、k8s、git、uml、maven、svn等
 
   - 星期六.算法
+
     各种算法概念及案例、各种排序和数据结构等
 
   - 星期天
-  休息一天
+
+    休息一天
 
 
 ---
