@@ -7,9 +7,8 @@ tags: jvm
 comments: true
 ---
 
-
-
-[TOC]
+* content
+{:toc}
 
 
 
@@ -19,9 +18,9 @@ comments: true
 
 ## 学习总结
 
-一重山，两重山。山远天高烟水寒，相思枫叶丹。 
+一重山，两重山。山远天高烟水寒，相思枫叶丹。
 
-菊花开，菊花残。塞雁高飞人未还，一帘风月闲。 
+菊花开，菊花残。塞雁高飞人未还，一帘风月闲。
 
 
 
@@ -59,7 +58,7 @@ comments: true
 
     - 本地方法栈
 
-      不同的编程语言的兼容，native方法 
+      不同的编程语言的兼容，native方法
 
   - 线程共享
 
@@ -233,7 +232,7 @@ comments: true
 
 - G1收集器
 
-  G1的首要目的是为那些需要大容量内存和较小GC延迟的应用程序提供解决方案 
+  G1的首要目的是为那些需要大容量内存和较小GC延迟的应用程序提供解决方案
 
   jdk7开始使用，jdk8成熟使用，jdk 9默认使用，适用于新老生代；多会使用它？
 
@@ -262,7 +261,7 @@ comments: true
 
 - 其他参数
 
-  -Xms1000  =-XX:+InitalHeapSize=1000 
+  -Xms1000  =-XX:+InitalHeapSize=1000
 
   -Xmx1000=-XX:MaxHeapSize=1000
 
@@ -289,7 +288,7 @@ comments: true
 
 #### jinfo（查看与设置参数）
 
-- 实时查看jvm的参数 
+- 实时查看jvm的参数
 
   jinfo -flag name pid
 
@@ -301,13 +300,13 @@ comments: true
 
   jinfo -flag xx=ee pid
 
--  查看进程中设置过的参数 
+-  查看进程中设置过的参数
 
-  jinfo -flags pid 
+  jinfo -flags pid
 
 #### jstat（查看虚拟机性能统计信息）
 
-- 查看类加载信息 
+- 查看类加载信息
 
   jstat -class pid 1000 10 查看类每1000毫米加载10次打印出来加载内容
 
@@ -317,7 +316,7 @@ comments: true
 
 #### jstack(查看堆栈信息)
 
-​	jstack pid 查看线程的加载堆栈的状态信息 如查看死锁 
+​	jstack pid 查看线程的加载堆栈的状态信息 如查看死锁
 
 #### jmap (生成堆栈为快照)
 
@@ -409,16 +408,15 @@ comments: true
 
     -Xms500M -Xmx500M
 
-    并不是越大越好，越大那么gc一次的时间就会越大 
+    并不是越大越好，越大那么gc一次的时间就会越大
 
   - 调整最大停顿时间
     -XX:MaxGCPauseMillis=20
 
-    不断调优暂停时间，但是不要太严格，否则gc次数会大，pc频繁调用曾大了pc的负荷 
+    不断调优暂停时间，但是不要太严格，否则gc次数会大，pc频繁调用曾大了pc的负荷
 
   - 启动并发GC时堆空间占用百分比
 
     -XX:InitiatingHeapOccupancyPercent=45 超过这个值才GC
 
-  - 使用-XX:ConcGCThreads来曾加标记线程的数量 
-
+  - 使用-XX:ConcGCThreads来曾加标记线程的数量

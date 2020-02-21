@@ -7,9 +7,8 @@ tags: springboot
 comments: true
 ---
 
-
-
-[TOC]
+* content
+{:toc}
 
 
 
@@ -21,7 +20,7 @@ comments: true
 
 世事短如春梦，人情薄似秋云。不须计较苦劳心，万事原来有命。
 
-幸遇三杯酒好，况逢一朵花新。片时欢笑且相亲，明日阴晴未定。 
+幸遇三杯酒好，况逢一朵花新。片时欢笑且相亲，明日阴晴未定。
 
 ## 1、springboot约定优于配置
 
@@ -127,7 +126,7 @@ comments: true
     app.datasource.db1.username=root
     app.datasource.db1.password=root
     app.datasource.db1.driver-class-name=com.mysql.jdbc.Driver
-    
+
     app.datasource.db2.url=jdbc:mysql://192.168.8.126:3306/db2
     app.datasource.db2.username=root
     app.datasource.db2.password=root
@@ -139,36 +138,36 @@ comments: true
     ```
     @Configuration
     public class JdbcDataSourceConfig {
-    
+
         /*@Primary*/
         @Bean
         @ConfigurationProperties(prefix = "app.datasource.db1")
         public DataSourceProperties db1DataSourceProperties(){
             return new DataSourceProperties();
         }
-    
+
         @Bean
         @ConfigurationProperties(prefix = "app.datasource.db2")
         public DataSourceProperties db2DataSourceProperties(){
             return new DataSourceProperties();
         }
-    
+
         /*@Primary*/
         @Bean
         public DataSource db1DataSource(){
             return db1DataSourceProperties().initializeDataSourceBuilder().build();
         }
-    
+
         @Bean
         public DataSource db2DataSource(){
             return db2DataSourceProperties().initializeDataSourceBuilder().build();
         }
-    
+
         @Bean(name="db1JdbcTemplate")
         public JdbcTemplate db1JdbcTemplate(){
             return new JdbcTemplate(db1DataSource());
         }
-    
+
         @Bean(name="db2JdbcTemplate")
         public JdbcTemplate db2JdbcTemplate(){
             return new JdbcTemplate(db2DataSource());
@@ -276,7 +275,7 @@ info.company=Spring
 info.degree=high
 ```
 
-**一、@Value注解读取方式：** 
+**一、@Value注解读取方式：**
 
 ```java
 @Component
@@ -287,11 +286,11 @@ public class InforConfig{
     private String company;
      @Value("${info.degree}")
     private String degree;
-    
+
 }
 ```
 
-**二、@ConfigurationProperties注解读取方式：** 
+**二、@ConfigurationProperties注解读取方式：**
 
 ```java
 @Component
@@ -300,7 +299,7 @@ public class InforConfig{
     private String address;
     private String company;
     private String degree;
-    
+
 }
 ```
 
@@ -315,7 +314,7 @@ db.username=root
 db.password=123456
 ```
 
-**一、@PropertySource+@Value注解读取方式：** 
+**一、@PropertySource+@Value注解读取方式：**
 
 ```java
 //注意：@PropertySource不支持yml文件读取
@@ -328,11 +327,11 @@ public class InforConfig{
     private String company;
      @Value("${info.degree}")
     private String degree;
-    
+
 }
 ```
 
-**二、@PropertySource+@ConfigurationProperties注解读取方式：** 
+**二、@PropertySource+@ConfigurationProperties注解读取方式：**
 
 ```java
 @Component
@@ -342,7 +341,7 @@ public class InforConfig{
     private String address;
     private String company;
     private String degree;
-    
+
 }
 ```
 
@@ -371,41 +370,41 @@ String getProperty(String key);
 >
 >等等……
 
-**配置属性加载的顺序如下：** 数字小的优先级越高，即数字小的会覆盖数字大的参数值 
+**配置属性加载的顺序如下：** 数字小的优先级越高，即数字小的会覆盖数字大的参数值
 
 ```
 1、开发者工具 `Devtools` 全局配置参数；
- 
+
 2、单元测试上的 `@TestPropertySource` 注解指定的参数；
- 
+
 3、单元测试上的 `@SpringBootTest` 注解指定的参数；
- 
+
 4、命令行指定的参数，如 `java -jar springboot.jar --name="Java技术栈"`；
- 
+
 5、命令行中的 `SPRING_APPLICATION_JSONJSON` 指定参数, 如 `java -Dspring.application.json='{"name":"Java技术栈"}' -jar springboot.jar`
- 
+
 6、`ServletConfig` 初始化参数；
- 
+
 7、`ServletContext` 初始化参数；
- 
+
 8、JNDI参数（如 `java:comp/env/spring.application.json`）；
- 
+
 9、Java系统参数（来源：`System.getProperties()`）；
- 
+
 10、操作系统环境变量参数；
- 
+
 11、`RandomValuePropertySource` 随机数，仅匹配：`ramdom.*`；
- 
+
 12、JAR包外面的配置文件参数（`application-{profile}.properties（YAML）`）
- 
+
 13、JAR包里面的配置文件参数（`application-{profile}.properties（YAML）`）
- 
+
 14、JAR包外面的配置文件参数（`application.properties（YAML）`）
- 
+
 15、JAR包里面的配置文件参数（`application.properties（YAML）`）
- 
+
 16、`@Configuration`配置文件上 `@PropertySource` 注解加载的参数；
- 
+
 17、默认参数（通过 `SpringApplication.setDefaultProperties` 指定）；
 
 ```
@@ -440,7 +439,7 @@ String getProperty(String key);
 spring:
 	profiles:
 		active:prod
-		
+
 ---
 spring:
 	profiles:dev
@@ -481,7 +480,7 @@ spring.profiles.active:prod,proddb,prodmq
 @Configuration
 @Profile("prod")
 public class ProductCofiguration{
-    
+
 }
 ```
 

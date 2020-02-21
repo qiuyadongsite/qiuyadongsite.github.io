@@ -7,9 +7,8 @@ tags: mysql
 comments: true
 ---
 
-
-
-[TOC]
+* content
+{:toc}
 
 
 
@@ -19,7 +18,7 @@ comments: true
 
 ## 学习总结
 
-前不见古人，后不见来者。 
+前不见古人，后不见来者。
 
 念天地之悠悠，独怆然而涕下！  
 
@@ -95,7 +94,7 @@ mysql数据库首先对外开一个服务，监听3306端口；
 
   ```
   show variables like 'max_allowed_packet'
-  
+
   ```
 
 
@@ -223,7 +222,7 @@ InnoDB直接操作Buffer pool,使用单独的线程去定期将缓存的数据�
     //满了后执行LRU进行淘汰
     ```
 
-    
+
 
   - change buffer
 
@@ -234,7 +233,7 @@ InnoDB直接操作Buffer pool,使用单独的线程去定期将缓存的数据�
     //默认占bufferpool的1/4
     ```
 
-    
+
 
   - Adaptive Hash Index
 
@@ -420,7 +419,7 @@ show variables like 'innodb_file_per_table';
 
   ```
   #查看行格式
-  show table status like 'user'\G; 
+  show table status like 'user'\G;
   ```
 
 ## 9、B+树是如何应用在Mysql中的？
@@ -489,5 +488,3 @@ show variables like 'innodb_file_per_table';
   - 负向查询
 
     not like != <> not in
-
-    

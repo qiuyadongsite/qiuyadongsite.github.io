@@ -7,9 +7,8 @@ tags: Mycat
 comments: true
 ---
 
-
-
-[TOC]
+* content
+{:toc}
 
 
 
@@ -27,7 +26,7 @@ comments: true
 
 以近待远，以佚待劳，以饱待饥，此治力者也。
 
-无邀正正之旗，勿击堂堂之阵，此治变者也。 
+无邀正正之旗，勿击堂堂之阵，此治变者也。
 
 
 
@@ -232,6 +231,3 @@ Dao---->Mapper(ORM)--->Jdbc--->代理----->数据库服务
   在选择数据源之前，根据一定的规则选择数据源进行操作；
 
   Spring中提供了AbstractRoutingDataSource
-
-
-
