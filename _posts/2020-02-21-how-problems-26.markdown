@@ -7,8 +7,6 @@ tags: linux
 comments: true
 ---
 
-
-
 * content
 {:toc}
 
