@@ -52,6 +52,29 @@ icon: heart
     休息一天
 
 
+- 目标
+
+  - 熟悉jvm、tomcat、mysql的使用与调优；
+
+  - 熟悉常用系统框架spring、springmvc、springboot、myBatis等的使用及设计原理；
+
+  - 熟悉缓存工具redis、分库分表mycat和shareding-JDBC、任务调度Quartz、消息中间件ActiveMQ和RabbitMQ等的使用场景和原理；
+
+  - 熟悉分布式通信中HTTP协议、thrift、序列化、RPC通讯原理、Netty框架等；
+
+  - 了解虚拟化技术docker、kubernetes、serviceMesh的基本使用和原理；
+
+  - 熟悉微服务框架spring cloud、dubbo，深入理解dubbo源码和核心思想；
+
+  - 熟练使用jsp技术，jquery、bootstrap、Datatables、layer等前端插件，vue、Angular前端框架；
+
+  - 深入理解jdk并发编程、网络编程、集合等的使用和底层原理；
+  
+  - 熟练掌握常用的设计模式、数据结构与算法；
+
+
+
+
 ---
 
 ## 版权声明
