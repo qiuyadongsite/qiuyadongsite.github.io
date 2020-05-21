@@ -69,8 +69,8 @@ icon: heart
   - 熟练使用jsp技术，jquery、bootstrap、Datatables、layer等前端插件，vue、Angular前端框架；
 
   - 深入理解jdk并发编程、网络编程、集合等的使用和底层原理；
-  
-  - 熟练掌握常用的设计模式、数据结构与算法；
+
+  - 熟练掌握常用的设计模式、数据结构与算法； 
 
 
 
