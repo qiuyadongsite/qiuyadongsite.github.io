@@ -18,6 +18,8 @@ comments: true
 
 1、SpringApplication初始化
 
+```java
+
     public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySources) {
              //设置资源类
     		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
@@ -31,7 +33,11 @@ comments: true
     		this.mainApplicationClass = deduceMainApplicationClass();
     	}
 
+```      
+
 - 推测web容器类
+
+```java
 
     static WebApplicationType deduceFromClasspath() {
         //存在reactive.DispatcherHandler类且没有servlet.ServletContainer类，就是REACTIVE
@@ -48,7 +54,11 @@ comments: true
     		return WebApplicationType.SERVLET;
     	}
 
+```
+
 - 设置SpringFactories中的ApplicationContextInitializer和ApplicationListener
+
+```ini
 
     # Application Context Initializers
     org.springframework.context.ApplicationContextInitializer=\
@@ -71,7 +81,11 @@ comments: true
     org.springframework.boot.context.logging.LoggingApplicationListener,\
     org.springframework.boot.liquibase.LiquibaseServiceLocatorApplicationListener
 
+```
+
 - 介绍一个ConfigurationWarningsApplicationContextInitializer
+
+```java
 
     //用来报告Spring容器的一些常见的错误配置
     public class ConfigurationWarningsApplicationContextInitializer
@@ -107,14 +121,21 @@ comments: true
         }
     }
 
+    ```
+
 - 介绍一个ClearCachesApplicationListener
 
+```java
     //使用观察者模式，当上下文加载完成时通知触发该监听器
     class ClearCachesApplicationListener implements ApplicationListener<ContextRefreshedEvent> {
         //当上下文加载完成做一些清理工作
     }
 
+    ```
+
 2、调用run执行
+
+```java
 
     public ConfigurableApplicationContext run(String... args) {
              //创建一个跑表
@@ -174,3 +195,5 @@ comments: true
     		}
     		return context;
     	}
+
+```
