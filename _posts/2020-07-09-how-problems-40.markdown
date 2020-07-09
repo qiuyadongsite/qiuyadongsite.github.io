@@ -87,7 +87,7 @@ comments: true
 
 ```java
 
-    //用来报告Spring容器的一些常见的错误配置
+  //用来报告Spring容器的一些常见的错误配置
     public class ConfigurationWarningsApplicationContextInitializer
     		implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
@@ -120,8 +120,9 @@ comments: true
 
         }
     }
+    
 
-    ```
+```
 
 - 介绍一个ClearCachesApplicationListener
 
