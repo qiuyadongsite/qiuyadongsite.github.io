@@ -120,13 +120,14 @@ comments: true
 
         }
     }
-    
+
 
 ```
 
 - 介绍一个ClearCachesApplicationListener
 
 ```java
+
     //使用观察者模式，当上下文加载完成时通知触发该监听器
     class ClearCachesApplicationListener implements ApplicationListener<ContextRefreshedEvent> {
         //当上下文加载完成做一些清理工作
