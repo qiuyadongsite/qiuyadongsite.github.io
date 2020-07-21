@@ -102,7 +102,9 @@ comments: true
     OnSubscriber是在创建Observable时传入create 方法中的参数类型，也是一个接口。此接口又是继承于Action1 接口，Action1 接口中有一个未实现的call方法，而Action1 接口又继承于Action接口，Action接口是一个空实现，最后它又继承于Function接口，Function接口也是一个空实现。
 
 ```
+
         OnSubscriber -> Action1 -> Action -> Fcuntion
+
 ```
 
   - Observable 工具类
@@ -118,7 +120,6 @@ comments: true
               }
 
 ```
-
     - subscribe方法
 
 ```java
@@ -134,7 +135,6 @@ comments: true
               }
 
 ```
-
       这里使用Subscriber将我们传入的observer接口做了一层简单的封装，来查看ObserverSubscriber的具体实现：
 
 ```java
@@ -163,7 +163,6 @@ comments: true
           }
 
 ```
-
       这里使用Subscriber将我们传入的observer接口做了一层简单的封装。还是回到它重载的另一个subscribe 方法:
 
 ```java
@@ -173,8 +172,7 @@ comments: true
               }
 
 ```
-
-      由以上代码可知，从调用的参数为observer接口的subscribe 方法内做了一层封装，调用了参数为subscriber抽象类的subscribe 方法，最终调用的是参数为subscriber、observable的静态subscribe 方法。
+    由以上代码可知，从调用的参数为observer接口的subscribe 方法内做了一层封装，调用了参数为subscriber抽象类的subscribe 方法，最终调用的是参数为subscriber、observable的静态subscribe 方法。
 
 ```java
 
@@ -268,7 +266,6 @@ comments: true
         }
 
 ```
-
     接口中两个方法，一个dispose方法，另一个事检测是否dispose方法，其结构与Subscription类似。
 
   - ObservableOnSubscribe接口
@@ -297,7 +294,6 @@ comments: true
         }
 
 ```
-
     继续查看Emitter接口的组成，会发现其中包含的三个方法竟然与Observer接口完全相同，其中缘由后续讲解。
 
 ```java
@@ -322,7 +318,6 @@ comments: true
               }
 
 ```
-
       此方法中可以得出两个信息，第一个是调用了RxJavaPlugins的静态onAssembly方法，第二个是传入此方法的参数，将ObservableOnSubscribe接口通过ObservableCreate做了一次封装。首先来了解onAssembly方法：
 
 ```java
@@ -336,7 +331,6 @@ comments: true
               }
 
 ```
-
       此方法中的一个关键成员变量onObservableAssembly，它最初被赋值为null，为外界提供了set方法，因此当我们刚开始调用时f 被判断为null，直接将source返回。再来查看new ObservableCreate<T>(source) 具体构成：
 
 ```java
@@ -363,7 +357,6 @@ comments: true
           }
 
 ```
-
     - subscribe方法
 
       回到Observable，查看subscribe方法：
@@ -376,7 +369,6 @@ comments: true
           }
 
 ```
-
       首先查看到observer = RxJavaPlugins.onSubscribe(this, observer);，在Observable的create中也出现了RxJavaPlugins相关用法，而此处它的作用也是类似，就是将传入的参数observer返回，重点在于后面的subscribeActual(observer);，也就是刚介绍ObservableCreate实现的subscribeActual 方法。
 
     - 总结
@@ -663,7 +655,6 @@ comments: true
         .flatMap(next -> service.finalCall(next))
 
 ```
-
     通常情况下，后面的序列会需要来自以前映射的值。这可以通过移动外部的平面到之前的平面的内部来实现，例如:
 
 ```java
@@ -675,7 +666,6 @@ comments: true
         )
 
 ```
-
     在这里，由lambda变量章节提供的原始值将在内部平面映射中可用。
 
   - Non-dependent
@@ -689,7 +679,6 @@ comments: true
           .subscribe(System.out::println, Throwable::printStackTrace);
 
 ```
-
     然而，在这种情况下，延续保持可观察，而不是可能更合适的单个。(因为从flatMapSingle的角度来看，sourceObservable是一个多值源，因此映射也可能导致多个值)。
 
     通常有一种更有表现力(也更低开销)的方法，使用Completable作为中介和它的操作符，然后继续使用其他东西:
@@ -702,11 +691,8 @@ comments: true
           .map(v -> v.toString())
 
 ```
-
     sourceObservable和someSingleSource之间唯一的依赖关系是，前者应该正常完成，以便后者被消费。
-
   - Deferred-dependent
-
     有时，前一个序列和新序列之间存在隐式的数据依赖关系，由于某种原因，这些依赖关系没有通过“常规通道”传递。人们倾向于将这种延续写如下:
 
 ```java
@@ -720,7 +706,6 @@ comments: true
           .subscribe(System.out::println);
 
 ```
-
     不幸的是，这会输出0，因为Single.just(count.get())是在数据流尚未运行时计算的。我们需要一些东西来推迟这个单一源的评估，直到运行时，当主源完成:
 
 ```java
