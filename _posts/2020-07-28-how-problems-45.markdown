@@ -52,14 +52,14 @@ comments: true
     }
 
 ```
-
+ 
 #### 其他配置
 
 ```java
 
     # 配置指定服务的提供者的地址列表
     order-service.ribbon.listOfServers=\
-      localhost:8080,localhost:8082 
+      localhost:8080,localhost:8082
     #配置日志级别  
     logging.level.xx.clients.OrderServiceFeignClient=DEBUG
     # 日志输出配置
