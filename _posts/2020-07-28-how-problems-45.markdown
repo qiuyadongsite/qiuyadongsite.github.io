@@ -41,7 +41,7 @@ comments: true
 
 ```java
 
-    //首先加入api依赖，然后扫描
+    //首先加入api依赖，然后扫描.
     @EnableFeignClients(basePackages = "com.xx.xx.clients")
     //注入调用
     @Autowired
@@ -52,7 +52,7 @@ comments: true
     }
 
 ```
- 
+
 #### 其他配置
 
 ```java
