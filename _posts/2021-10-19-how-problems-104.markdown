@@ -1,0 +1,67 @@
+---
+layout: post
+title:  mysql-4
+date:   2021-10-19 20:53:12 +08:00
+category: mysql
+tags: mysql
+comments: true
+---
+
+* content
+{:toc}
+
+疑问！order by!
+
+
+
+
+
+## 写了binlog之后没有commit redo
+
+重启之后，发现redo log里是prepare但是binlog有完整的结构，则提交事务，否则回滚事务；
+
+- statement格式的binlog,最后有commit
+
+- row格式的binlog,最后有xid event;
+
+redo log和binlog通过xid关联；
+
+两阶段提交就是给所有人一个机会，每个人都ok就一起提交
+
+## 消除表空间
+
+- 重建表
+
+optimize table、analyze table和alter table
+
+## count函数
+
+count(*)：取行数，优化器做了优化；
+count(主键id)：取出来id 不为空累加；
+count(字段)：解析出字段累加；
+count(1)：取出来1判断累加；
+count(字段)<count(主键id)<count(1)≈count(*)；
+
+
+## order by
+
+Extra这个字段中的“Using filesort”表示的就是需要排序，MySQL会给每个线程分配一块内存用于排序，称为sort_buffer;
+
+show variables like 'sort_buffer_size' ;262144
+
+show index from t;
+
+SET optimizer_trace='enabled=on';
+
+/* @a保存Innodb_rows_read的初始值 */
+select VARIABLE_VALUE into @a from  performance_schema.session_status where variable_name = 'Innodb_rows_read';
+
+
+select city, name,age from t where city='杭州' order by name limit 1000;
+
+SELECT * FROM `information_schema`.`OPTIMIZER_TRACE`G
+
+/* @b保存Innodb_rows_read的当前值 */
+select VARIABLE_VALUE into @b from performance_schema.session_status where variable_name = 'Innodb_rows_read';
+/* 计算Innodb_rows_read差值 */
+select @b-@a;
